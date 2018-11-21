@@ -37,6 +37,8 @@ class Client():
 		Args:
 			client_id (str): API client id
 			client_secret (str): API client secret
+			fingerprint (str):
+			ip_address (str):
 			devmode (bool): switches between sandbox and production base_url
 		"""
 
@@ -68,7 +70,7 @@ class Client():
 
 		return logger
 
-	def create_user(self, body, **params):
+	def create_user(self, body):
 		"""
 		Args:
 			body (json): user record
@@ -83,7 +85,7 @@ class Client():
 		
 		return User(response, self.http, full_dehydrate=False)
 	
-	def create_subcription(self, webhook_url, scope):
+	def create_subscription(self, webhook_url, scope):
 		'''
 		Args:
 			webhook_url (str): subscription url
@@ -100,7 +102,7 @@ class Client():
 			'url': webhook_url
 		}
 
-		return self.http.post(path, body)
+		return Subscription(self.http.post(path, body), self.http)
 
 	def get_user(self, user_id, **params):
 		"""Returns user object
@@ -112,12 +114,11 @@ class Client():
 		self.logger.debug("getting a user")
 
 		path = self.paths['users'] + '/' + user_id
-		full_dehydrate = 'yes' if params.get('full_dehydrate') else 'no' 
-
+		full_dehydrate = 'yes' if params.get('full_dehydrate') else 'no'
 		response = self.http.get(path, full_dehydrate=full_dehydrate)
 		return User(response, self.http, full_dehydrate=full_dehydrate)
 
-	def get_subcription(self, sub_id):
+	def get_subscription(self, sub_id):
 		'''
 		Args:
 			sub_id (Str): subscription id
@@ -126,9 +127,9 @@ class Client():
 		'''
 		self.logger.debug("getting a subscription")
 
-		path = self.get_base() + self.paths['subs'] + '/' + sub_id
+		path = self.paths['subs'] + '/' + sub_id
 		response = self.http.get(path)
-		return Subscription(response)
+		return Subscription(response, self.http)
 
 	def get_all_users(self, **params):
 		"""Returns all user objects in a list
@@ -161,7 +162,7 @@ class Client():
 		
 		path = self.paths['nodes']
 		response = self.http.get(path)
-		return Nodes(response)
+		return Nodes(response, self.http)
 
 	def get_all_subs(self, **params):
 		'''
@@ -170,7 +171,7 @@ class Client():
 		
 		path = self.paths['subs']
 		response = self.http.get(path, **params)
-		return Subscriptions(response)
+		return Subscriptions(response, self.http)
 
 	def get_all_inst(self, **params):
 		'''
@@ -192,24 +193,17 @@ class Client():
 		response = self.http.get(path, issue_public_key='YES', scope=scope)
 		return response['public_key_obj']
 
-	def update_subcription(self, sub_id, **params):
+	def update_subcription(self, sub_id, body):
 		'''
 		Args:
 			sub_id (str): subscription id
+			body (JSON): updat body
 		Returns:
 			(Subscription): object containing subscription record
 		'''
 		self.logger.debug("updating subscription")
-		
-		valid_params = ['is_active', 'url', 'scope']
 
 		url = self.params['subs'] + '/' + sub_id
-		body = {}
-
-		for param in params:
-			if param in valid_params:
-				body[param] = params[param]
-
 		response = self.http.patch(url, body)
 		return Subscription(response)
 

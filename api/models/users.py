@@ -7,6 +7,5 @@ class Users():
 		self.page = response['page']
 		self.page_count = response['page_count']
 		self.limit = response['limit']
-		self.list_of_users = [ User(user_r, http) for user_r in response['users'] ]
-		
 		self.http = http
+		self.list_of_users = [ User(user_r, http) for user_r in response['users'] ]
