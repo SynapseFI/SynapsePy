@@ -62,10 +62,8 @@ class HttpClient():
 		parameters = {}
 
 		for param in valid_params:
-			if params.get(param) is not None:
+			if params.get(param):
 				parameters[param] = params[param]
-				if param == 'full_dehydrate':
-					parameters[param] = 'yes' if params[param] else 'no'
 
 		response = self.session.get(url, params=parameters)
 

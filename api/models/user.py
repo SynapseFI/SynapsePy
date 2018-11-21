@@ -1,4 +1,7 @@
 
+from .node import Node
+from .nodes import Nodes
+
 import api.models.errors as api_errors
 import requests
 import json
@@ -23,7 +26,7 @@ class User():
 			response: response from api of user record
 		"""
 		self.id = response['_id']
-		self.payload = response
+		self.body = response
 		self.full_dehydrate = full_dehydrate
 		self.http = http
 		self.oauth_key = ''
@@ -36,8 +39,8 @@ class User():
 			user (JSON): json response for user record with new refresh_token
 		'''
 		path = self.paths['users'] + '/' + self.id
-		self.payload = self.http.get(path, full_dehydrate=self.full_dehydrate)
-		return self.payload
+		self.body = self.http.get(path, full_dehydrate=self.full_dehydrate)
+		return self.body['refresh_token']
 
 	def oauth(self, scope=[]):
 		'''creates a new OAuth for the user
@@ -49,18 +52,18 @@ class User():
 		'''
 		path = self.paths['oauth'] + self.id
 
-		payload = { 'refresh_token': self.payload['refresh_token'] }
+		body = { 'refresh_token': self.body['refresh_token'] }
 
 		if scope:
-			payload['scope'] = scope
+			body['scope'] = scope
 
 		try:
-			response = self.http.post(path, payload)
+			response = self.http.post(path, body)
 
 		except api_errors.IncorrectValues as e:
 			self.refresh()
-			payload['refresh_token'] = user.payload['refresh_token']
-			response = self.http.post(path, payload)
+			body['refresh_token'] = user.body['refresh_token']
+			response = self.http.post(path, body)
 
 		self.oauth_key = response['oauth_key']
 		
@@ -68,41 +71,81 @@ class User():
 
 		return response
 
-	def unindex(self):
+	def update_info(self, body):
 		'''removes user from indexing (soft-deletion)
 		Args:
 			user (json): user record
 		Returns:
 			response (json): API response to patch
 		'''
-		
 		path = self.paths['users'] + '/' + self.id
-		payload = { "permission": "MAKE-IT-GO-AWAY" }
-		self.http.update_headers(oauth_key=self.oauth_key)
 
 		try:
-			response = self.http.patch(path, payload)
+			response = self.http.patch(path, body)
 
 		except (requests.exceptions.HTTPError, api_errors.IncorrectUserCredentials) as e:
 			self.oauth()
-			response = self.http.patch(path, payload)
+			response = self.http.patch(path, body)
 
 		except Exception:
 			raise
-		
+
+		self.body = response
 		return response
 
-	def update_user(self):
-		pass
-	def add_document(self):
-		pass
-	def update_document(self):
-		pass
-	def delete_document(self):
-		pass
-	
+	def create_node(self, body, **params):
+		'''
+		'''
+		path = self.paths['users'] + '/' + self.id + self.paths['nodes']
+
+		try:
+			response = self.http.post(path, body, **params)
+		
+		except (requests.exceptions.HTTPError, api_errors.IncorrectUserCredentials) as e:
+			self.oauth()
+			response = self.http.post(path, body, **params)
+
+		except Exception:
+			raise
+
+		return Node(response, self.http)
+
+	def get_node(self, node_id, **params):
+		'''
+		'''
+		path = self.paths['users'] + '/' + self.id + self.paths['nodes'] +'/'+ node_id
+
+		full_dehdyrate = 'yes' if params.get('full_dehdyrate') else 'no'
+		force_ref = 'yes' if params.get('force_refresh') else 'no'
+
+		try:
+			response = self.http.get(path, full_dehdyrate=full_dehdyrate, force_refresh=force_ref)
+		
+		except (requests.exceptions.HTTPError, api_errors.IncorrectUserCredentials) as e:
+			self.oauth()
+			response = self.http.get(path, full_dehdyrate=full_dehdyrate, force_refresh=force_ref)
+
+		except Exception:
+			raise
+
+		return Node(response, self.http, full_dehdyrate=full_dehdyrate)
+
 	def get_all_nodes(self):
-		pass
+		'''
+		'''
+		path = self.paths['users'] + '/' + self.id + self.paths['nodes']
+
+		try:
+			response = self.http.get(path)
+		
+		except (requests.exceptions.HTTPError, api_errors.IncorrectUserCredentials) as e:
+			self.oauth()
+			response = self.http.get(path)
+
+		except Exception:
+			raise
+
+		return Nodes(response, self.http)
 
 	# def get_trans(self, node_id, trans_id):
 	# 	'''gets a specific transaction record

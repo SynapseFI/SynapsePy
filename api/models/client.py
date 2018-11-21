@@ -68,10 +68,10 @@ class Client():
 
 		return logger
 
-	def create_user(self, payload, **params):
+	def create_user(self, body, **params):
 		"""
 		Args:
-			payload (json): user record
+			body (json): user record
 			json (json): JSON
 		Returns:
 			user (User): object containing User record
@@ -79,9 +79,9 @@ class Client():
 		self.logger.debug("Creating a new user")
 
 		path = self.paths['users']
-		response = self.http.post(path, payload)
+		response = self.http.post(path, body)
 		
-		return User(response, self.http, full_dehydrate=True)
+		return User(response, self.http, full_dehydrate=False)
 	
 	def create_subcription(self, webhook_url, scope):
 		'''
@@ -95,14 +95,14 @@ class Client():
 
 		path = self.paths['subs']
 
-		payload = {
+		body = {
 			'scope': scope,
 			'url': webhook_url
 		}
 
-		return self.http.post(path, payload)
+		return self.http.post(path, body)
 
-	def get_user(self, user_id, full_dehydrate=False, **params):
+	def get_user(self, user_id, **params):
 		"""Returns user object
 		Args:
 			user_id (Str): identification for user
@@ -112,9 +112,9 @@ class Client():
 		self.logger.debug("getting a user")
 
 		path = self.paths['users'] + '/' + user_id
-		
-		response = self.http.get(path, full_dehydrate=full_dehydrate, **params)
+		full_dehydrate = 'yes' if params.get('full_dehydrate') else 'no' 
 
+		response = self.http.get(path, full_dehydrate=full_dehydrate)
 		return User(response, self.http, full_dehydrate=full_dehydrate)
 
 	def get_subcription(self, sub_id):
@@ -128,7 +128,6 @@ class Client():
 
 		path = self.get_base() + self.paths['subs'] + '/' + sub_id
 		response = self.http.get(path)
-
 		return Subscription(response)
 
 	def get_all_users(self, **params):
@@ -140,7 +139,6 @@ class Client():
 
 		path = self.paths['users']
 		response = self.http.get(path, **params)
-
 		return Users(self.http, response)
 
 	def get_all_trans(self, **params):
@@ -152,7 +150,6 @@ class Client():
 		
 		path = self.paths['trans']
 		response = self.http.get(path, **params)
-
 		return Transactions(response)
 
 	def get_all_nodes(self, **params):
@@ -164,7 +161,6 @@ class Client():
 		
 		path = self.paths['nodes']
 		response = self.http.get(path)
-
 		return Nodes(response)
 
 	def get_all_subs(self, **params):
@@ -174,7 +170,6 @@ class Client():
 		
 		path = self.paths['subs']
 		response = self.http.get(path, **params)
-
 		return Subscriptions(response)
 
 	def get_all_inst(self, **params):
@@ -183,9 +178,7 @@ class Client():
 		self.logger.debug("getting all institutions")
 		
 		path = self.paths['inst']
-
 		response = self.http.get(path, **params)
-
 		return response
 
 	def issue_public_key(self, scope):
@@ -211,14 +204,13 @@ class Client():
 		valid_params = ['is_active', 'url', 'scope']
 
 		url = self.params['subs'] + '/' + sub_id
-		payload = {}
+		body = {}
 
 		for param in params:
 			if param in valid_params:
-				payload[param] = params[param]
+				body[param] = params[param]
 
-		response = self.http.patch(url, payload)
-
+		response = self.http.patch(url, body)
 		return Subscription(response)
 
 
