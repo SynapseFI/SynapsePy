@@ -188,14 +188,16 @@ class Client():
 
 		return response
 
-	def issue_public_key(self, issue, scope):
+	def issue_public_key(self, scope):
 		'''
+		Args:
+
 		'''
 		self.logger.debug("issuing a public key")
 		
 		path = self.paths['client']
-
-		return self.http.get(path, issue_public_key=issue, scope=scope)['public_key_obj']
+		response = self.http.get(path, issue_public_key='YES', scope=scope)
+		return response['public_key_obj']
 
 	def update_subcription(self, sub_id, **params):
 		'''
