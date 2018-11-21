@@ -18,14 +18,7 @@ class HttpClient():
 			oauth_key=''
 		)
 
-		self.devmode = kwargs['devmode']
-
 		self.base_url= kwargs['base_url']
-		self.sandbox_url = "https://uat-api.synapsefi.com/v3.1"
-
-	def get_base(self):
-		'''creates a base url'''
-		return self.sandbox_url if self.devmode else self.base_url
 
 	def update_headers(self, **kwargs):
 		"""Update the supplied properties on self and in the header dictionary.
@@ -58,7 +51,7 @@ class HttpClient():
 	def get(self, path, **params):
 		"""Send a GET request to the API."""
 
-		url = self.get_base() + path
+		url = self.base_url + path
 		self.logger.debug("GET {}".format(url))
 
 		valid_params = [
@@ -71,6 +64,8 @@ class HttpClient():
 		for param in valid_params:
 			if params.get(param) is not None:
 				parameters[param] = params[param]
+				if param == 'full_dehydrate':
+					parameters[param] = 'yes' if params[param] else 'no'
 
 		response = self.session.get(url, params=parameters)
 
@@ -79,7 +74,7 @@ class HttpClient():
 	def post(self, path, payload, **kwargs):
 		"""Send a POST request to the API."""
 
-		url = self.get_base() + path
+		url = self.base_url + path
 
 		self.logger.debug("POST {}".format(url))
 
@@ -95,7 +90,7 @@ class HttpClient():
 	def patch(self, path, payload):
 		"""Send a PATCH request to the API."""
 
-		url = self.get_base() + path
+		url = self.base_url + path
 		self.logger.debug("PATCH {}".format(url))
 
 		data = json.dumps(payload)
@@ -106,7 +101,7 @@ class HttpClient():
 	def delete(self, path):
 		"""Send a DELETE request to the API."""
 
-		url = self.get_base() + path
+		url = self.base_url + path
 		self.logger.debug("PATCH {}".format(url))
 
 		response = self.session.delete(url)

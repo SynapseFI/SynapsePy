@@ -17,7 +17,7 @@ class User():
 		'inst': '/institutions'
 		}
 
-	def __init__(self, response, http, full_dehydrate='no'):
+	def __init__(self, response, http, full_dehydrate=False):
 		"""
 		Args:
 			response: response from api of user record
@@ -92,6 +92,17 @@ class User():
 		
 		return response
 
+	def update_user(self):
+		pass
+	def add_document(self):
+		pass
+	def update_document(self):
+		pass
+	def delete_document(self):
+		pass
+	
+	def get_all_nodes(self):
+		pass
 
 	# def get_trans(self, node_id, trans_id):
 	# 	'''gets a specific transaction record

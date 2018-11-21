@@ -45,6 +45,8 @@ class PayloadError(SynapseError):
 	"""
 	raised on ERROR_CODE 200
 	Error in Payload (Error in payload formatting)
+
+	Supplied address is invalid / Unable to verify address
 	"""
 	pass
 

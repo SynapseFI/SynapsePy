@@ -37,7 +37,6 @@ class Client():
 		Args:
 			client_id (str): API client id
 			client_secret (str): API client secret
-			base_url (str): production base url
 			devmode (bool): switches between sandbox and production base_url
 		"""
 
@@ -49,19 +48,11 @@ class Client():
 			client_secret=params['client_secret'],
 			fingerprint=params['fingerprint'],
 			ip_address=params['ip_address'],
-			base_url=params['base_url'],
-			devmode=params.get('devmode', False),
+			base_url='https://uat-api.synapsefi.com/v3.1' if params['devmode'] else 'https://api.synapsefi.com/v3.1',
 			logging=params.get('logging', False)
 			)
 
 		self.logger = self.get_log(params.get('logging', False))
-
-	def set_devmode(self, devmode):
-		'''Enables/Disables developer modes
-		Args:
-			devmode (bool): devmode on if Frue, off if False
-		'''
-		self.http.devmode=devmode
 
 	def get_log(self, enable):
 		'''Enables/Disables logs
@@ -90,7 +81,7 @@ class Client():
 		path = self.paths['users']
 		response = self.http.post(path, payload)
 		
-		return User(response, self.http, full_dehydrate='yes')
+		return User(response, self.http, full_dehydrate=True)
 	
 	def create_subcription(self, webhook_url, scope):
 		'''
@@ -111,7 +102,7 @@ class Client():
 
 		return self.http.post(path, payload)
 
-	def get_user(self, user_id, full_dehydrate='no', **params):
+	def get_user(self, user_id, full_dehydrate=False, **params):
 		"""Returns user object
 		Args:
 			user_id (Str): identification for user
@@ -204,7 +195,7 @@ class Client():
 		
 		path = self.paths['client']
 
-		return self.http.get(path, issue_public_key=issue, scope=scope)
+		return self.http.get(path, issue_public_key=issue, scope=scope)['public_key_obj']
 
 	def update_subcription(self, sub_id, **params):
 		'''

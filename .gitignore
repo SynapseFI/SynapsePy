@@ -1,5 +1,5 @@
 __pycache__
-test.py
+api\tests\
 .DS_Store
 environment.yml
 *.pyc
