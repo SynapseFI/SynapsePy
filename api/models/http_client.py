@@ -56,7 +56,7 @@ class HttpClient():
 
 		valid_params = [
 			'query', 'page', 'per_page', 'type', 'issue_public_key',
-			'show_refresh_tokens','full_dehydrate',
+			'show_refresh_tokens','full_dehydrate', 'force_refresh',
 			'radius', 'scope', 'lat', 'lon', 'zip'
 			]
 		parameters = {}

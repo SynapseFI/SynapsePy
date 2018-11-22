@@ -51,7 +51,6 @@ class User():
 			OAuth (Str): newly created OAuth within scope
 		'''
 		path = self.paths['oauth'] + self.id
-
 		body = { 'refresh_token': self.body['refresh_token'] }
 
 		if scope:
@@ -66,9 +65,7 @@ class User():
 			response = self.http.post(path, body)
 
 		self.oauth_key = response['oauth_key']
-		
 		response = self.http.update_headers(oauth_key=self.oauth_key)
-
 		return response
 
 	def update_info(self, body):
@@ -130,17 +127,17 @@ class User():
 
 		return Node(response, self.http, full_dehdyrate=full_dehdyrate)
 
-	def get_all_nodes(self):
+	def get_all_nodes(self, **params):
 		'''
 		'''
 		path = self.paths['users'] + '/' + self.id + self.paths['nodes']
 
 		try:
-			response = self.http.get(path)
+			response = self.http.get(path, **params)
 		
 		except (requests.exceptions.HTTPError, api_errors.IncorrectUserCredentials) as e:
 			self.oauth()
-			response = self.http.get(path)
+			response = self.http.get(path, **params)
 
 		except Exception:
 			raise
