@@ -2,6 +2,8 @@
 from .node import Node
 from .nodes import Nodes
 
+from functools import partial
+
 import api.models.errors as api_errors
 import requests
 import json
@@ -30,6 +32,28 @@ class User():
 		self.full_dehydrate = full_dehydrate
 		self.http = http
 		self.oauth_key = ''
+
+	def do_request(self, req_func, path, body={}, **params):
+		# get(path, params)
+		# post(path, payload, params)
+		# patch(path, payload)
+		# delete(path)
+
+		req_dict = {
+			"get": partial(req_func,path, **params),
+			"post": partial(req_func, path, body, **params),
+			"patch": partial(req_func, path, body),
+			"delete": partial(req_func, path)
+		}
+
+		try:
+			response = req_dict[req_func.__name__]()
+
+		except (requests.exceptions.HTTPError, api_errors.IncorrectUserCredentials) as e:
+			self.oauth()
+			response = req_dict[req_func.__name__]()
+
+		return response
 
 	def refresh(self):
 		'''gets a new refresh token by getting user
@@ -77,16 +101,17 @@ class User():
 		'''
 		path = self.paths['users'] + '/' + self.id
 
-		try:
-			response = self.http.patch(path, body)
+		# try:
+		# 	response = self.http.patch(path, body)
 
-		except (requests.exceptions.HTTPError, api_errors.IncorrectUserCredentials) as e:
-			self.oauth()
-			response = self.http.patch(path, body)
+		# except (requests.exceptions.HTTPError, api_errors.IncorrectUserCredentials) as e:
+		# 	self.oauth()
+		# 	response = self.http.patch(path, body)
 
-		except Exception:
-			raise
+		# except Exception:
+		# 	raise
 
+		response = self.do_request(self.http.patch, path, body=body)
 		self.body = response
 		return response
 
