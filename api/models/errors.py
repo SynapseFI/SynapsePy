@@ -3,10 +3,11 @@
 
 class SynapseError(Exception):
 	"""Custom class for handling HTTP and API errors."""
-	def __init__(self, message, code, response):
+	def __init__(self, message, http_code, error_code, response):
 		# print('\nRESPONSE:\n\n', response.json())
 		self.message = message
-		self.code = code
+		self.http_code = http_code
+		self.error_code = error_code
 		self.response = response
 
 	def __repr__(self):
@@ -140,8 +141,8 @@ class ErrorFactory():
 		# import pdb; pdb.set_trace()
 
 		message = response['error']['en']
-		error_code = response['error_code']
 		http_code = response['http_code']
+		error_code = response['error_code']
 
 		klass = cls.ERRORS.get(error_code)
-		return klass(message=message, code=error_code, response=response)
+		return klass(message=message, http_code=http_code, error_code=error_code, response=response)

@@ -9,3 +9,5 @@ class Subscriptions():
 		self.limit = response['limit']
 
 		self.list_of_subs = [ Subscription(sub_r, http) for sub_r in response['subscriptions']]
+
+	
