@@ -41,7 +41,6 @@ class Client():
 			ip_address (str):
 			devmode (bool): switches between sandbox and production base_url
 		"""
-
 		self.client_id = params['client_id']
 		self.client_secret = params['client_secret']
 		
@@ -55,6 +54,11 @@ class Client():
 			)
 
 		self.logger = self.get_log(params.get('logging', False))
+
+	def update_headers(self, **kwargs):
+		'''Updates session headers
+		'''
+		return self.http.update_headers(**kwargs)
 
 	def get_log(self, enable):
 		'''Enables/Disables logs

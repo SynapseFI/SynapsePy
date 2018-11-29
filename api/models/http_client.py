@@ -1,8 +1,10 @@
 import requests
 import logging
 import json
+
+import api.models.errors as api_errors
+
 import http.client as http_client
-from .errors import ErrorFactory
 
 class HttpClient():
 	"""Handles HTTP requests (including headers) and API errors.
@@ -43,6 +45,31 @@ class HttpClient():
 		self.session = requests.Session()
 		self.session.headers.update(self.headers)
 		return self.session.headers
+
+	def refresh(self, user):
+		path = '/users/' + user.id
+		user.body = self.get(path, full_dehydrate=user.full_dehydrate)
+		return user.body['refresh_token']
+
+	def oauth(self, user, scope=[]):
+		path = '/oauth/' + user.id
+
+		body = { 'refresh_token': user.body['refresh_token'] }
+
+		if scope:
+			body['scope'] = scope
+
+		try:
+			response = self.post(path, body)
+
+		except api_errors.IncorrectValues as e:
+			self.refresh(user)
+			body['refresh_token'] = user.body['refresh_token']
+			response = self.post(path, body)
+
+		user.oauth_key = response['oauth_key']
+		response = self.update_headers(oauth_key=response['oauth_key'])
+		return response
 
 	def get_headers(self):
 		self.logger.debug("getting headers")
@@ -111,7 +138,7 @@ class HttpClient():
 		payload = response.json()
 
 		if int(payload.get('error_code', 0)) > 0:
-			raise ErrorFactory.from_response(payload)
+			raise api_errors.ErrorFactory.from_response(payload)
 		else:
 			response.raise_for_status
 			return response.json()

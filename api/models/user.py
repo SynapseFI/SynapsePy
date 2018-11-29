@@ -52,17 +52,6 @@ class User():
 
 		return response
 
-	def refresh(self):
-		'''gets a new refresh token by getting user
-		Args:
-			user (JSON): json response for user record with old_refresh_token
-		Returns:
-			user (JSON): json response for user record with new refresh_token
-		'''
-		path = self.paths['users'] + '/' + self.id
-		self.body = self.http.get(path, full_dehydrate=self.full_dehydrate)
-		return self.body['refresh_token']
-
 	def oauth(self, scope=[]):
 		'''creates a new OAuth for the user
 		Args:
@@ -71,23 +60,7 @@ class User():
 		Returns:
 			OAuth (Str): newly created OAuth within scope
 		'''
-		path = self.paths['oauth'] + self.id
-		body = { 'refresh_token': self.body['refresh_token'] }
-
-		if scope:
-			body['scope'] = scope
-
-		try:
-			response = self.http.post(path, body)
-
-		except api_errors.IncorrectValues as e:
-			self.refresh()
-			body['refresh_token'] = user.body['refresh_token']
-			response = self.http.post(path, body)
-
-		self.oauth_key = response['oauth_key']
-		response = self.http.update_headers(oauth_key=self.oauth_key)
-		return response
+		return self.http.oauth(self, scope)
 
 	def update_info(self, body):
 		'''removes user from indexing (soft-deletion)
