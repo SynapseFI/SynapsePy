@@ -101,87 +101,38 @@ class User():
 		self.body = response
 		return response
 
-	def create_deposit_us(self, payload):
-		path = self.paths['users'] + '/' + self.id + self.paths['nodes']
-		body = { 'type': 'DEPOSIT-US' }
-		body.update(payload)
-
-		response = self.do_request(self.http.post, path, body=body)
-
-		return Node(response, self.http)
-
-	def create_ach_logins_us(self, payload):
-		path = self.paths['users'] + '/' + self.id + self.paths['nodes']
-		body = { 'type': 'ACH-US' }
-		body.update(payload)
-
-		response = self.do_request(self.http.post, path, body=body)
-
-		return Node(response, self.http)
-
-	def create_ach_acrt(self, payload):
-		path = self.paths['users'] + '/' + self.id + self.paths['nodes']
-		body = { 'type': 'ACH-US' }
-		body.update(payload)
-
-		response = self.do_request(self.http.post, path, body=body)
-
-		return Node(response, self.http)
-
-	def create_interchange(self, payload):
+	def create_node(self, type, payload):
 		path = self.paths['users'] + '/' + self.id + self.paths['nodes']
 		
-		body = { 'type': 'INTERCHANGE-US' }
+		body = { 'type': type }
 		body.update(payload)
 
 		response = self.do_request(self.http.post, path, body=body)
-
 		return Node(response, self.http)
+
+	def create_deposit_us(self, payload):
+		return self.create_node('DEPOSIT-US', payload)
+
+	def create_ach(self, payload):
+		return self.create_node('ACH-US', payload)
+
+	def create_interchange(self, payload):
+		return self.create_node('INTERCHANGE-US', payload)
 
 	def create_check(self, payload):
-		path = self.paths['users'] + '/' + self.id + self.paths['nodes']
-		body = { 'type': 'CHECK-US' }
-		body.update(payload)
-
-		response = self.do_request(self.http.post, path, body=body)
-
-		return Node(response, self.http)
+		return self.create_node('CHECK-US', payload)
 
 	def create_crypto(self, payload):
-		path = self.paths['users'] + '/' + self.id + self.paths['nodes']
-		body = { 'type': 'CRYPTO-US' }
-		body.update(payload)
-
-		response = self.do_request(self.http.post, path, body=body)
-
-		return Node(response, self.http)
+		return self.create_node('CRYPTO-US', payload)
 
 	def create_wire_us(self, payload):
-		path = self.paths['users'] + '/' + self.id + self.paths['nodes']
-		body = { 'type': 'WIRE-US' }
-		body.update(payload)
-
-		response = self.do_request(self.http.post, path, body=body)
-
-		return Node(response, self.http)
+		return self.create_node('WIRE-US', payload)
 
 	def create_wire_int(self, payload):
-		path = self.paths['users'] + '/' + self.id + self.paths['nodes']
-		body = { 'type': 'WIRE-INT' }
-		body.update(payload)
-
-		response = self.do_request(self.http.post, path, body=body)
-
-		return Node(response, self.http)
+		return self.create_node('WIRE-INT', payload)
 
 	def create_iou(self, payload):
-		path = self.paths['users'] + '/' + self.id + self.paths['nodes']
-		body = { 'type': 'IOU' }
-		body.update(payload)
-
-		response = self.do_request(self.http.post, path, body=body)
-
-		return Node(response, self.http)
+		return self.create_node('IOU', payload)
 
 	def get_node(self, node_id, **params):
 		'''
