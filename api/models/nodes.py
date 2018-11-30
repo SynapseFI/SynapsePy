@@ -9,4 +9,4 @@ class Nodes():
 		self.limit = response['limit']
 		self.node_count = response['node_count']
 
-		self.list_of_nodes = [Node(node_r, http) for node_r in response['nodes']]
+		self.list_of_nodes = [Node(node_r, None, http) for node_r in response['nodes']]

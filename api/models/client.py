@@ -11,26 +11,17 @@ from .node import Node
 from .transaction import Trans
 from .subscription import Subscription
 
-import requests
+from .endpoints import paths
+
 import api.models.errors as api_errors
 
 import sys
 import json
 import logging
+import requests
 
 class Client():
 	""" Client Record """
-
-	# paths used for send requests to API
-	paths = {
-		'oauth': '/oauth/',
-		'client': '/client',
-		'users': '/users',
-		'trans': '/trans',
-		'nodes': '/nodes',
-		'subs': '/subscriptions',
-		'inst': '/institutions'
-		}
 
 	def __init__(self, **params):
 		"""
@@ -84,7 +75,7 @@ class Client():
 		"""
 		self.logger.debug("Creating a new user")
 
-		path = self.paths['users']
+		path = paths['users']
 		response = self.http.post(path, body)
 		
 		return User(response, self.http, full_dehydrate=False)
@@ -99,7 +90,7 @@ class Client():
 		'''
 		self.logger.debug("Creating a new subscription")
 
-		path = self.paths['subs']
+		path = paths['subs']
 
 		body = {
 			'scope': scope,
@@ -117,7 +108,7 @@ class Client():
 		"""
 		self.logger.debug("getting a user")
 
-		path = self.paths['users'] + '/' + user_id
+		path = paths['users'] + '/' + user_id
 		full_dehydrate = 'yes' if params.get('full_dehydrate') else 'no'
 		response = self.http.get(path, full_dehydrate=full_dehydrate)
 		return User(response, self.http, full_dehydrate=full_dehydrate)
@@ -131,7 +122,7 @@ class Client():
 		'''
 		self.logger.debug("getting a subscription")
 
-		path = self.paths['subs'] + '/' + sub_id
+		path = paths['subs'] + '/' + sub_id
 		response = self.http.get(path)
 		return Subscription(response, self.http)
 
@@ -142,9 +133,9 @@ class Client():
 		"""
 		self.logger.debug("getting all users")
 
-		path = self.paths['users']
+		path = paths['users']
 		response = self.http.get(path, **params)
-		return Users(self.http, response)
+		return Users(response, self.http)
 
 	def get_all_trans(self, **params):
 		'''gets all client transactions
@@ -153,9 +144,9 @@ class Client():
 		'''
 		self.logger.debug("getting all transactions")
 		
-		path = self.paths['trans']
+		path = paths['trans']
 		response = self.http.get(path, **params)
-		return Transactions(response)
+		return Transactions(response, None, self.http)
 
 	def get_all_nodes(self, **params):
 		'''gets all client nodes
@@ -164,16 +155,16 @@ class Client():
 		'''
 		self.logger.debug("getting all nodes")
 		
-		path = self.paths['nodes']
+		path = paths['nodes']
 		response = self.http.get(path)
-		return Nodes(response, self.http)
+		return Nodes(response, None, self.http)
 
 	def get_all_subs(self, **params):
 		'''
 		'''
 		self.logger.debug("getting all subscriptions")
 		
-		path = self.paths['subs']
+		path = paths['subs']
 		response = self.http.get(path, **params)
 		return Subscriptions(response, self.http)
 
@@ -182,7 +173,7 @@ class Client():
 		'''
 		self.logger.debug("getting all institutions")
 		
-		path = self.paths['inst']
+		path = paths['inst']
 		response = self.http.get(path, **params)
 		return response
 
@@ -193,7 +184,7 @@ class Client():
 		'''
 		self.logger.debug("issuing a public key")
 		
-		path = self.paths['client']
+		path = paths['client']
 		response = self.http.get(path, issue_public_key='YES', scope=scope)
 		return response['public_key_obj']
 

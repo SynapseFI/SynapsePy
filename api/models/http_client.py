@@ -1,10 +1,8 @@
-import requests
-import logging
 import json
-
-import api.models.errors as api_errors
-
+import logging
+import requests
 import http.client as http_client
+import api.models.errors as api_errors
 
 class HttpClient():
 	"""Handles HTTP requests (including headers) and API errors.
@@ -45,31 +43,6 @@ class HttpClient():
 		self.session = requests.Session()
 		self.session.headers.update(self.headers)
 		return self.session.headers
-
-	def refresh(self, user):
-		path = '/users/' + user.id
-		user.body = self.get(path, full_dehydrate=user.full_dehydrate)
-		return user.body['refresh_token']
-
-	def oauth(self, user, scope=[]):
-		path = '/oauth/' + user.id
-
-		body = { 'refresh_token': user.body['refresh_token'] }
-
-		if scope:
-			body['scope'] = scope
-
-		try:
-			response = self.post(path, body)
-
-		except api_errors.IncorrectValues as e:
-			self.refresh(user)
-			body['refresh_token'] = user.body['refresh_token']
-			response = self.post(path, body)
-
-		user.oauth_key = response['oauth_key']
-		response = self.update_headers(oauth_key=response['oauth_key'])
-		return response
 
 	def get_headers(self):
 		self.logger.debug("getting headers")
@@ -112,7 +85,7 @@ class HttpClient():
 
 		return self.parse_response(response)
 
-	def patch(self, path, payload):
+	def patch(self, path, payload, **kwargs):
 		"""Send a PATCH request to the API."""
 
 		url = self.base_url + path

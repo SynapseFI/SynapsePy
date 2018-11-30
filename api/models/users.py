@@ -2,7 +2,7 @@ from .user import User
 
 class Users():
 
-	def __init__(self, http, response):
+	def __init__(self, response, http):
 
 		self.page = response['page']
 		self.page_count = response['page_count']

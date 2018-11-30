@@ -1,26 +1,18 @@
 
+from .endpoints import paths
+
 from .node import Node
 from .nodes import Nodes
 
 from functools import partial
 
-import api.models.errors as api_errors
 import requests
 import json
+import api.models.errors as api_errors
 
 class User():
 	""" User Record
 	"""
-
-	paths = {
-		'oauth': '/oauth/',
-		'client': '/client',
-		'users': '/users',
-		'trans': '/trans',
-		'nodes': '/nodes',
-		'subs': '/subscriptions',
-		'inst': '/institutions'
-		}
 
 	def __init__(self, response, http, full_dehydrate=False):
 		"""
@@ -31,7 +23,6 @@ class User():
 		self.body = response
 		self.full_dehydrate = full_dehydrate
 		self.http = http
-		self.oauth_key = ''
 
 	def do_request(self, req_func, path, body={}, **params):
 		'''
@@ -52,6 +43,17 @@ class User():
 
 		return response
 
+	def refresh(self):
+		'''gets a new refresh token by getting user
+		Args:
+			user (JSON): json response for user record with old_refresh_token
+		Returns:
+			user (JSON): json response for user record with new refresh_token
+		'''
+		path = paths['users'] + '/' + self.id
+		self.body = self.http.get(path, full_dehydrate=self.full_dehydrate)
+		return self.body['refresh_token']
+
 	def oauth(self, scope=[]):
 		'''creates a new OAuth for the user
 		Args:
@@ -60,7 +62,23 @@ class User():
 		Returns:
 			OAuth (Str): newly created OAuth within scope
 		'''
-		return self.http.oauth(self, scope)
+		path = paths['oauth'] + '/' + self.id
+		body = { 'refresh_token': self.body['refresh_token'] }
+
+		if scope:
+			body['scope'] = scope
+
+		try:
+			response = self.http.post(path, body)
+
+		except api_errors.IncorrectValues as e:
+			self.refresh()
+			body['refresh_token'] = user.body['refresh_token']
+			response = self.http.post(path, body)
+
+		self.oauth_key = response['oauth_key']
+		response = self.http.update_headers(oauth_key=self.oauth_key)
+		return response
 
 	def update_info(self, body):
 		'''removes user from indexing (soft-deletion)
@@ -69,19 +87,19 @@ class User():
 		Returns:
 			response (json): API response to patch
 		'''
-		path = self.paths['users'] + '/' + self.id
+		path = paths['users'] + '/' + self.id
 		response = self.do_request(self.http.patch, path, body=body)
 		self.body = response
 		return response
 
 	def create_node(self, type, payload):
-		path = self.paths['users'] + '/' + self.id + self.paths['nodes']
+		path = paths['users'] + '/' + self.id + paths['nodes']
 		
 		body = { 'type': type }
 		body.update(payload)
 
 		response = self.do_request(self.http.post, path, body=body)
-		return Node(response, self.http)
+		return Node(response, self)
 
 	def create_deposit_us(self, payload):
 		return self.create_node('DEPOSIT-US', payload)
@@ -110,17 +128,17 @@ class User():
 	def get_node(self, node_id, **params):
 		'''
 		'''
-		path = self.paths['users'] + '/' + self.id + self.paths['nodes'] +'/'+ node_id
+		path = paths['users'] + '/' + self.id + paths['nodes'] +'/'+ node_id
 
 		full_dehdyrate = 'yes' if params.get('full_dehdyrate') else 'no'
 		force_ref = 'yes' if params.get('force_refresh') else 'no'
 
 		response = self.do_request(self.http.get, path, full_dehydrate=full_dehydrate, force_refresh=force_refresh)
-		return Node(response, self.http, full_dehdyrate=full_dehdyrate)
+		return Node(response, self, self.http, full_dehdyrate=full_dehdyrate)
 
 	def get_all_nodes(self, **params):
 		'''
 		'''
-		path = self.paths['users'] + '/' + self.id + self.paths['nodes']
+		path = paths['users'] + '/' + self.id + paths['nodes']
 		response = self.do_request(self.http.get, path, **params)
-		return Nodes(response, self.http)
+		return Nodes(response, self, self.http)
