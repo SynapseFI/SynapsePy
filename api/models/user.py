@@ -54,19 +54,18 @@ class User():
 		self.body = self.http.get(path, full_dehydrate=self.full_dehydrate)
 		return self.body['refresh_token']
 
-	def oauth(self, scope=[]):
+	def oauth(self, payload):
 		'''creates a new OAuth for the user
 		Args:
-			user (json): User to create new OAuth for
 			scope (list): permissions allowed for OAuth key
+			phone_number (str)
+			validation_pin (str)
 		Returns:
 			OAuth (Str): newly created OAuth within scope
 		'''
 		path = paths['oauth'] + '/' + self.id
 		body = { 'refresh_token': self.body['refresh_token'] }
-
-		if scope:
-			body['scope'] = scope
+		body.update(payload)
 
 		try:
 			response = self.http.post(path, body)
@@ -92,38 +91,16 @@ class User():
 		self.body = response
 		return response
 
-	def create_node(self, type, payload):
+	def create_node(self, body):
 		path = paths['users'] + '/' + self.id + paths['nodes']
+
+		try:
+			response = self.do_request(self.http.post, path, body=body)
 		
-		body = { 'type': type }
-		body.update(payload)
+		except api_errors.ActionPending as e:
+			return e.response['mfa']
 
-		response = self.do_request(self.http.post, path, body=body)
-		return Node(response, self)
-
-	def create_deposit_us(self, payload):
-		return self.create_node('DEPOSIT-US', payload)
-
-	def create_ach(self, payload):
-		return self.create_node('ACH-US', payload)
-
-	def create_interchange(self, payload):
-		return self.create_node('INTERCHANGE-US', payload)
-
-	def create_check(self, payload):
-		return self.create_node('CHECK-US', payload)
-
-	def create_crypto(self, payload):
-		return self.create_node('CRYPTO-US', payload)
-
-	def create_wire_us(self, payload):
-		return self.create_node('WIRE-US', payload)
-
-	def create_wire_int(self, payload):
-		return self.create_node('WIRE-INT', payload)
-
-	def create_iou(self, payload):
-		return self.create_node('IOU', payload)
+		return Nodes(response, self)
 
 	def get_node(self, node_id, **params):
 		'''
