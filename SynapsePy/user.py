@@ -3,6 +3,8 @@ from .endpoints import paths
 
 from .node import Node
 from .nodes import Nodes
+from .transaction import Trans
+from .transactions import Transactions
 
 from functools import partial
 
@@ -91,6 +93,7 @@ class User():
 		self.body = response
 		return response
 
+
 	def create_node(self, body):
 		path = paths['users'] + '/' + self.id + paths['nodes']
 
@@ -100,7 +103,7 @@ class User():
 		except api_errors.ActionPending as e:
 			return e.response['mfa']
 
-		return Nodes(response, self)
+		return Nodes(response)
 
 	def get_node(self, node_id, **params):
 		'''
@@ -111,11 +114,74 @@ class User():
 		force_ref = 'yes' if params.get('force_refresh') else 'no'
 
 		response = self.do_request(self.http.get, path, full_dehydrate=full_dehydrate, force_refresh=force_refresh)
-		return Node(response, self, self.http, full_dehdyrate=full_dehdyrate)
+		return Node(response, full_dehdyrate=full_dehdyrate)
 
 	def get_all_nodes(self, **params):
 		'''
 		'''
 		path = paths['users'] + '/' + self.id + paths['nodes']
 		response = self.do_request(self.http.get, path, **params)
-		return Nodes(response, self, self.http)
+		return Nodes(response)
+
+	def dummy_tran(self, node_id, is_credit=False):
+		'''
+		'''
+		credit = 'YES' if is_credit else 'NO'
+		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id + paths['dummy']
+		response = self.do_request(self.http.get, path, is_credit=credit)
+		return response
+
+	def ship_debit(self, node_id, body):
+		'''
+		'''
+		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id
+		response = self.do_request(self.http.patch, path, body, ship='YES')
+		return response
+
+	def reset_debit(self, node_id):
+		'''
+		'''
+		path = paths['/users'] +'/'+ self.id + paths['/nodes'] +'/'+ node_id
+		response = self.do_request(self.http.patch, path, {}, reset='YES')
+		return response
+
+	def create_trans(self, node_id, body):
+		'''
+		'''
+		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id + paths['trans']
+		response = self.do_request(self.http.post, path, body)
+		return Trans(response)
+
+	def get_trans(self, node_id, trans_id):
+		'''
+		'''
+		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id + paths['trans'] + trans_id
+		response = self.do_request(self.http.get, path)
+		return Trans(response)
+
+	def get_all_trans(self, **params):
+		'''
+		'''
+		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id + paths['trans'] + trans_id
+		response = self.do_request(self.http.get, path)
+		return Transactions(response)
+
+	def comment_trans(self, node_id, trans_id, body):
+		'''
+		'''
+		path = (paths['users'] +'/'+ self.id + 
+			paths['nodes'] +'/'+ node_id + 
+			paths['trans'] + '/' + trans_id)
+
+		response = self.do_request(self.http.patch, path, body)
+		return response
+
+	def cancel_trans(self, node_id, trans_id):
+		'''
+		'''
+		path = (paths['users'] +'/'+ self.id + 
+			paths['nodes'] +'/'+ node_id + 
+			paths['trans'] + '/' + trans_id)
+
+		response = self.do_request(self.http.delete, path)
+		return response

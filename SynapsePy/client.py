@@ -97,7 +97,10 @@ class Client():
 			'url': webhook_url
 		}
 
-		return Subscription(self.http.post(path, body), self.http)
+		response = self.http.post(path, body)
+
+		return Subscription(response)
+
 
 	def get_user(self, user_id, **params):
 		"""Returns user object
@@ -124,7 +127,21 @@ class Client():
 
 		path = paths['subs'] + '/' + sub_id
 		response = self.http.get(path)
-		return Subscription(response, self.http)
+		return Subscription(response)
+
+	def update_subscription(self, sub_id, body):
+		'''
+		Args:
+			sub_id (str): subscription id
+			body (JSON): update body
+		Returns:
+			(Subscription): object containing subscription record
+		'''
+		# self.logger.debug("updating subscription")
+
+		url = paths['subs'] + '/' + sub_id
+		response = self.http.patch(url, body)
+		return Subscription(response)
 
 	def get_all_users(self, **params):
 		"""Returns all user objects in a list
@@ -135,7 +152,7 @@ class Client():
 
 		path = paths['users']
 		response = self.http.get(path, **params)
-		return Users(response, self.http)
+		return Users(response)
 
 	def get_all_trans(self, **params):
 		'''gets all client transactions
@@ -146,7 +163,7 @@ class Client():
 		
 		path = paths['trans']
 		response = self.http.get(path, **params)
-		return Transactions(response, None, self.http)
+		return Transactions(response)
 
 	def get_all_nodes(self, **params):
 		'''gets all client nodes
@@ -157,7 +174,7 @@ class Client():
 		
 		path = paths['nodes']
 		response = self.http.get(path)
-		return Nodes(response, None, self.http)
+		return Nodes(response)
 
 	def get_all_subs(self, **params):
 		'''
@@ -166,7 +183,7 @@ class Client():
 		
 		path = paths['subs']
 		response = self.http.get(path, **params)
-		return Subscriptions(response, self.http)
+		return Subscriptions(response)
 
 	def get_all_inst(self, **params):
 		'''
