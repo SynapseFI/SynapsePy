@@ -1,4 +1,3 @@
-from .endpoints import paths
 
 class Node():
 

@@ -95,6 +95,8 @@ class User():
 
 
 	def create_node(self, body):
+		'''
+		'''
 		path = paths['users'] + '/' + self.id + paths['nodes']
 
 		try:
@@ -105,31 +107,31 @@ class User():
 
 		return Nodes(response)
 
-	def get_node(self, node_id, **params):
+	def get_node(self, node_id, full_d=False, force_r=False):
 		'''
 		'''
 		path = paths['users'] + '/' + self.id + paths['nodes'] +'/'+ node_id
 
-		full_dehdyrate = 'yes' if params.get('full_dehdyrate') else 'no'
-		force_ref = 'yes' if params.get('force_refresh') else 'no'
+		full_d = 'yes' if params.get('full_dehdyrate') else 'no'
+		force_r = 'yes' if params.get('force_refresh') else 'no'
 
-		response = self.do_request(self.http.get, path, full_dehydrate=full_dehydrate, force_refresh=force_refresh)
+		response = self.do_request(self.http.get, path, full_dehydrate=full_d, force_refresh=force_r)
 		return Node(response, full_dehdyrate=full_dehdyrate)
 
-	def get_all_nodes(self, **params):
-		'''
-		'''
-		path = paths['users'] + '/' + self.id + paths['nodes']
-		response = self.do_request(self.http.get, path, **params)
-		return Nodes(response)
+	def update_node(self):
+		pass
 
-	def dummy_tran(self, node_id, is_credit=False):
-		'''
-		'''
-		credit = 'YES' if is_credit else 'NO'
-		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id + paths['dummy']
-		response = self.do_request(self.http.get, path, is_credit=credit)
-		return response
+	def ach_mfa(self, body):
+		pass
+
+	def verify_micro(self):
+		pass
+
+	def reinit_micro(self):
+		pass
+
+	def issue_card(self):
+		pass
 
 	def ship_debit(self, node_id, body):
 		'''
@@ -145,6 +147,20 @@ class User():
 		response = self.do_request(self.http.patch, path, {}, reset='YES')
 		return response
 
+	def generate_apple_pay(self):
+		pass
+
+	def dummy_tran(self, node_id, is_credit=False):
+		'''
+		'''
+		credit = 'YES' if is_credit else 'NO'
+		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id + paths['dummy']
+		response = self.do_request(self.http.get, path, is_credit=credit)
+		return response
+
+	def delete_node(self, node_id):
+		pass
+
 	def create_trans(self, node_id, body):
 		'''
 		'''
@@ -158,13 +174,6 @@ class User():
 		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id + paths['trans'] + trans_id
 		response = self.do_request(self.http.get, path)
 		return Trans(response)
-
-	def get_all_trans(self, **params):
-		'''
-		'''
-		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id + paths['trans'] + trans_id
-		response = self.do_request(self.http.get, path)
-		return Transactions(response)
 
 	def comment_trans(self, node_id, trans_id, body):
 		'''
@@ -185,3 +194,32 @@ class User():
 
 		response = self.do_request(self.http.delete, path)
 		return response
+
+	def create_subnet(self, node_id, body):
+		pass
+
+	def get_subnet(self, subnet_id):
+		pass
+
+	def update_subnet(self, subnet_id, body):
+		pass
+
+	def get_all_nodes(self, **params):
+		'''
+		'''
+		path = paths['users'] + '/' + self.id + paths['nodes']
+		response = self.do_request(self.http.get, path, **params)
+		return Nodes(response)
+
+	def get_all_trans(self, **params):
+		'''
+		'''
+		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id + paths['trans']
+		response = self.do_request(self.http.get, path, **params)
+		return Transactions(response)
+
+	def get_all_node_trans(self):
+		pass
+
+	def get_all_subnets(self, node_id, page, per_page):
+		pass
