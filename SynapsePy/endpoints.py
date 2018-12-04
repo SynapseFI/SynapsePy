@@ -9,5 +9,6 @@ paths = {
 	'subs': '/subscriptions',
 	'subn': '/subnets',
 	'inst': '/institutions',
+	'apple': '/applepay',
 	'dummy': '/dummy-tran'
 	}

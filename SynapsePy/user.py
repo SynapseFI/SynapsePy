@@ -3,6 +3,8 @@ from .endpoints import paths
 
 from .node import Node
 from .nodes import Nodes
+from .subnet import Subnet
+from .subnets import Subnets
 from .transaction import Trans
 from .transactions import Transactions
 
@@ -89,7 +91,7 @@ class User():
 			response (json): API response to patch
 		'''
 		path = paths['users'] + '/' + self.id
-		response = self.do_request(self.http.patch, path, body=body)
+		response = self.do_request(self.http.patch, path, body)
 		self.body = response
 		return response
 
@@ -100,7 +102,7 @@ class User():
 		path = paths['users'] + '/' + self.id + paths['nodes']
 
 		try:
-			response = self.do_request(self.http.post, path, body=body)
+			response = self.do_request(self.http.post, path, body)
 		
 		except api_errors.ActionPending as e:
 			return e.response['mfa']
@@ -118,20 +120,34 @@ class User():
 		response = self.do_request(self.http.get, path, full_dehydrate=full_d, force_refresh=force_r)
 		return Node(response, full_dehdyrate=full_dehdyrate)
 
-	def update_node(self):
-		pass
+	def update_node(self, node_id, body):
+		'''
+		'''
+		path = paths['users'] + '/' + self.id + paths['nodes'] +'/'+ node_id
+		response = self.do_request(self.http.patch, path, body)
+		return response
 
 	def ach_mfa(self, body):
-		pass
+		'''
+		'''
+		path = paths['users'] + '/' + self.id + paths['nodes']
+		response = self.do_request(self.http.post, path, body)
+		return Node(response)
 
-	def verify_micro(self):
-		pass
+	def verify_micro(self, node_id, body):
+		path = paths['users'] + '/' + self.id + paths['nodes'] + '/' + node_id
+		response = self.do_request(self.http.patch, body)
+		return response
 
-	def reinit_micro(self):
-		pass
+	def reinit_micro(self, node_id, body):
+		path = paths['users'] + '/' + self.id + paths['nodes'] + '/' + node_id
+		response = self.do_request(self.http.patch, bdoy)
+		return response
 
-	def issue_card(self):
-		pass
+	def issue_card(self, body):
+		path = paths['users'] + '/' + self.id + paths['nodes']
+		response = self.do_request(self.http.post, path, body)
+		return response
 
 	def ship_debit(self, node_id, body):
 		'''
@@ -147,8 +163,12 @@ class User():
 		response = self.do_request(self.http.patch, path, {}, reset='YES')
 		return response
 
-	def generate_apple_pay(self):
-		pass
+	def generate_apple_pay(self, node_id, body):
+		'''
+		'''
+		path = paths['/users'] +'/'+ self.id + paths['/nodes'] +'/'+ node_id + paths['apple']
+		response = self.do_request(self.http.patch, path, body)
+		return response
 
 	def dummy_tran(self, node_id, is_credit=False):
 		'''
@@ -159,7 +179,11 @@ class User():
 		return response
 
 	def delete_node(self, node_id):
-		pass
+		'''
+		'''
+		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id
+		response = self.do_request(self.http.delete, path)
+		return response
 
 	def create_trans(self, node_id, body):
 		'''
@@ -196,13 +220,24 @@ class User():
 		return response
 
 	def create_subnet(self, node_id, body):
-		pass
+		'''
+		'''
+		path = (paths['users'] +'/'+ self.id + 
+			paths['nodes'] +'/'+ node_id + 
+			paths['subn'])
+
+		response = self.do_request(self.http.post, path, body)
+		return Subnet(response)
 
 	def get_subnet(self, subnet_id):
-		pass
+		'''
+		'''
+		path = (paths['users'] +'/'+ self.id + 
+			paths['nodes'] +'/'+ node_id + 
+			paths['subn'] + '/' + subnet_id)
 
-	def update_subnet(self, subnet_id, body):
-		pass
+		response = self.do_request(self.http.get, path)
+		return Subnet(response)
 
 	def get_all_nodes(self, **params):
 		'''
@@ -211,15 +246,21 @@ class User():
 		response = self.do_request(self.http.get, path, **params)
 		return Nodes(response)
 
-	def get_all_trans(self, **params):
-		'''
-		'''
+	def get_all_node_trans(self):
 		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id + paths['trans']
 		response = self.do_request(self.http.get, path, **params)
 		return Transactions(response)
 
-	def get_all_node_trans(self):
-		pass
+	def get_all_trans(self, **params):
+		'''
+		'''
+		path = paths['users'] + '/' + self.id + paths['trans']
+		response = self.do_request(self.http.get, path, **params)
+		return Transactions(response)
 
 	def get_all_subnets(self, node_id, page, per_page):
-		pass
+		'''
+		'''
+		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id + paths['subn']
+		response = self.do_request(self.http.get, path, page=page, per_page=per_page)
+		return Subnets(response)
