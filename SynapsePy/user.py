@@ -79,6 +79,9 @@ class User():
 			body['refresh_token'] = user.body['refresh_token']
 			response = self.http.post(path, body)
 
+		except api_errors.ActionPending as e:
+			return e.response
+
 		self.oauth_key = response['oauth_key']
 		response = self.http.update_headers(oauth_key=self.oauth_key)
 		return response
@@ -105,9 +108,9 @@ class User():
 			response = self.do_request(self.http.post, path, body)
 		
 		except api_errors.ActionPending as e:
-			return e.response['mfa']
+			return e.response
 
-		return Nodes(response)
+		return response
 
 	def get_node(self, node_id, full_d=False, force_r=False):
 		'''
