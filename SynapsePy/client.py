@@ -143,6 +143,26 @@ class Client():
 		response = self.http.patch(url, body)
 		return Subscription(response)
 
+	def crypto_quotes(self):
+		pass
+
+	def crypto_market_data(self):
+		pass
+
+	def locate_atms(self):
+		pass
+
+	def issue_public_key(self, scope):
+		'''
+		Args:
+
+		'''
+		self.logger.debug("issuing a public key")
+		
+		path = paths['client']
+		response = self.http.get(path, issue_public_key='YES', scope=scope)
+		return response['public_key_obj']
+
 	def get_all_users(self, **params):
 		"""Returns all user objects in a list
 		Returns:
@@ -193,16 +213,5 @@ class Client():
 		path = paths['inst']
 		response = self.http.get(path, **params)
 		return response
-
-	def issue_public_key(self, scope):
-		'''
-		Args:
-
-		'''
-		self.logger.debug("issuing a public key")
-		
-		path = paths['client']
-		response = self.http.get(path, issue_public_key='YES', scope=scope)
-		return response['public_key_obj']
 
 

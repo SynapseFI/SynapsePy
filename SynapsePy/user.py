@@ -132,21 +132,20 @@ class User():
 		'''
 		path = paths['users'] + '/' + self.id + paths['nodes']
 		response = self.do_request(self.http.post, path, body)
-		return Node(response)
+		return Nodes(response)
 
 	def verify_micro(self, node_id, body):
+		'''
+		'''
 		path = paths['users'] + '/' + self.id + paths['nodes'] + '/' + node_id
 		response = self.do_request(self.http.patch, body)
 		return response
 
 	def reinit_micro(self, node_id, body):
+		'''
+		'''
 		path = paths['users'] + '/' + self.id + paths['nodes'] + '/' + node_id
 		response = self.do_request(self.http.patch, bdoy)
-		return response
-
-	def issue_card(self, body):
-		path = paths['users'] + '/' + self.id + paths['nodes']
-		response = self.do_request(self.http.post, path, body)
 		return response
 
 	def ship_debit(self, node_id, body):
