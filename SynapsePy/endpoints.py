@@ -10,5 +10,8 @@ paths = {
 	'subn': '/subnets',
 	'inst': '/institutions',
 	'apple': '/applepay',
+	'atms': '/atms',
+	'cryptoq': '/crypto-quotes',
+	'cryptom': '/crypto-market-watch',
 	'dummy': '/dummy-tran'
 	}

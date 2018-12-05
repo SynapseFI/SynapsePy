@@ -144,13 +144,24 @@ class Client():
 		return Subscription(response)
 
 	def crypto_quotes(self):
-		pass
+		'''
+		'''
+		path = paths['nodes'] + paths['cryptoq']
+		response = self.http.get(path)
+		return response
 
-	def crypto_market_data(self):
-		pass
+	def crypto_market_data(self, limit=5, currency='BTC'):
+		'''
+		'''
+		path = paths['nodes'] + paths['cryptom']
+		response = self.http.get(path, limit=limit, currency=currency)
+		return response
 
-	def locate_atms(self):
-		pass
+	def locate_atms(self, zip=None, lat=None, rad=1, page=1, per_p=20):
+		'''
+		'''
+		path = paths['nodes'] + paths['atms']
+		response = self.http.patch(path, zip=zip, lat=lat, radius=rad, page=page, per_page=per_p)
 
 	def issue_public_key(self, scope):
 		'''
