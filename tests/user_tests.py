@@ -1,9 +1,10 @@
+import unittest
 from unittest import TestCase, mock
 from .fixtures.user_fixtures import *
 
 from models.user import User
 
-@mock.patch('User.do_request')
+@mock.patch('models.user.User.do_request')
 class UserTests(TestCase):
 
 	def setUp(self):
