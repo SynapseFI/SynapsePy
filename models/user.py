@@ -28,25 +28,6 @@ class User():
 		self.full_dehydrate = full_dehydrate
 		self.http = http
 
-	def do_request(self, req_func, path, body={}, **params):
-		'''
-		'''
-		req_dict = {
-			"get": partial(req_func, path, **params),
-			"post": partial(req_func, path, body, **params),
-			"patch": partial(req_func, path, body),
-			"delete": partial(req_func, path)
-		}
-
-		try:
-			response = req_dict[req_func.__name__]()
-
-		except (requests.exceptions.HTTPError, api_errors.IncorrectUserCredentials) as e:
-			self.oauth()
-			response = req_dict[req_func.__name__]()
-
-		return response
-
 	def refresh(self):
 		'''gets a new refresh token by getting user
 		Args:
@@ -82,8 +63,26 @@ class User():
 		except api_errors.ActionPending as e:
 			return e.response
 
-		self.oauth_key = response['oauth_key']
-		response = self.http.update_headers(oauth_key=self.oauth_key)
+		self.http.update_headers(oauth_key=response['oauth_key'])
+		return response
+
+	def do_request(self, req_func, path, body={}, **params):
+		'''
+		'''
+		req_dict = {
+			"get": partial(req_func, path, **params),
+			"post": partial(req_func, path, body, **params),
+			"patch": partial(req_func, path, body),
+			"delete": partial(req_func, path)
+		}
+
+		try:
+			response = req_dict[req_func.__name__]()
+
+		except (requests.exceptions.HTTPError, api_errors.IncorrectUserCredentials) as e:
+			self.oauth()
+			response = req_dict[req_func.__name__]()
+
 		return response
 
 	def update_info(self, body):
