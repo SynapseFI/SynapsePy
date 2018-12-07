@@ -1,17 +1,18 @@
 
 import unittest
-import api.models.errors as api_errors
+import models.errors as api_errors
 
-from api.tests.fixtures.client import *
-from api.tests.fixtures.user_fixtures import *
-from api.tests.fixtures.subscription_fixtures import *
+from .fixtures.client_fixtures import *
+from .fixtures.user_fixtures import *
+from .fixtures.subscription_fixtures import *
 
-from api.models.client import Client
-from api.models.user import User
-from api.models.subscription import Subscription
-from api.models.users import Users
-from api.models.subscriptions import Subscriptions
-from api.models.nodes import Nodes
+from models.client import Client
+from models.user import User
+from models.subscription import Subscription
+
+from models.users import Users
+from models.subscriptions import Subscriptions
+from models.nodes import Nodes
 
 
 class ClientTests(unittest.TestCase):
@@ -40,6 +41,21 @@ class ClientTests(unittest.TestCase):
 		subs = self.client.get_subscription(sub_id)
 		self.assertIsInstance(subs, Subscription)
 
+	def test_crypto_quotes(self):
+		pass
+
+	def test_crypto_market_data(self):
+		pass
+
+	def test_locate_atms(self):
+		pass
+
+	def test_issue_pub_key(self):
+		# check if obj is JSON
+		pub_key_scope = ["OAUTH|POST"]
+		key = self.client.issue_public_key(pub_key_scope)
+		self.assertIsInstance(key, dict)
+
 	def test_get_users(self):
 		# check if obj is Users
 		users = self.client.get_all_users()
@@ -59,12 +75,6 @@ class ClientTests(unittest.TestCase):
 		# check if obj is JSON
 		inst = self.client.get_all_inst()
 		self.assertIsInstance(inst, dict)
-		
-	def test_issue_pub_key(self):
-		# check if obj is JSON
-		pub_key_scope = ["OAUTH|POST"]
-		key = self.client.issue_public_key(pub_key_scope)
-		self.assertIsInstance(key, dict)
 
 if __name__ == '__main__':
 	unittest.main()

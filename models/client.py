@@ -13,12 +13,11 @@ from .subscription import Subscription
 
 from .endpoints import paths
 
-import api.models.errors as api_errors
-
 import sys
 import json
 import logging
 import requests
+import models.errors as api_errors
 
 class Client():
 	""" Client Record """
@@ -162,6 +161,7 @@ class Client():
 		'''
 		path = paths['nodes'] + paths['atms']
 		response = self.http.patch(path, zip=zip, lat=lat, radius=rad, page=page, per_page=per_p)
+		return response
 
 	def issue_public_key(self, scope):
 		'''
@@ -183,7 +183,7 @@ class Client():
 
 		path = paths['users']
 		response = self.http.get(path, **params)
-		return Users(response)
+		return Users(response, self.http)
 
 	def get_all_trans(self, **params):
 		'''gets all client transactions

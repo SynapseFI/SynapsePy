@@ -1,9 +1,9 @@
 
 import unittest
-import api.models.errors as api_errors
+import models.errors as api_errors
 
-from api.tests.fixtures.error_fixtures import *
-from api.tests.fixtures.client_fixtures import *
+from tests.fixtures.error_fixtures import *
+from tests.fixtures.client_fixtures import *
 
 class ErrorTests(unittest.TestCase):
 	

@@ -10,9 +10,9 @@ from .transactions import Transactions
 
 from functools import partial
 
-import requests
 import json
-import api.models.errors as api_errors
+import requests
+import models.errors as api_errors
 
 class User():
 	""" User Record
@@ -58,7 +58,7 @@ class User():
 		self.body = self.http.get(path, full_dehydrate=self.full_dehydrate)
 		return self.body['refresh_token']
 
-	def oauth(self, payload):
+	def oauth(self, payload={}):
 		'''creates a new OAuth for the user
 		Args:
 			scope (list): permissions allowed for OAuth key

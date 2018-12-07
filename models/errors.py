@@ -140,7 +140,7 @@ class ErrorFactory():
 		"""Return the corresponding error from a response."""
 		# import pdb; pdb.set_trace()
 
-		message = response.get('mfa', {}).get('message', response.get('error', response['message'])['en']) # lol
+		message = response.get('mfa', {}).get('message', response.get('message', response['error'])['en']) # lol
 		http_code = response['http_code']
 		error_code = response['error_code']
 

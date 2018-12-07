@@ -1,4 +1,4 @@
-from api.models.subscription import Subscription
+from models.subscription import Subscription
 
 webhook_url = "https://requestb.in/zp216zzp"
 
