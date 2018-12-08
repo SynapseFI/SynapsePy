@@ -3,9 +3,11 @@ from unittest import TestCase, mock
 from .fixtures.user_fixtures import *
 from .fixtures.client_fixtures import *
 from .fixtures.node_fixtures import *
+from .fixtures.trans_fixtures import *
 
 from models.user import User
 from models.node import Node
+from models.transaction import Trans
 from models.http_client import HttpClient
 
 @mock.patch('models.user.User.do_request', return_value={}, autospec=True)
@@ -16,6 +18,9 @@ class UserTests(TestCase):
 
 		self.card_us_id = card_us_get_response['_id']
 		self.card_us_type = card_us_get_response['type']
+
+		self.trans_id = trans_get_response['_id']
+
 		self.ach_us_id = ach_us_get_response['_id']
 		self.debit_us_id = debit_us_get_response['_id']
 
@@ -74,19 +79,29 @@ class UserTests(TestCase):
 		self.assertEqual(self.user.dummy_tran(self.card_us_id), mock_request.return_value)
 
 	def test_delete_node(self, mock_request):
-		pass
+		self.assertEqual(self.user.delete_node(self.card_us_id), mock_request.return_value)
 
 	def test_create_trans(self, mock_request):
-		pass
+		mock_request.return_value = trans_get_response
+
+		test_trans = self.user.create_trans(self.card_us_id, {})
+		self.assertIsInstance(test_trans, Trans)
+		self.assertEqual(test_trans.id, self.trans_id)
+		self.assertEqual(test_trans.body, trans_get_response)
 
 	def test_get_trans(self, mock_request):
-		pass
+		mock_request.return_value = trans_get_response
+
+		test_trans = self.user.get_trans(self.card_us_id, self.trans_id)
+		self.assertIsInstance(test_trans, Trans)
+		self.assertEqual(test_trans.id, self.trans_id)
+		self.assertEqual(test_trans.body, trans_get_response)
 
 	def test_comment_trans(self, mock_request):
-		pass
+		self.assertEqual(self.user.comment_trans(self.card_us_id, self.trans_id, {}), mock_request.return_value)
 
 	def test_cancel_trans(self, mock_request):
-		pass
+		self.assertEqual(self.user.cancel_trans(self.card_us_id, self.trans_id), mock_request.return_value)
 
 	def test_create_subnet(self, mock_request):
 		pass
