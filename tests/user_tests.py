@@ -8,6 +8,9 @@ from .fixtures.trans_fixtures import *
 from models.user import User
 from models.node import Node
 from models.transaction import Trans
+
+from models.nodes import Nodes
+
 from models.http_client import HttpClient
 
 @mock.patch('models.user.User.do_request', return_value={}, autospec=True)
@@ -23,6 +26,11 @@ class UserTests(TestCase):
 
 		self.ach_us_id = ach_us_get_response['_id']
 		self.debit_us_id = debit_us_get_response['_id']
+
+		self.nodes_page = get_nodes_response['page']
+		self.nodes_page_count = get_nodes_response['page_count']
+		self.nodes_limit = get_nodes_response['limit']
+		self.nodes_node_count = get_nodes_response['node_count']
 
 	@mock.patch('models.http_client.HttpClient.get', return_value={'refresh_token':'1234'}, autospec=True)
 	def test_refresh(self, mock_get, mock_request):
@@ -110,7 +118,17 @@ class UserTests(TestCase):
 		pass
 
 	def test_get_all_nodes(self, mock_request):
-		pass
+		mock_request.return_value = get_nodes_response
+
+		test_nodes = self.user.get_all_nodes()
+		self.assertIsInstance(test_nodes, Nodes)
+		self.assertEqual(test_nodes.page, self.nodes_page)
+		self.assertEqual(test_nodes.page_count, self.nodes_page_count)
+		self.assertEqual(test_nodes.limit, self.nodes_limit)
+		self.assertEqual(test_nodes.node_count, self.nodes_node_count)
+
+		for node in test_nodes.list_of_nodes:
+			self.assertIsInstance(node, Node)
 
 	def test_get_all_node_trans(self, mock_request):
 		pass
