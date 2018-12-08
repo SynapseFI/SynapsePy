@@ -111,30 +111,30 @@ class User():
 
 		return response
 
-	def get_node(self, node_id, full_d=False, force_r=False):
+	def get_node(self, node_id, full_dehydrate=False, force_refresh=False):
 		'''
 		'''
 		path = paths['users'] + '/' + self.id + paths['nodes'] +'/'+ node_id
 
-		full_d = 'yes' if params.get('full_dehdyrate') else 'no'
-		force_r = 'yes' if params.get('force_refresh') else 'no'
+		full_d = 'yes' if full_dehydrate else 'no'
+		force_r = 'yes' if force_refresh else 'no'
 
 		response = self.do_request(self.http.get, path, full_dehydrate=full_d, force_refresh=force_r)
-		return Node(response, full_dehdyrate=full_dehdyrate)
+		return Node(response, full_dehydrate=full_dehydrate)
 
 	def update_node(self, node_id, body):
 		'''
 		'''
 		path = paths['users'] + '/' + self.id + paths['nodes'] +'/'+ node_id
 		response = self.do_request(self.http.patch, path, body)
-		return response
+		return Node(response)
 
 	def ach_mfa(self, body):
 		'''
 		'''
 		path = paths['users'] + '/' + self.id + paths['nodes']
 		response = self.do_request(self.http.post, path, body)
-		return Nodes(response)
+		return response
 
 	def verify_micro(self, node_id, body):
 		'''
@@ -160,14 +160,14 @@ class User():
 	def reset_debit(self, node_id):
 		'''
 		'''
-		path = paths['/users'] +'/'+ self.id + paths['/nodes'] +'/'+ node_id
+		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id
 		response = self.do_request(self.http.patch, path, {}, reset='YES')
 		return response
 
 	def generate_apple_pay(self, node_id, body):
 		'''
 		'''
-		path = paths['/users'] +'/'+ self.id + paths['/nodes'] +'/'+ node_id + paths['apple']
+		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id + paths['apple']
 		response = self.do_request(self.http.patch, path, body)
 		return response
 
