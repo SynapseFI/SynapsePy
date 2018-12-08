@@ -147,7 +147,7 @@ class User():
 		'''
 		'''
 		path = paths['users'] + '/' + self.id + paths['nodes'] + '/' + node_id
-		response = self.do_request(self.http.patch, bdoy)
+		response = self.do_request(self.http.patch, body, resend_micro='YES')
 		return response
 
 	def ship_debit(self, node_id, body):

@@ -16,6 +16,8 @@ class UserTests(TestCase):
 
 		self.card_us_id = card_us_get_response['_id']
 		self.card_us_type = card_us_get_response['type']
+		self.ach_us_id = ach_us_get_response['_id']
+		self.debit_us_id = debit_us_get_response['_id']
 
 	@mock.patch('models.http_client.HttpClient.get', return_value={'refresh_token':'1234'}, autospec=True)
 	def test_refresh(self, mock_get, mock_request):
@@ -43,7 +45,7 @@ class UserTests(TestCase):
 	def test_update_node(self, mock_request):
 		mock_request.return_value = card_us_up_response
 
-		test_node = self.user.update_node(self.card_us_id, card_us_up)
+		test_node = self.user.update_node(self.card_us_id, {})
 		self.assertIsInstance(test_node, Node)
 		self.assertEqual(test_node.id, self.card_us_id)
 		self.assertEqual(test_node.type, self.card_us_type)
@@ -54,16 +56,16 @@ class UserTests(TestCase):
 		self.assertEqual(self.user.ach_mfa({}), mock_request.return_value)
 
 	def test_verify_micro(self, mock_request):
-		self.assertEqual(self.user.verify_micro({}), mock_request.return_value)
+		self.assertEqual(self.user.verify_micro(self.ach_us_id,{}), mock_request.return_value)
 
 	def test_reinit_micro(self, mock_request):
-		self.assertEqual(self.user.reinit_micro({}), mock_request.return_value)
+		self.assertEqual(self.user.reinit_micro(self.ach_us_id ,{}), mock_request.return_value)
 
 	def test_ship_debit(self, mock_request):
-		self.assertEqual(self.user.ship_debit({}), mock_request.return_value)
+		self.assertEqual(self.user.ship_debit(self.card_us_id, {}), mock_request.return_value)
 
 	def test_reset_debit(self, mock_request):
-		self.assertEqual(self.user.reset_debit({}), mock_request.return_value)
+		self.assertEqual(self.user.reset_debit(self.debit_us_id), mock_request.return_value)
 
 	def test_generate_apple_pay(self, mock_request):
 		self.assertEqual(self.user.generate_apple_pay(self.card_us_id, {}), mock_request.return_value)
