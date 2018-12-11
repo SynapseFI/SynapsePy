@@ -71,7 +71,7 @@ class User():
 		'''
 		path = paths['oauth'] + '/' + self.id
 		body = {
-			'refresh_token': self.body['refresh_token']
+			'refresh_token': self.body['refresh_token'],
 			'phone_number': device
 			}
 
@@ -278,7 +278,7 @@ class User():
 		response = self.do_request(self.http.get, path, **params)
 		return Nodes(response)
 
-	def get_all_node_trans(self, node_id):
+	def get_all_node_trans(self, node_id, **params):
 		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id + paths['trans']
 		response = self.do_request(self.http.get, path, **params)
 		return Transactions(response)

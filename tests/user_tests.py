@@ -33,6 +33,11 @@ class UserTests(TestCase):
 		self.nodes_limit = get_nodes_response['limit']
 		self.nodes_node_count = get_nodes_response['node_count']
 
+		self.node_trans_page = get_all_node_trans_resp['page']
+		self.node_trans_page_count = get_all_node_trans_resp['page_count']
+		self.node_trans_limit = get_all_node_trans_resp['limit']
+		self.node_trans_count = get_all_node_trans_resp['trans_count']
+
 	@mock.patch('models.http_client.HttpClient.get', return_value={'refresh_token':'1234'}, autospec=True)
 	def test_refresh(self, mock_get, mock_request):
 		self.assertEqual(self.user.refresh(), mock_get.return_value['refresh_token'])
@@ -45,7 +50,9 @@ class UserTests(TestCase):
 		self.assertEqual(self.user.update_info({}), mock_request.return_value)
 
 	def test_create_node(self, mock_request):
-		self.assertEqual(self.user.create_node({}), mock_request.return_value)
+		mock_request.return_value = get_nodes_response
+		self.assertIsInstance(self.user.create_node({}), Nodes)
+		# self.assertEqual(self.user.create_node({}), mock_request.return_value)
 
 	def test_get_node(self, mock_request):
 		mock_request.return_value = card_us_get_response
@@ -67,7 +74,9 @@ class UserTests(TestCase):
 		self.assertEqual(test_node.response, card_us_up_response)
 
 	def test_ach_mfa(self, mock_request):
-		self.assertEqual(self.user.ach_mfa({}), mock_request.return_value)
+		mock_request.return_value = get_nodes_response
+		self.assertIsInstance(self.user.ach_mfa({}), Nodes)
+		# self.assertEqual(self.user.ach_mfa({}), mock_request.return_value)
 
 	def test_verify_micro(self, mock_request):
 		self.assertEqual(self.user.verify_micro(self.ach_us_id,{}), mock_request.return_value)
@@ -132,17 +141,17 @@ class UserTests(TestCase):
 			self.assertIsInstance(node, Node)
 
 	def test_get_all_node_trans(self, mock_request):
-		mock_request.return_value = get_nodes_response
+		mock_request.return_value = get_all_node_trans_resp
 
-		test_node_trans = self.user.get_all_node_trans()
-		self.assertIsInstance(test_nodes_trans, Transactions)
-		self.assertEqual(test_nodes_trans.page, self.nodes_page)
-		self.assertEqual(test_nodes_trans.page_count, self.nodes_page_count)
-		self.assertEqual(test_nodes_trans.limit, self.nodes_limit)
-		self.assertEqual(test_nodes_trans.node_count, self.nodes_node_count)
+		test_node_trans = self.user.get_all_node_trans('')
+		self.assertIsInstance(test_node_trans, Transactions)
+		self.assertEqual(test_node_trans.page, self.node_trans_page)
+		self.assertEqual(test_node_trans.page_count, self.node_trans_page_count)
+		self.assertEqual(test_node_trans.limit, self.node_trans_limit)
+		self.assertEqual(test_node_trans.trans_count, self.node_trans_count)
 
-		for node in test_node_trans.list_of_nodes:
-			self.assertIsInstance(node, Node)
+		for trans in test_node_trans.list_of_trans:
+			self.assertIsInstance(trans, Trans)
 
 	def test_get_all_trans(self, mock_request):
 		pass
