@@ -146,3 +146,4 @@ class ErrorFactory():
 
 		klass = cls.ERRORS.get(error_code)
 		return klass(message=message, http_code=http_code, error_code=error_code, response=response)
+

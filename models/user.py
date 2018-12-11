@@ -60,10 +60,35 @@ class User():
 			body['refresh_token'] = user.body['refresh_token']
 			response = self.http.post(path, body)
 
-		except api_errors.ActionPending as e:
-			return e.response
+		# except api_errors.ActionPending as e:
+		# 	return e.response
 
 		self.http.update_headers(oauth_key=response['oauth_key'])
+		return response
+
+	def select_2fa_device(self, device):
+		'''
+		'''
+		path = paths['oauth'] + '/' + self.id
+		body = {
+			'refresh_token': self.body['refresh_token']
+			'phone_number': device
+			}
+
+		response = self.http.post(path, body)
+		return response
+
+
+	def confirm_2fa_pin(self, pin):
+		'''
+		'''
+		path = paths['oauth'] + '/' + self.id
+		body = {
+			'refresh_token': self.body['refresh_token'],
+			'validation_pin': pin
+			}
+
+		response = self.http.post(path, body)
 		return response
 
 	def do_request(self, req_func, path, body={}, **params):
@@ -109,7 +134,7 @@ class User():
 		except api_errors.ActionPending as e:
 			return e.response
 
-		return response
+		return Nodes(response)
 
 	def get_node(self, node_id, full_dehydrate=False, force_refresh=False):
 		'''
@@ -133,8 +158,14 @@ class User():
 		'''
 		'''
 		path = paths['users'] + '/' + self.id + paths['nodes']
-		response = self.do_request(self.http.post, path, body)
-		return response
+
+		try:
+			response = self.do_request(self.http.post, path, body)
+
+		except api_errors.ActionPending as e:
+			return e.message
+
+		return Nodes(response)
 
 	def verify_micro(self, node_id, body):
 		'''
@@ -247,7 +278,7 @@ class User():
 		response = self.do_request(self.http.get, path, **params)
 		return Nodes(response)
 
-	def get_all_node_trans(self):
+	def get_all_node_trans(self, node_id):
 		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id + paths['trans']
 		response = self.do_request(self.http.get, path, **params)
 		return Transactions(response)
@@ -265,3 +296,4 @@ class User():
 		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id + paths['subn']
 		response = self.do_request(self.http.get, path, page=page, per_page=per_page)
 		return Subnets(response)
+

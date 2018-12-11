@@ -10,6 +10,7 @@ from models.node import Node
 from models.transaction import Trans
 
 from models.nodes import Nodes
+from models.transactions import Transactions
 
 from models.http_client import HttpClient
 
@@ -131,7 +132,17 @@ class UserTests(TestCase):
 			self.assertIsInstance(node, Node)
 
 	def test_get_all_node_trans(self, mock_request):
-		pass
+		mock_request.return_value = get_nodes_response
+
+		test_node_trans = self.user.get_all_node_trans()
+		self.assertIsInstance(test_nodes_trans, Transactions)
+		self.assertEqual(test_nodes_trans.page, self.nodes_page)
+		self.assertEqual(test_nodes_trans.page_count, self.nodes_page_count)
+		self.assertEqual(test_nodes_trans.limit, self.nodes_limit)
+		self.assertEqual(test_nodes_trans.node_count, self.nodes_node_count)
+
+		for node in test_node_trans.list_of_nodes:
+			self.assertIsInstance(node, Node)
 
 	def test_get_all_trans(self, mock_request):
 		pass

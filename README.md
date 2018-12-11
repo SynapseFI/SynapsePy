@@ -66,7 +66,7 @@ subs = client.get_subscription(subs_id)
 ```python
 body = {
     'subs_id': '589b6adec83e17002122196c'
-    'url': https://requestb.in/zp216zzp
+    'url': 'https://requestb.in/zp216zzp'
     'scope': [
         "USERS|POST",
         "USER|PATCH",
