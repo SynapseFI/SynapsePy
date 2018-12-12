@@ -21,7 +21,7 @@ class HttpClient():
 		self.base_url= kwargs['base_url']
 
 	def update_headers(self, **kwargs):
-		"""Update the supplied properties on self and in the header dictionary.
+		"""Update the supplied properties on s elf and in the header dictionary.
 		"""
 		self.logger.debug("updating headers")
 

@@ -22,28 +22,29 @@ import models.errors as api_errors
 class Client():
 	""" Client Record """
 
-	def __init__(self, **params):
+	def __init__(self, client_id, client_secret, fingerprint, ip_address, devmode=False, logging=False):
 		"""
 		Args:
 			client_id (str): API client id
 			client_secret (str): API client secret
 			fingerprint (str):
 			ip_address (str):
-			devmode (bool): switches between sandbox and production base_url
+			devmode (bool): (opt) switches between sandbox and production base_url
+			logging (bool): (opt) enables logger
 		"""
-		self.client_id = params['client_id']
-		self.client_secret = params['client_secret']
+		self.client_id = client_id
+		self.client_secret = client_secret
 		
 		self.http = HttpClient(
-			client_id=params['client_id'],
-			client_secret=params['client_secret'],
-			fingerprint=params['fingerprint'],
-			ip_address=params['ip_address'],
-			base_url='https://uat-api.synapsefi.com/v3.1' if params['devmode'] else 'https://api.synapsefi.com/v3.1',
-			logging=params.get('logging', False)
+			client_id=client_id,
+			client_secret=client_secret,
+			fingerprint=fingerprint,
+			ip_address=ip_address,
+			base_url='https://uat-api.synapsefi.com/v3.1' if devmode else 'https://api.synapsefi.com/v3.1',
+			logging=logging
 			)
 
-		self.logger = self.get_log(params.get('logging', False))
+		self.logger = self.get_log(logging)
 
 	def update_headers(self, **kwargs):
 		'''Updates session headers
@@ -101,7 +102,7 @@ class Client():
 		return Subscription(response)
 
 
-	def get_user(self, user_id, **params):
+	def get_user(self, user_id, full_d=False):
 		"""Returns user object
 		Args:
 			user_id (Str): identification for user
@@ -111,9 +112,9 @@ class Client():
 		self.logger.debug("getting a user")
 
 		path = paths['users'] + '/' + user_id
-		full_dehydrate = 'yes' if params.get('full_dehydrate') else 'no'
+		full_dehydrate = 'yes' if full_d else None
 		response = self.http.get(path, full_dehydrate=full_dehydrate)
-		return User(response, self.http, full_dehydrate=full_dehydrate)
+		return User(response, self.http, full_dehydrate=full_d)
 
 	def get_subscription(self, sub_id):
 		'''
@@ -174,7 +175,7 @@ class Client():
 		response = self.http.get(path, issue_public_key='YES', scope=scope)
 		return response['public_key_obj']
 
-	def get_all_users(self, **params):
+	def get_all_users(self, query=None, page=None, per_page=None, show_refresh_tokens=None):
 		"""Returns all user objects in a list
 		Returns:
 			(list of Json): json containing User records
@@ -182,10 +183,10 @@ class Client():
 		self.logger.debug("getting all users")
 
 		path = paths['users']
-		response = self.http.get(path, **params)
+		response = self.http.get(path, query=query, page=page, per_page=per_page, show_refresh_tokens=show_refresh_tokens)
 		return Users(response, self.http)
 
-	def get_all_trans(self, **params):
+	def get_all_trans(self, page=None, per_page=None):
 		'''gets all client transactions
 		Returns:
 			(list of Transactions): list of all transaction records for client
@@ -193,10 +194,10 @@ class Client():
 		self.logger.debug("getting all transactions")
 		
 		path = paths['trans']
-		response = self.http.get(path, **params)
+		response = self.http.get(path, page=page, per_page=per_page)
 		return Transactions(response)
 
-	def get_all_nodes(self, **params):
+	def get_all_nodes(self, query=None, page=None, per_page=None, show_refresh_tokens=None):
 		'''gets all client nodes
 		Returns:
 			(list of Nodes): list of all node records for client
@@ -207,22 +208,22 @@ class Client():
 		response = self.http.get(path)
 		return Nodes(response)
 
-	def get_all_subs(self, **params):
+	def get_all_subs(self, page=None, per_page=None):
 		'''
 		'''
 		self.logger.debug("getting all subscriptions")
 		
 		path = paths['subs']
-		response = self.http.get(path, **params)
+		response = self.http.get(path, page=page, per_page=per_page)
 		return Subscriptions(response)
 
-	def get_all_inst(self, **params):
+	def get_all_inst(self):
 		'''
 		'''
 		self.logger.debug("getting all institutions")
 		
 		path = paths['inst']
-		response = self.http.get(path, **params)
+		response = self.http.get(path)
 		return response
 
 

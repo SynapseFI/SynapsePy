@@ -271,26 +271,26 @@ class User():
 		response = self.do_request(self.http.get, path)
 		return Subnet(response)
 
-	def get_all_nodes(self, **params):
+	def get_all_nodes(self, page=None, per_page=None, type=None):
 		'''
 		'''
 		path = paths['users'] + '/' + self.id + paths['nodes']
-		response = self.do_request(self.http.get, path, **params)
+		response = self.do_request(self.http.get, path, page=page, per_page=per_page, type=type)
 		return Nodes(response)
 
-	def get_all_node_trans(self, node_id, **params):
+	def get_all_node_trans(self, node_id, page=None, per_page=None):
 		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id + paths['trans']
-		response = self.do_request(self.http.get, path, **params)
+		response = self.do_request(self.http.get, path, page=page, per_page=per_page)
 		return Transactions(response)
 
-	def get_all_trans(self, **params):
+	def get_all_trans(self, page=None, per_page=None):
 		'''
 		'''
 		path = paths['users'] + '/' + self.id + paths['trans']
-		response = self.do_request(self.http.get, path, **params)
+		response = self.do_request(self.http.get, path, page=page, per_page=per_page)
 		return Transactions(response)
 
-	def get_all_subnets(self, node_id, page=1, per_page=20):
+	def get_all_subnets(self, node_id, page=None, per_page=None):
 		'''
 		'''
 		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id + paths['subn']
