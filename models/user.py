@@ -261,7 +261,7 @@ class User():
 		response = self.do_request(self.http.post, path, body)
 		return Subnet(response)
 
-	def get_subnet(self, subnet_id):
+	def get_subnet(self, node_id, subnet_id):
 		'''
 		'''
 		path = (paths['users'] +'/'+ self.id + 

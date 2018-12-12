@@ -9,6 +9,7 @@ from .fixtures.subnet_fixtures import *
 from models.user import User
 from models.node import Node
 from models.transaction import Trans
+from models.subnet import Subnet
 
 from models.nodes import Nodes
 from models.transactions import Transactions
@@ -29,6 +30,8 @@ class UserTests(TestCase):
 
 		self.ach_us_id = ach_us_get_response['_id']
 		self.debit_us_id = debit_us_get_response['_id']
+
+		self.subnet_id = subnet_get_resp['_id']
 
 		self.nodes_page = get_nodes_response['page']
 		self.nodes_page_count = get_nodes_response['page_count']
@@ -122,10 +125,16 @@ class UserTests(TestCase):
 		self.assertEqual(self.user.cancel_trans(self.card_us_id, self.trans_id), mock_request.return_value)
 
 	def test_create_subnet(self, mock_request):
-		pass
+		mock_request.return_value = subnet_get_resp
+
+		test_subnet = self.user.create_subnet('', subnet_payload)
+		self.assertIsInstance(test_subnet, Subnet)
 
 	def test_get_subnet(self, mock_request):
-		pass
+		mock_request.return_value = subnet_get_resp
+
+		test_subnet = self.user.get_subnet('', '')
+		self.assertIsInstance(test_subnet, Subnet)
 
 	def test_get_all_nodes(self, mock_request):
 		mock_request.return_value = get_nodes_response
