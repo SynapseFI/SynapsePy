@@ -33,7 +33,7 @@ class User():
 		Args:
 			user (JSON): json response for user record with old_refresh_token
 		Returns:
-			user (JSON): json response for user record with new refresh_token
+			dict: dict response of user record with new refresh_token
 		'''
 		path = paths['users'] + '/' + self.id
 		self.body = self.http.get(path, full_dehydrate=self.full_dehydrate)

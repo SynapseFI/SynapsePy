@@ -54,7 +54,6 @@ class UserTests(TestCase):
 	def test_create_node(self, mock_request):
 		mock_request.return_value = get_nodes_response
 		self.assertIsInstance(self.user.create_node({}), Nodes)
-		# self.assertEqual(self.user.create_node({}), mock_request.return_value)
 
 	def test_get_node(self, mock_request):
 		mock_request.return_value = card_us_get_response
@@ -78,7 +77,6 @@ class UserTests(TestCase):
 	def test_ach_mfa(self, mock_request):
 		mock_request.return_value = get_nodes_response
 		self.assertIsInstance(self.user.ach_mfa({}), Nodes)
-		# self.assertEqual(self.user.ach_mfa({}), mock_request.return_value)
 
 	def test_verify_micro(self, mock_request):
 		self.assertEqual(self.user.verify_micro(self.ach_us_id,{}), mock_request.return_value)
