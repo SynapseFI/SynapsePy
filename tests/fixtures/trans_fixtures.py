@@ -90,7 +90,7 @@ trans_get_response = {
     }
 }
 
-get_all_node_trans_resp = {
+get_all_trans_resp = {
     "error_code": "0",
     "http_code": "200",
     "limit": 20,

@@ -290,7 +290,7 @@ class User():
 		response = self.do_request(self.http.get, path, **params)
 		return Transactions(response)
 
-	def get_all_subnets(self, node_id, page, per_page):
+	def get_all_subnets(self, node_id, page=1, per_page=20):
 		'''
 		'''
 		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id + paths['subn']

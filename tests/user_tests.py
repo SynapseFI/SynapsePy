@@ -4,6 +4,7 @@ from .fixtures.user_fixtures import *
 from .fixtures.client_fixtures import *
 from .fixtures.node_fixtures import *
 from .fixtures.trans_fixtures import *
+from .fixtures.subnet_fixtures import *
 
 from models.user import User
 from models.node import Node
@@ -11,6 +12,7 @@ from models.transaction import Trans
 
 from models.nodes import Nodes
 from models.transactions import Transactions
+from models.subnets import Subnets
 
 from models.http_client import HttpClient
 
@@ -33,10 +35,10 @@ class UserTests(TestCase):
 		self.nodes_limit = get_nodes_response['limit']
 		self.nodes_node_count = get_nodes_response['node_count']
 
-		self.node_trans_page = get_all_node_trans_resp['page']
-		self.node_trans_page_count = get_all_node_trans_resp['page_count']
-		self.node_trans_limit = get_all_node_trans_resp['limit']
-		self.node_trans_count = get_all_node_trans_resp['trans_count']
+		self.node_trans_page = get_all_trans_resp['page']
+		self.node_trans_page_count = get_all_trans_resp['page_count']
+		self.node_trans_limit = get_all_trans_resp['limit']
+		self.node_trans_count = get_all_trans_resp['trans_count']
 
 	@mock.patch('models.http_client.HttpClient.get', return_value={'refresh_token':'1234'}, autospec=True)
 	def test_refresh(self, mock_get, mock_request):
@@ -141,7 +143,7 @@ class UserTests(TestCase):
 			self.assertIsInstance(node, Node)
 
 	def test_get_all_node_trans(self, mock_request):
-		mock_request.return_value = get_all_node_trans_resp
+		mock_request.return_value = get_all_trans_resp
 
 		test_node_trans = self.user.get_all_node_trans('')
 		self.assertIsInstance(test_node_trans, Transactions)
@@ -154,10 +156,16 @@ class UserTests(TestCase):
 			self.assertIsInstance(trans, Trans)
 
 	def test_get_all_trans(self, mock_request):
-		pass
+		mock_request.return_value = get_all_trans_resp
+
+		test_node_trans = self.user.get_all_trans()
+		self.assertIsInstance(test_node_trans, Transactions)
 
 	def test_get_all_subnets(self, mock_request):
-		pass
+		mock_request.return_value = subnet_get_all_resp
+
+		test_get_all_subn = self.user.get_all_subnets('')
+		self.assertIsInstance(test_get_all_subn, Subnets)
 
 if __name__ == '__main__':
 	unittest.main()
