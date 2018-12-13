@@ -7,41 +7,42 @@ import models.errors as api_errors
 class HttpClient():
 	"""Handles HTTP requests (including headers) and API errors.
 	"""
-	def __init__(self, **kwargs):
-		self.logger = self.get_log(kwargs['logging'])
+	def __init__(self, client_id, client_secret, fingerprint, ip_address, base_url, logging):
+		
+		self.client_id = client_id
+		self.client_secret = client_secret
+		self.fingerprint = fingerprint
+		self. ip_address = ip_address
+		self.base_url = base_url
+		self.oauth_key = ''
+		self.idempotency_key = None
+		self.session = requests.Session()
+		self.logger = self.get_log(logging)
 
-		self.update_headers(
-			client_id=kwargs['client_id'],
-			client_secret=kwargs['client_secret'],
-			fingerprint=kwargs['fingerprint'],
-			ip_address=kwargs['ip_address'],
-			oauth_key=''
-		)
-
-		self.base_url= kwargs['base_url']
+		self.update_headers()
 
 	def update_headers(self, **kwargs):
 		"""Update the supplied properties on s elf and in the header dictionary.
 		"""
 		self.logger.debug("updating headers")
 
-		header_options = ['client_id', 'client_secret', 'fingerprint',
-						  'ip_address', 'oauth_key']
+		for header in kwargs.keys():
+			if kwargs.get(header):
+				setattr(self, header, kwargs.get(header))
 
-		for prop in header_options:
-			if kwargs.get(prop) is not None:
-				setattr(self, prop, kwargs.get(prop))
+		self.session.headers.update(
+			{
+				'Content-Type': 'application/json',
+				'X-SP-LANG': 'en',
+				'X-SP-GATEWAY': self.client_id + '|' + self.client_secret,
+				'X-SP-USER': self.oauth_key + '|' + self.fingerprint,
+				'X-SP-USER-IP': self.ip_address
+			}
+		)
 
-		self.headers = {
-			'Content-Type': 'application/json',
-			'X-SP-LANG': 'en',
-			'X-SP-GATEWAY': self.client_id + '|' + self.client_secret,
-			'X-SP-USER': self.oauth_key + '|' + self.fingerprint,
-			'X-SP-USER-IP': self.ip_address
-		}
+		if self.idempotency_key:
+			self.session.headers['X-SP-IDEMPOTENCY-KEY'] = self.idempotency_key
 
-		self.session = requests.Session()
-		self.session.headers.update(self.headers)
 		return self.session.headers
 
 	def get_headers(self):
@@ -55,14 +56,25 @@ class HttpClient():
 		self.logger.debug("GET {}".format(url))
 
 		valid_params = [
-			'query', 'page', 'per_page', 'type', 'issue_public_key',
-			'show_refresh_tokens','full_dehydrate', 'force_refresh',
-			'radius', 'scope', 'lat', 'lon', 'zip'
-			]
+			'query',
+			'page',
+			'per_page',
+			'type',
+			'issue_public_key',
+			'show_refresh_tokens',
+			'full_dehydrate',
+			'force_refresh',
+			'radius',
+			'scope',
+			'lat',
+			'lon',
+			'zip'
+		]
+
 		parameters = {}
 
 		for param in valid_params:
-			if params.get(param):
+			if params.get(param) is not None:
 				parameters[param] = params[param]
 
 		response = self.session.get(url, params=parameters)
@@ -76,13 +88,12 @@ class HttpClient():
 
 		self.logger.debug("POST {}".format(url))
 
-		headers = self.get_headers()
-		if kwargs.get('idempotency_key'):
-			headers['X-SP-IDEMPOTENCY-KEY'] = kwargs['idempotency_key']
 		data = json.dumps(payload)
 
-		response = self.session.post(url, data=data)
+		if kwargs.get('idempotency_key') is not None:
+			self.update_headers(idempotency_key=kwargs['idempotency_key'])
 
+		response = self.session.post(url, data=data)
 		return self.parse_response(response)
 
 	def patch(self, path, payload, **kwargs):

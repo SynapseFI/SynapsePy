@@ -123,13 +123,13 @@ class User():
 		return response
 
 
-	def create_node(self, body):
+	def create_node(self, body, idempotency_key=None):
 		'''
 		'''
 		path = paths['users'] + '/' + self.id + paths['nodes']
 
 		try:
-			response = self.do_request(self.http.post, path, body)
+			response = self.do_request(self.http.post, path, body, idempotency_key=idempotency_key)
 		
 		except api_errors.ActionPending as e:
 			return e.response
@@ -217,11 +217,11 @@ class User():
 		response = self.do_request(self.http.delete, path)
 		return response
 
-	def create_trans(self, node_id, body):
+	def create_trans(self, node_id, body, idempotency_key=None):
 		'''
 		'''
 		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id + paths['trans']
-		response = self.do_request(self.http.post, path, body)
+		response = self.do_request(self.http.post, path, body, idempotency_key=idempotency_key)
 		return Trans(response)
 
 	def get_trans(self, node_id, trans_id):
@@ -251,14 +251,14 @@ class User():
 		response = self.do_request(self.http.delete, path)
 		return response
 
-	def create_subnet(self, node_id, body):
+	def create_subnet(self, node_id, body, idempotency_key=None):
 		'''
 		'''
 		path = (paths['users'] +'/'+ self.id + 
 			paths['nodes'] +'/'+ node_id + 
 			paths['subn'])
 
-		response = self.do_request(self.http.post, path, body)
+		response = self.do_request(self.http.post, path, body, idempotency_key=idempotency_key)
 		return Subnet(response)
 
 	def get_subnet(self, node_id, subnet_id):
@@ -296,4 +296,10 @@ class User():
 		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id + paths['subn']
 		response = self.do_request(self.http.get, path, page=page, per_page=per_page)
 		return Subnets(response)
+
+	def dispute_trans(self):
+		pass
+
+	def create_ubo(self):
+		pass
 

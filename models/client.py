@@ -46,10 +46,16 @@ class Client():
 
 		self.logger = self.get_log(logging)
 
-	def update_headers(self, **kwargs):
+	def update_headers(self, client_secret=None, fingerprint=None, ip_address=None, oauth_key=None, idempotency_key=None):
 		'''Updates session headers
 		'''
-		return self.http.update_headers(**kwargs)
+		self.http.update_headers(
+			client_secret=client_secret,
+			fingerprint=fingerprint,
+			ip_address=ip_address,
+			oauth_key=oauth_key,
+			idempotency_key=idempotency_key
+			)
 
 	def get_log(self, enable):
 		'''Enables/Disables logs
@@ -65,7 +71,7 @@ class Client():
 
 		return logger
 
-	def create_user(self, body):
+	def create_user(self, body, idempotency_key=None):
 		"""
 		Args:
 			body (json): user record
@@ -76,11 +82,11 @@ class Client():
 		self.logger.debug("Creating a new user")
 
 		path = paths['users']
-		response = self.http.post(path, body)
+		response = self.http.post(path, body, idempotency_key=idempotency_key)
 		
 		return User(response, self.http, full_dehydrate=False)
 	
-	def create_subscription(self, webhook_url, scope):
+	def create_subscription(self, webhook_url, scope, idempotency_key=None):
 		'''
 		Args:
 			webhook_url (str): subscription url
@@ -97,7 +103,7 @@ class Client():
 			'url': webhook_url
 		}
 
-		response = self.http.post(path, body)
+		response = self.http.post(path, body, idempotency_key=idempotency_key)
 
 		return Subscription(response)
 
@@ -129,7 +135,7 @@ class Client():
 		response = self.http.get(path)
 		return Subscription(response)
 
-	def update_subscription(self, sub_id, body):
+	def update_subscription(self, sub_id, body, idempotency_key=None):
 		'''
 		Args:
 			sub_id (str): subscription id
@@ -157,11 +163,11 @@ class Client():
 		response = self.http.get(path, limit=limit, currency=currency)
 		return response
 
-	def locate_atms(self, zip=None, lat=None, rad=1, page=1, per_p=20):
+	def locate_atms(self, zip=None, lat=None, rad=1, page=1, per_page=20):
 		'''
 		'''
 		path = paths['nodes'] + paths['atms']
-		response = self.http.patch(path, zip=zip, lat=lat, radius=rad, page=page, per_page=per_p)
+		response = self.http.patch(path, zip=zip, lat=lat, radius=rad, page=page, per_page=per_page)
 		return response
 
 	def issue_public_key(self, scope):
