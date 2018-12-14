@@ -142,7 +142,6 @@ node = user.get_node('594e606212e17a002f2e3251', full_dehydrate=True, force_refr
 ```python
 nodes = user.get_nodes(page=1, per_page=5, type='ACH-US')
 ```
-## Transaction
 ##### Comment on Status
 ```python
 trans.comment_status('Pending verification...')
