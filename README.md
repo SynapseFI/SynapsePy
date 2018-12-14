@@ -144,9 +144,9 @@ nodes = user.get_nodes(page=1, per_page=5, type='ACH-US')
 ```
 ##### Comment on Status
 ```python
-trans.comment_status('Pending verification...')
+user.comment_status(trans_id, 'Pending verification...')
 ```
 ##### Cancel/Delete Transaction
 ```python
-trans.cancel()
+user.cancel_trans(trans_id)
 ```
