@@ -4,7 +4,6 @@
 class SynapseError(Exception):
 	"""Custom class for handling HTTP and API errors."""
 	def __init__(self, message, http_code, error_code, response):
-		# print('\nRESPONSE:\n\n', response.json())
 		self.message = message
 		self.http_code = http_code
 		self.error_code = error_code
