@@ -1,15 +1,10 @@
 
 from .http_client import HttpClient
 
-from .users import Users
-from .nodes import Nodes
-from .transactions import Transactions
-from .subscriptions import Subscriptions
-
-from .user import User
-from .node import Node
-from .transaction import Trans
-from .subscription import Subscription
+from .user import User, Users
+from .node import Node, Nodes
+from .transaction import Trans, Transactions
+from .subscription import Subscription, Subscriptions
 
 from .endpoints import paths
 

@@ -1,12 +1,9 @@
 
 from .endpoints import paths
 
-from .node import Node
-from .nodes import Nodes
-from .subnet import Subnet
-from .subnets import Subnets
-from .transaction import Trans
-from .transactions import Transactions
+from .node import Node, Nodes
+from .subnet import Subnet, Subnets
+from .transaction import Trans, Transactions
 
 from functools import partial
 
@@ -202,6 +199,13 @@ class User():
 		response = self.do_request(self.http.patch, path, body)
 		return response
 
+	def create_ubo(self, body):
+		'''
+		'''
+		path = paths['users'] +'/'+ self.id + paths['ubo']
+		response = self.do_request(self.http.patch, path, body)
+		return response
+
 	def dummy_tran(self, node_id, is_credit=False):
 		'''
 		'''
@@ -251,6 +255,13 @@ class User():
 		response = self.do_request(self.http.delete, path)
 		return response
 
+	def dispute_trans(self, node_id, trans_id, dispute_reason):
+		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id + paths['trans'] + trans_id + paths['dispute']
+		body = { 'dispute_reason': dispute_reason }
+		response = self.do_request(self.http.patch, path, body)
+
+		return response
+
 	def create_subnet(self, node_id, body, idempotency_key=None):
 		'''
 		'''
@@ -297,9 +308,14 @@ class User():
 		response = self.do_request(self.http.get, path, page=page, per_page=per_page)
 		return Subnets(response)
 
-	def dispute_trans(self):
-		pass
 
-	def create_ubo(self):
-		pass
+class Users():
 
+	def __init__(self, response, http):
+		'''
+		'''
+		self.page = response['page']
+		self.page_count = response['page_count']
+		self.limit = response['limit']
+		self.users_count = response['users_count']
+		self.list_of_users = [ User(user_r, http) for user_r in response['users'] ]

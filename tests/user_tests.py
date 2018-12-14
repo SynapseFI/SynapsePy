@@ -7,13 +7,9 @@ from .fixtures.trans_fixtures import *
 from .fixtures.subnet_fixtures import *
 
 from models.user import User
-from models.node import Node
-from models.transaction import Trans
-from models.subnet import Subnet
-
-from models.nodes import Nodes
-from models.transactions import Transactions
-from models.subnets import Subnets
+from models.node import Node, Nodes
+from models.transaction import Trans, Transactions
+from models.subnet import Subnet, Subnets
 
 from models.http_client import HttpClient
 

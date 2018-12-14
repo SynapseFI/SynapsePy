@@ -7,12 +7,9 @@ from .fixtures.user_fixtures import *
 from .fixtures.subscription_fixtures import *
 
 from models.client import Client
-from models.user import User
-from models.subscription import Subscription
-
-from models.users import Users
-from models.subscriptions import Subscriptions
-from models.nodes import Nodes
+from models.user import User, Users
+from models.subscription import Subscription, Subscriptions
+from models.node import Node, Nodes
 
 
 class ClientTests(unittest.TestCase):

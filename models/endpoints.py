@@ -13,5 +13,7 @@ paths = {
 	'atms': '/atms',
 	'cryptoq': '/crypto-quotes',
 	'cryptom': '/crypto-market-watch',
-	'dummy': '/dummy-tran'
+	'dummy': '/dummy-tran',
+	'dispute': '/dispute',
+	'ubo': '/ubo'
 	}
