@@ -10,6 +10,8 @@ class SynapseError(Exception):
 		self.error_code = error_code
 		self.response = response
 
+		super(SynapseError, self).__init__(message)
+
 	def __repr__(self):
 		return '{0}(code={1},message={2})'.format(self.__class__, self.code,
 												  self.message)
@@ -140,7 +142,8 @@ class ErrorFactory():
 		"""Return the corresponding error from a response."""
 		# import pdb; pdb.set_trace()
 
-		message = response.get('mfa', {}).get('message', response.get('message', response['error'])['en']) # lol
+		# message = response.get('mfa', {}).get('message', response.get('message', response['error'])['en'])
+		message = response['error']['en']
 		http_code = response['http_code']
 		error_code = response['error_code']
 

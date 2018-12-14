@@ -103,7 +103,7 @@ class Client():
 		return Subscription(response)
 
 
-	def get_user(self, user_id, full_d=False):
+	def get_user(self, user_id, full_dehydrate=False):
 		"""Returns user object
 		Args:
 			user_id (Str): identification for user
@@ -113,8 +113,8 @@ class Client():
 		self.logger.debug("getting a user")
 
 		path = paths['users'] + '/' + user_id
-		full_dehydrate = 'yes' if full_d else None
-		response = self.http.get(path, full_dehydrate=full_dehydrate)
+		full_d = 'yes' if full_dehydrate else None
+		response = self.http.get(path, full_dehydrate=full_d)
 		return User(response, self.http, full_dehydrate=full_d)
 
 	def get_subscription(self, sub_id):

@@ -39,11 +39,9 @@ class User():
 	def oauth(self, payload={}):
 		'''creates a new OAuth for the user
 		Args:
-			scope (list): permissions allowed for OAuth key
-			phone_number (str)
-			validation_pin (str)
+			payload (:obj:dict, optional): (opt)
 		Returns:
-			OAuth (Str): newly created OAuth within scope
+			OAuth (str): newly created OAuth within scope
 		'''
 		path = paths['oauth'] + '/' + self.id
 		body = { 'refresh_token': self.body['refresh_token'] }
@@ -56,9 +54,6 @@ class User():
 			self.refresh()
 			body['refresh_token'] = user.body['refresh_token']
 			response = self.http.post(path, body)
-
-		# except api_errors.ActionPending as e:
-		# 	return e.response
 
 		self.http.update_headers(oauth_key=response['oauth_key'])
 		return response
@@ -86,6 +81,7 @@ class User():
 			}
 
 		response = self.http.post(path, body)
+		self.http.update_headers(oauth_key=response['oauth_key'])
 		return response
 
 	def do_request(self, req_func, path, body={}, **params):
@@ -125,11 +121,16 @@ class User():
 		'''
 		path = paths['users'] + '/' + self.id + paths['nodes']
 
-		try:
-			response = self.do_request(self.http.post, path, body, idempotency_key=idempotency_key)
+		response = self.do_request(self.http.post, path, body, idempotency_key=idempotency_key)
+
+		if response.get('mfa'):
+			return response
+
+		# try:
+		# 	response = self.do_request(self.http.post, path, body, idempotency_key=idempotency_key)
 		
-		except api_errors.ActionPending as e:
-			return e.response
+		# except api_errors.ActionPending as e:
+		# 	return e.response
 
 		return Nodes(response)
 
@@ -156,11 +157,16 @@ class User():
 		'''
 		path = paths['users'] + '/' + self.id + paths['nodes']
 
-		try:
-			response = self.do_request(self.http.post, path, body)
+		response = self.do_request(self.http.post, path, body)
 
-		except api_errors.ActionPending as e:
-			return e.message
+		if response.get('mfa'):
+			return response
+
+		# try:
+		# 	response = self.do_request(self.http.post, path, body)
+
+		# except api_errors.ActionPending as e:
+		# 	return e.message
 
 		return Nodes(response)
 

@@ -12,7 +12,7 @@ class HttpClient():
 		self.client_id = client_id
 		self.client_secret = client_secret
 		self.fingerprint = fingerprint
-		self. ip_address = ip_address
+		self.ip_address = ip_address
 		self.base_url = base_url
 		self.oauth_key = ''
 		self.idempotency_key = None
@@ -121,11 +121,16 @@ class HttpClient():
 		
 		payload = response.json()
 
-		if int(payload.get('error_code', 0)) > 0:
-			raise api_errors.ErrorFactory.from_response(payload)
-		else:
-			response.raise_for_status
-			return response.json()
+		try:
+			response.raise_for_status()
+
+		except requests.exceptions.HTTPError as e:
+			raise api_errors.ErrorFactory.from_response(payload) from e
+
+		if payload.get('error') and int(payload.get('error_code', 0)) == 10: # checks for unregistered fingerprint
+			raise api_errors.ErrorFactory.from_response(payload) from None
+
+		return response.json()
 
 	def get_log(self, enable, debuglevel=1):
 		"""Log requests to stdout."""

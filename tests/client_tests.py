@@ -2,14 +2,14 @@
 import unittest
 import models.errors as api_errors
 
-from .fixtures.client_fixtures import *
 from .fixtures.user_fixtures import *
+from .fixtures.client_fixtures import *
 from .fixtures.subscription_fixtures import *
 
 from models.client import Client
 from models.user import User, Users
-from models.subscription import Subscription, Subscriptions
 from models.node import Node, Nodes
+from models.subscription import Subscription, Subscriptions
 
 
 class ClientTests(unittest.TestCase):
@@ -48,7 +48,7 @@ class ClientTests(unittest.TestCase):
 		pass
 
 	def test_issue_pub_key(self):
-		# check if obj is JSON
+		# check if obj is dict
 		pub_key_scope = ["OAUTH|POST"]
 		key = self.client.issue_public_key(pub_key_scope)
 		self.assertIsInstance(key, dict)
