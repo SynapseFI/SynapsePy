@@ -77,7 +77,9 @@ class Client():
 		self.logger.debug("Creating a new user")
 
 		path = paths['users']
-		response = self.http.post(path, body, idempotency_key=idempotency_key)
+		response = self.http.post(
+			path, body, idempotency_key=idempotency_key
+		)
 		
 		return User(response, self.http, full_dehydrate=False)
 	
@@ -93,13 +95,10 @@ class Client():
 
 		path = paths['subs']
 
-		body = {
-			'scope': scope,
-			'url': webhook_url
-		}
-
-		response = self.http.post(path, body, idempotency_key=idempotency_key)
-
+		body = {'scope': scope, 'url': webhook_url}
+		response = self.http.post(
+			path, body, idempotency_key=idempotency_key
+		)
 		return Subscription(response)
 
 
@@ -113,8 +112,11 @@ class Client():
 		self.logger.debug("getting a user")
 
 		path = paths['users'] + '/' + user_id
+
 		full_d = 'yes' if full_dehydrate else None
-		response = self.http.get(path, full_dehydrate=full_d)
+		response = self.http.get(
+			path, full_dehydrate=full_d
+		)
 		return User(response, self.http, full_dehydrate=full_d)
 
 	def get_subscription(self, sub_id):
@@ -127,6 +129,7 @@ class Client():
 		self.logger.debug("getting a subscription")
 
 		path = paths['subs'] + '/' + sub_id
+
 		response = self.http.get(path)
 		return Subscription(response)
 
@@ -140,29 +143,42 @@ class Client():
 		'''
 		# self.logger.debug("updating subscription")
 
-		url = paths['subs'] + '/' + sub_id
-		response = self.http.patch(url, body)
+		path = paths['subs'] + '/' + sub_id
+
+		response = self.http.patch(path, body)
 		return Subscription(response)
 
 	def crypto_quotes(self):
 		'''
 		'''
 		path = paths['nodes'] + paths['cryptoq']
+
 		response = self.http.get(path)
 		return response
 
-	def crypto_market_data(self, limit=5, currency='BTC'):
+	def crypto_market_data(self, limit=None, currency=None):
 		'''
 		'''
 		path = paths['nodes'] + paths['cryptom']
-		response = self.http.get(path, limit=limit, currency=currency)
+
+		response = self.http.get(
+			path, limit=limit, currency=currency
+		)
 		return response
 
-	def locate_atms(self, zip=None, lat=None, rad=1, page=1, per_page=20):
+	def locate_atms(self, zip=None, lat=None, rad=None, page=None, per_page=None):
 		'''
 		'''
 		path = paths['nodes'] + paths['atms']
-		response = self.http.patch(path, zip=zip, lat=lat, radius=rad, page=page, per_page=per_page)
+
+		response = self.http.patch(
+			path,
+			zip=zip,
+			lat=lat,
+			radius=rad,
+			page=page,
+			per_page=per_page
+		)
 		return response
 
 	def issue_public_key(self, scope):
@@ -173,7 +189,10 @@ class Client():
 		self.logger.debug("issuing a public key")
 		
 		path = paths['client']
-		response = self.http.get(path, issue_public_key='YES', scope=scope)
+
+		response = self.http.get(
+			path, issue_public_key='YES', scope=scope
+		)
 		return response['public_key_obj']
 
 	def get_all_users(self, query=None, page=None, per_page=None, show_refresh_tokens=None):
@@ -184,7 +203,14 @@ class Client():
 		self.logger.debug("getting all users")
 
 		path = paths['users']
-		response = self.http.get(path, query=query, page=page, per_page=per_page, show_refresh_tokens=show_refresh_tokens)
+
+		response = self.http.get(
+			path,
+			query=query,
+			page=page,
+			per_page=per_page,
+			show_refresh_tokens=show_refresh_tokens
+		)
 		return Users(response, self.http)
 
 	def get_all_trans(self, page=None, per_page=None):
@@ -195,7 +221,10 @@ class Client():
 		self.logger.debug("getting all transactions")
 		
 		path = paths['trans']
-		response = self.http.get(path, page=page, per_page=per_page)
+
+		response = self.http.get(
+			path, page=page, per_page=per_page
+		)
 		return Transactions(response)
 
 	def get_all_nodes(self, query=None, page=None, per_page=None, show_refresh_tokens=None):
@@ -215,7 +244,9 @@ class Client():
 		self.logger.debug("getting all subscriptions")
 		
 		path = paths['subs']
-		response = self.http.get(path, page=page, per_page=per_page)
+		response = self.http.get(
+			path, page=page, per_page=per_page
+		)
 		return Subscriptions(response)
 
 	def get_all_inst(self):

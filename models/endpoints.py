@@ -16,4 +16,4 @@ paths = {
 	'dummy': '/dummy-tran',
 	'dispute': '/dispute',
 	'ubo': '/ubo'
-	}
+}
