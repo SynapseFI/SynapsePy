@@ -35,7 +35,10 @@ class Client():
 			client_secret=client_secret,
 			fingerprint=fingerprint,
 			ip_address=ip_address,
-			base_url='https://uat-api.synapsefi.com/v3.1' if devmode else 'https://api.synapsefi.com/v3.1',
+			base_url=
+				'https://uat-api.synapsefi.com/v3.1' 
+				if devmode else
+				'https://api.synapsefi.com/v3.1',
 			logging=logging
 			)
 		self.logging = logging
@@ -77,7 +80,9 @@ class Client():
 		self.logger.debug("Creating a new user")
 
 		path = paths['users']
-		response = self.http.post(path, body, idempotency_key=idempotency_key)
+		response = self.http.post(
+			path, body, idempotency_key=idempotency_key
+		)
 		
 		return User(response, self.http, full_dehydrate=False, logging=self.logging)
 	
@@ -98,8 +103,9 @@ class Client():
 			'url': webhook_url
 		}
 
-		response = self.http.post(path, body, idempotency_key=idempotency_key)
-
+		response = self.http.post(
+			path, body, idempotency_key=idempotency_key
+		)
 		return Subscription(response)
 
 	def get_user(self, user_id, full_dehydrate=False):
@@ -154,14 +160,23 @@ class Client():
 		'''
 		'''
 		path = paths['nodes'] + paths['cryptom']
-		response = self.http.get(path, limit=limit, currency=currency)
+		response = self.http.get(
+			path, limit=limit, currency=currency
+		)
 		return response
 
 	def locate_atms(self, zip=None, lat=None, rad=None, page=None, per_page=None):
 		'''
 		'''
 		path = paths['nodes'] + paths['atms']
-		response = self.http.get(path, zip=zip, lat=lat, radius=rad, page=page, per_page=per_page)
+		response = self.http.get(
+			path,
+			zip=zip,
+			lat=lat,
+			radius=rad,
+			page=page,
+			per_page=per_page
+		)
 		return response
 
 	def issue_public_key(self, scope):
@@ -172,7 +187,10 @@ class Client():
 		self.logger.debug("issuing a public key")
 		
 		path = paths['client']
-		response = self.http.get(path, issue_public_key='YES', scope=scope)
+
+		response = self.http.get(
+			path, issue_public_key='YES', scope=scope
+		)
 		return response['public_key_obj']
 
 	def get_all_users(self, query=None, page=None, per_page=None, show_refresh_tokens=None):
@@ -183,7 +201,13 @@ class Client():
 		self.logger.debug("getting all users")
 
 		path = paths['users']
-		response = self.http.get(path, query=query, page=page, per_page=per_page, show_refresh_tokens=show_refresh_tokens)
+		response = self.http.get(
+			path,
+			query=query,
+			page=page,
+			per_page=per_page,
+			show_refresh_tokens=show_refresh_tokens
+		)
 		return Users(response, self.http)
 
 	def get_all_trans(self, page=None, per_page=None):
@@ -194,7 +218,9 @@ class Client():
 		self.logger.debug("getting all transactions")
 		
 		path = paths['trans']
-		response = self.http.get(path, page=page, per_page=per_page)
+		response = self.http.get(
+			path, page=page, per_page=per_page
+		)
 		return Transactions(response)
 
 	def get_all_nodes(self, query=None, page=None, per_page=None, show_refresh_tokens=None):
@@ -214,7 +240,9 @@ class Client():
 		self.logger.debug("getting all subscriptions")
 		
 		path = paths['subs']
-		response = self.http.get(path, page=page, per_page=per_page)
+		response = self.http.get(
+			path, page=page, per_page=per_page
+		)
 		return Subscriptions(response)
 
 	def get_all_inst(self):
