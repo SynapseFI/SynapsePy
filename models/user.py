@@ -249,6 +249,26 @@ class User():
 		response = self.do_request(self.http.patch, path, body)
 		return response
 
+	def dispute_trans(self, node_id, trans_id, dispute_reason):
+		'''
+		'''
+		path = (
+			paths['users']
+			+ '/'
+			+ self.id
+			+ paths['nodes']
+			+'/'
+			+ node_id
+			+ paths['trans']
+			+ '/'
+			+ trans_id
+			+ paths['dispute']
+		)
+		
+		body = { 'dispute_reason': dispute_reason }
+		response = self.do_request(self.http.patch, path, body)
+		return response
+
 	def cancel_trans(self, node_id, trans_id):
 		'''
 		'''
@@ -257,13 +277,6 @@ class User():
 			paths['trans'] + '/' + trans_id)
 
 		response = self.do_request(self.http.delete, path)
-		return response
-
-	def dispute_trans(self, node_id, trans_id, dispute_reason):
-		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id + paths['trans'] + trans_id + paths['dispute']
-		body = { 'dispute_reason': dispute_reason }
-		response = self.do_request(self.http.patch, path, body)
-
 		return response
 
 	def dummy_tran(self, node_id, is_credit=False):
