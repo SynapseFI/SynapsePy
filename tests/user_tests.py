@@ -15,6 +15,9 @@ from models.http_client import HttpClient
 
 @mock.patch('models.user.User.do_request', return_value={}, autospec=True)
 class UserTests(TestCase):
+	'''
+	TODO: need to add path/endpoint tests
+	'''
 
 	def setUp(self):
 		self.user = User(simple_response, test_client.http)
@@ -61,7 +64,7 @@ class UserTests(TestCase):
 		self.assertIsInstance(test_node, Node)
 		self.assertEqual(test_node.id, self.card_us_id)
 		self.assertEqual(test_node.type, self.card_us_type)
-		self.assertEqual(test_node.response, card_us_get_response)
+		self.assertEqual(test_node.body, card_us_get_response)
 
 	def test_update_node(self, mock_request):
 		mock_request.return_value = card_us_up_response
@@ -70,8 +73,8 @@ class UserTests(TestCase):
 		self.assertIsInstance(test_node, Node)
 		self.assertEqual(test_node.id, self.card_us_id)
 		self.assertEqual(test_node.type, self.card_us_type)
-		self.assertNotEqual(test_node.response, card_us_get_response)
-		self.assertEqual(test_node.response, card_us_up_response)
+		self.assertNotEqual(test_node.body, card_us_get_response)
+		self.assertEqual(test_node.body, card_us_up_response)
 
 	def test_ach_mfa(self, mock_request):
 		mock_request.return_value = get_nodes_response
@@ -81,7 +84,7 @@ class UserTests(TestCase):
 		self.assertEqual(self.user.verify_micro(self.ach_us_id,{}), mock_request.return_value)
 
 	def test_reinit_micro(self, mock_request):
-		self.assertEqual(self.user.reinit_micro(self.ach_us_id ,{}), mock_request.return_value)
+		self.assertEqual(self.user.reinit_micro(self.ach_us_id), mock_request.return_value)
 
 	def test_ship_debit(self, mock_request):
 		self.assertEqual(self.user.ship_debit(self.card_us_id, {}), mock_request.return_value)
