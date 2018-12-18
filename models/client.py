@@ -38,7 +38,7 @@ class Client():
 			base_url='https://uat-api.synapsefi.com/v3.1' if devmode else 'https://api.synapsefi.com/v3.1',
 			logging=logging
 			)
-
+		self.logging = logging
 		self.logger = self.get_log(logging)
 
 	def update_headers(self, client_secret=None, fingerprint=None, ip_address=None, oauth_key=None, idempotency_key=None):
@@ -60,7 +60,7 @@ class Client():
 			logger (Logger): logging.Logger object used to debug
 		'''
 		logging.basicConfig()
-		logger = logging.getLogger("__name__")
+		logger = logging.getLogger(__name__)
 		logger.setLevel(logging.DEBUG)
 		logger.disabled = not enable
 
@@ -79,7 +79,7 @@ class Client():
 		path = paths['users']
 		response = self.http.post(path, body, idempotency_key=idempotency_key)
 		
-		return User(response, self.http, full_dehydrate=False)
+		return User(response, self.http, full_dehydrate=False, logging=self.logging)
 	
 	def create_subscription(self, webhook_url, scope, idempotency_key=None):
 		'''
@@ -102,7 +102,6 @@ class Client():
 
 		return Subscription(response)
 
-
 	def get_user(self, user_id, full_dehydrate=False):
 		"""Returns user object
 		Args:
@@ -115,7 +114,7 @@ class Client():
 		path = paths['users'] + '/' + user_id
 		full_d = 'yes' if full_dehydrate else None
 		response = self.http.get(path, full_dehydrate=full_d)
-		return User(response, self.http, full_dehydrate=full_d)
+		return User(response, self.http, full_dehydrate=full_d, logging=self.logging)
 
 	def get_subscription(self, sub_id):
 		'''
@@ -151,18 +150,18 @@ class Client():
 		response = self.http.get(path)
 		return response
 
-	def crypto_market_data(self, limit=5, currency='BTC'):
+	def crypto_market_data(self, limit=None, currency=None):
 		'''
 		'''
 		path = paths['nodes'] + paths['cryptom']
 		response = self.http.get(path, limit=limit, currency=currency)
 		return response
 
-	def locate_atms(self, zip=None, lat=None, rad=1, page=1, per_page=20):
+	def locate_atms(self, zip=None, lat=None, rad=None, page=None, per_page=None):
 		'''
 		'''
 		path = paths['nodes'] + paths['atms']
-		response = self.http.patch(path, zip=zip, lat=lat, radius=rad, page=page, per_page=per_page)
+		response = self.http.get(path, zip=zip, lat=lat, radius=rad, page=page, per_page=per_page)
 		return response
 
 	def issue_public_key(self, scope):

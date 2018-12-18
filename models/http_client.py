@@ -60,10 +60,13 @@ class HttpClient():
 			'page',
 			'per_page',
 			'type',
+			'is_credit',
 			'issue_public_key',
 			'show_refresh_tokens',
 			'full_dehydrate',
 			'force_refresh',
+			'limit',
+			'currency',
 			'radius',
 			'scope',
 			'lat',
@@ -96,14 +99,27 @@ class HttpClient():
 		response = self.session.post(url, data=data)
 		return self.parse_response(response)
 
-	def patch(self, path, payload, **kwargs):
+	def patch(self, path, payload, **params):
 		"""Send a PATCH request to the API."""
 
 		url = self.base_url + path
 		self.logger.debug("PATCH {}".format(url))
 
+		parameters = {}
+
+		valid_params = [
+			'resend_micro',
+			'ship',
+			'reset'
+		]
+
+		for param in valid_params:
+			if params.get(param) is not None:
+				parameters[param] = params[param]
+
+		self.logger.debug("Params {}".format(parameters))
 		data = json.dumps(payload)
-		response = self.session.patch(url, data=data)
+		response = self.session.patch(url, data=data, params=parameters)
 
 		return self.parse_response(response)
 
@@ -138,7 +154,7 @@ class HttpClient():
 
 		logging.basicConfig()
 
-		logger = logging.getLogger("__name__")
+		logger = logging.getLogger(__name__)
 		logger.setLevel(logging.DEBUG)
 		logger.disabled = not enable
 

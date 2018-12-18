@@ -8,6 +8,7 @@ from .transaction import Trans, Transactions
 from functools import partial
 
 import json
+import logging
 import requests
 import models.errors as api_errors
 
@@ -15,7 +16,7 @@ class User():
 	""" User Record
 	"""
 
-	def __init__(self, response, http, full_dehydrate=False):
+	def __init__(self, response, http, full_dehydrate=False, logging=False):
 		"""
 		Args:
 			response: response from api of user record
@@ -24,6 +25,8 @@ class User():
 		self.body = response
 		self.full_dehydrate = full_dehydrate
 		self.http = http
+
+		self.logger = self.get_log(logging)
 
 	def refresh(self):
 		'''gets a new refresh token by getting user
@@ -36,7 +39,7 @@ class User():
 		self.body = self.http.get(path, full_dehydrate=self.full_dehydrate)
 		return self.body['refresh_token']
 
-	def oauth(self, payload={}):
+	def oauth(self, payload=None):
 		'''creates a new OAuth for the user
 		Args:
 			payload (:obj:dict, optional): (opt)
@@ -45,7 +48,9 @@ class User():
 		'''
 		path = paths['oauth'] + '/' + self.id
 		body = { 'refresh_token': self.body['refresh_token'] }
-		body.update(payload)
+
+		if payload:
+			body.update(payload)
 
 		try:
 			response = self.http.post(path, body)
@@ -87,10 +92,13 @@ class User():
 	def do_request(self, req_func, path, body={}, **params):
 		'''
 		'''
+		self.logger.debug("{} request on {}".format(req_func.__name__, path))
+		self.logger.debug(json.dumps(body, indent=2))
+
 		req_dict = {
 			"get": partial(req_func, path, **params),
 			"post": partial(req_func, path, body, **params),
-			"patch": partial(req_func, path, body),
+			"patch": partial(req_func, path, body, **params),
 			"delete": partial(req_func, path)
 		}
 
@@ -98,7 +106,11 @@ class User():
 			response = req_dict[req_func.__name__]()
 
 		except (requests.exceptions.HTTPError, api_errors.IncorrectUserCredentials) as e:
+			self.logger.debug("user's oauth expired. re-authenticatng")
 			self.oauth()
+
+			self.logger.debug("Retrying {} request on {}".format(req_func.__name__, path))
+			self.logger.debug(body)
 			response = req_dict[req_func.__name__]()
 
 		return response
@@ -161,27 +173,21 @@ class User():
 
 		if response.get('mfa'):
 			return response
-
-		# try:
-		# 	response = self.do_request(self.http.post, path, body)
-
-		# except api_errors.ActionPending as e:
-		# 	return e.message
-
 		return Nodes(response)
 
 	def verify_micro(self, node_id, body):
 		'''
 		'''
 		path = paths['users'] + '/' + self.id + paths['nodes'] + '/' + node_id
-		response = self.do_request(self.http.patch, body)
+		response = self.do_request(self.http.patch, path, body)
 		return response
 
-	def reinit_micro(self, node_id, body):
+	def reinit_micro(self, node_id):
 		'''
 		'''
+		self.logger.debug("reinitiating micro transaction for node_id: {}".format(node_id))
 		path = paths['users'] + '/' + self.id + paths['nodes'] + '/' + node_id
-		response = self.do_request(self.http.patch, body, resend_micro='YES')
+		response = self.do_request(self.http.patch, path, {}, resend_micro='YES')
 		return response
 
 	def ship_debit(self, node_id, body):
@@ -199,7 +205,7 @@ class User():
 		return response
 
 	def generate_apple_pay(self, node_id, body):
-		'''
+		'''Generates an ApplePay token (currently not working in API)
 		'''
 		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id + paths['apple']
 		response = self.do_request(self.http.patch, path, body)
@@ -210,14 +216,6 @@ class User():
 		'''
 		path = paths['users'] +'/'+ self.id + paths['ubo']
 		response = self.do_request(self.http.patch, path, body)
-		return response
-
-	def dummy_tran(self, node_id, is_credit=False):
-		'''
-		'''
-		credit = 'YES' if is_credit else 'NO'
-		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id + paths['dummy']
-		response = self.do_request(self.http.get, path, is_credit=credit)
 		return response
 
 	def delete_node(self, node_id):
@@ -268,6 +266,14 @@ class User():
 
 		return response
 
+	def dummy_tran(self, node_id, is_credit=False):
+		'''
+		'''
+		credit = 'YES' if is_credit else 'NO'
+		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id + paths['dummy']
+		response = self.do_request(self.http.get, path, is_credit=credit)
+		return response
+
 	def create_subnet(self, node_id, body, idempotency_key=None):
 		'''
 		'''
@@ -313,6 +319,14 @@ class User():
 		path = paths['users'] +'/'+ self.id + paths['nodes'] +'/'+ node_id + paths['subn']
 		response = self.do_request(self.http.get, path, page=page, per_page=per_page)
 		return Subnets(response)
+
+	def get_log(self, enable):
+		logging.basicConfig()
+		logger = logging.getLogger(__name__)
+		logger.setLevel(logging.DEBUG)
+		logger.disabled = not enable
+
+		return logger
 
 
 class Users():

@@ -11,7 +11,6 @@ from models.user import User, Users
 from models.node import Node, Nodes
 from models.subscription import Subscription, Subscriptions
 
-
 class ClientTests(unittest.TestCase):
 
 	def setUp(self):

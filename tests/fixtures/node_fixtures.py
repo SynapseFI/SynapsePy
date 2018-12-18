@@ -17,7 +17,7 @@ card_us_get_response = {
 	"allowed": "INACTIVE",
 	"client": {
 		"id": "5be38afd6a785e6bddfffe68",
-		"name": "Matthew Bernardo"
+		"name": "test user"
 	},
 	"extra": {
 		"note": None,
@@ -68,7 +68,7 @@ card_us_up_response = {
 	"allowed": "CREDIT-AND-DEBIT",
 	"client": {
 		"id": "5be38afd6a785e6bddfffe68",
-		"name": "Matthew Bernardo"
+		"name": "test user"
 	},
 	"extra": {
 		"note": None,
@@ -125,7 +125,7 @@ get_nodes_response = {
 			"allowed": "CREDIT-AND-DEBIT",
 			"client": {
 				"id": "5be38afd6a785e6bddfffe68",
-				"name": "Matthew Bernardo"
+				"name": "test user"
 			},
 			"extra": {
 				"note": None,
@@ -161,7 +161,7 @@ get_nodes_response = {
 			"allowed": "CREDIT",
 			"client": {
 				"id": "5be38afd6a785e6bddfffe68",
-				"name": "Matthew Bernardo"
+				"name": "test user"
 			},
 			"extra": {
 				"note": None,
@@ -216,7 +216,7 @@ get_nodes_response = {
 			"allowed": "CREDIT-AND-DEBIT",
 			"client": {
 				"id": "5be38afd6a785e6bddfffe68",
-				"name": "Matthew Bernardo"
+				"name": "test user"
 			},
 			"extra": {
 				"note": None,
@@ -263,6 +263,26 @@ get_nodes_response = {
 
 """ Everything below is technically unused or can be mocked """
 
+ach_us_logins = {
+  "type": "ACH-US",
+  "info":{
+	"bank_id":"synapse_good",
+	"bank_pw":"test1234",
+	"bank_name":"fake"
+  }
+}
+
+ach_us_acrt = {
+  "type": "ACH-US",
+  "info": {
+	"nickname": "Fake Account",
+	"account_num": "1232225674134",
+	"routing_num": "051000017",
+	"type": "PERSONAL",
+	"class": "CHECKING"
+  }
+}
+
 ach_us_payload = {
   "type": "ACH-US",
   "info": {
@@ -284,7 +304,7 @@ ach_us_get_response = {
 	"allowed": "CREDIT",
 	"client": {
 		"id": "5be38afd6a785e6bddfffe68",
-		"name": "Matthew Bernardo"
+		"name": "test user"
 	},
 	"extra": {
 		"note": None,
@@ -347,7 +367,7 @@ debit_us_get_response = {
 	"allowed": "CREDIT-AND-DEBIT",
 	"client": {
 		"id": "5be38afd6a785e6bddfffe68",
-		"name": "Matthew Bernardo"
+		"name": "test user"
 	},
 	"extra": {
 		"note": None,
