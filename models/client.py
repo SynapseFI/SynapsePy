@@ -114,7 +114,8 @@ class Client():
 	def get_user(self, user_id, full_dehydrate=False):
 		"""Returns User object grabbed from API
 		Args:
-			user_id (Str): identification for user
+			user_id (str): identification for user
+			full_dehydrate (bool): Full Dehydrate True will return back user's KYC info.
 		Returns:
 			user (User): object containing User record
 		"""
@@ -154,6 +155,8 @@ class Client():
 
 	def crypto_quotes(self):
 		'''Gets quotes for crypto currencies
+		Returns:
+			dict: dictionary containing crypto quotes
 		'''
 		path = paths['nodes'] + paths['cryptoq']
 		response = self.http.get(path)
@@ -286,7 +289,7 @@ class Client():
 	def get_all_inst(self):
 		'''Gets all institutions
 		Returns:
-			dict: dictionary of institutions
+			dict: dictionary containing institutions
 		'''
 		self.logger.debug("getting all institutions")
 		

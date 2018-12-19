@@ -17,9 +17,7 @@ class User():
 	"""
 
 	def __init__(self, response, http, full_dehydrate=False, logging=False):
-		"""
-		Args:
-			response: response from api of user record
+		"""Initializes the User by parsing response from API
 		"""
 		self.id = response['_id']
 		self.body = response
@@ -41,7 +39,7 @@ class User():
 		return self.body['refresh_token']
 
 	def oauth(self, payload=None):
-		'''creates a new OAuth for the user
+		'''Gets new OAuth for user and updates the headers
 		Args:
 			payload (:obj:dict, optional): (opt)
 		Returns:
@@ -68,7 +66,11 @@ class User():
 		return response
 
 	def select_2fa_device(self, device):
-		'''
+		'''Sends MFA pin to specific device
+		Args:
+			device (str): device to send pin to
+		Returns:
+			dict: dictionary containing API response
 		'''
 		path = paths['oauth'] + '/' + self.id
 
@@ -82,7 +84,11 @@ class User():
 
 
 	def confirm_2fa_pin(self, pin):
-		'''
+		'''Confirms pin sent to device
+		Args:
+			pin (str): validation_pin sent to user's device
+		Returns:
+			dict: dictionary containing API response
 		'''
 		path = paths['oauth'] + '/' + self.id
 
@@ -97,8 +103,8 @@ class User():
 		)
 		return response
 
-	def do_request(self, req_func, path, body={}, **params):
-		'''
+	def _do_request(self, req_func, path, body={}, **params):
+		'''Single point of access for user methods in the event of an invalid OAuth
 		'''
 		self.logger.debug(
 			"{} request on {}".format(req_func.__name__, path)
@@ -127,30 +133,33 @@ class User():
 				)
 			)
 			self.logger.debug(body)
-			
+
 			response = req_dict[req_func.__name__]()
 		return response
 
 	def update_info(self, body):
-		'''removes user from indexing (soft-deletion)
+		'''Updates user information in database
 		Args:
-			user (json): user record
+			body (dict): user information to update
 		Returns:
-			response (json): API response to patch
+			response (User): User object containing updated info
 		'''
 		path = paths['users'] + '/' + self.id
 
-		response = self.do_request(self.http.patch, path, body)
+		response = self._do_request(self.http.patch, path, body)
 		self.body = response
-		return response
+		return User(response)
 
 
 	def create_node(self, body, idempotency_key=None):
-		'''
+		'''Creates a new Node for User
+		Args:
+			body (dict): dictionary containing new Node information
+			idempotency_key: (opt) Idempotency key for safely retrying requests
 		'''
 		path = paths['users'] + '/' + self.id + paths['nodes']
 
-		response = self.do_request(
+		response = self._do_request(
 			self.http.post,
 			path,
 			body,
@@ -159,17 +168,18 @@ class User():
 
 		if response.get('mfa'):
 			return response
-
-		# try:
-		# 	response = self.do_request(self.http.post, path, body, idempotency_key=idempotency_key)
-		
-		# except api_errors.ActionPending as e:
-		# 	return e.response
-
 		return Nodes(response)
 
 	def get_node(self, node_id, full_dehydrate=False, force_refresh=False):
-		'''
+		'''Gets Node from database
+		Args:
+			node_id (str): Node ID for the Node you are trying to get
+			full_dehydrate (bool): (opt) Full Dehydrate True will will return back all the node info,
+				including decrypted account/routing number, transaction history, etc.
+			force_refresh (bool): (opt) If the node was created with bank logins,
+				force refresh yes will attempt updating the account balance and transactions
+		Returns:
+			Node: Node object containing node info
 		'''
 		path = (
 			paths['users']
@@ -179,11 +189,10 @@ class User():
 			+'/'
 			+ node_id
 		)
-
 		full_d = 'yes' if full_dehydrate else 'no'
 		force_r = 'yes' if force_refresh else 'no'
 
-		response = self.do_request(
+		response = self._do_request(
 			self.http.get,
 			path,
 			full_dehydrate=full_d,
@@ -192,7 +201,12 @@ class User():
 		return Node(response, full_dehydrate=full_dehydrate)
 
 	def update_node(self, node_id, body):
-		'''
+		'''Updates a node's info in the database
+		Args:
+			node_id (str): ID of the Node to update
+			body (dict): dictionary containing updated info
+		Returns:
+			Node: Node object with updated info
 		'''
 		path = (
 			paths['users']
@@ -202,22 +216,33 @@ class User():
 			+ '/'
 			+ node_id
 		)
-		response = self.do_request(self.http.patch, path, body)
+		response = self._do_request(self.http.patch, path, body)
 		return Node(response)
 
 	def ach_mfa(self, body):
-		'''
+		'''MFA to add user to database through bank logins
+		Args:
+			body (dict): dictionary containing access_token and mfa_answer
+		Returns:
+			Nodes: Nodes object containing aggregated accounts
+			or
+			dict: dictionary response if another MFA flow is needed
 		'''
 		path = paths['users'] + '/' + self.id + paths['nodes']
 
-		response = self.do_request(self.http.post, path, body)
+		response = self._do_request(self.http.post, path, body)
 
 		if response.get('mfa'):
 			return response
 		return Nodes(response)
 
 	def verify_micro(self, node_id, body):
-		'''
+		'''Verifies micro transactions for adding ACH-US Node with AC/RT
+		Args:
+			node_id (str): ID of the Node to verify
+			body (dict): dictionary containing micro (list of micro-deposit amounts)
+		Returns:
+			Node: Node object containing node info
 		'''
 		path = (
 			paths['users']
@@ -227,11 +252,15 @@ class User():
 			+ '/'
 			+ node_id
 		)
-		response = self.do_request(self.http.patch, path, body)
-		return response
+		response = self._do_request(self.http.patch, path, body)
+		return Node(response)
 
 	def reinit_micro(self, node_id):
-		'''
+		'''Reinitiates micro-deposit for an ACH-US Node
+		Args:
+			node_id (str): ID of the Node object to reinitiate micro deposits for
+		Returns:
+			dict: dictionary of response from API	
 		'''
 		self.logger.debug(
 			"reinitiating micro transaction for node_id: {}".format(
@@ -246,7 +275,7 @@ class User():
 			+ '/'
 			+ node_id
 		)
-		response = self.do_request(
+		response = self._do_request(
 			self.http.patch, path, {}, resend_micro='YES'
 		)
 		return response
@@ -262,7 +291,7 @@ class User():
 			+ '/'
 			+ node_id
 		)
-		response = self.do_request(
+		response = self._do_request(
 			self.http.patch, path, body, ship='YES'
 		)
 		return response
@@ -278,7 +307,7 @@ class User():
 			+ '/'
 			+ node_id
 		)
-		response = self.do_request(
+		response = self._do_request(
 			self.http.patch, path, {}, reset='YES'
 		)
 		return response
@@ -295,14 +324,14 @@ class User():
 			+ node_id
 			+ paths['apple']
 		)
-		response = self.do_request(self.http.patch, path, body)
+		response = self._do_request(self.http.patch, path, body)
 		return response
 
 	def create_ubo(self, body):
 		'''
 		'''
 		path = paths['users'] +'/'+ self.id + paths['ubo']
-		response = self.do_request(self.http.patch, path, body)
+		response = self._do_request(self.http.patch, path, body)
 		return response
 
 	def delete_node(self, node_id):
@@ -316,7 +345,7 @@ class User():
 			+ '/'
 			+ node_id
 		)
-		response = self.do_request(self.http.delete, path)
+		response = self._do_request(self.http.delete, path)
 		return response
 
 	def create_trans(self, node_id, body, idempotency_key=None):
@@ -331,7 +360,7 @@ class User():
 			+ node_id
 			+ paths['trans']
 		)
-		response = self.do_request(
+		response = self._do_request(
 			self.http.post,
 			path,
 			body,
@@ -352,7 +381,7 @@ class User():
 			+ paths['trans']
 			+ trans_id
 		)
-		response = self.do_request(self.http.get, path)
+		response = self._do_request(self.http.get, path)
 		return Trans(response)
 
 	def comment_trans(self, node_id, trans_id, body):
@@ -370,7 +399,7 @@ class User():
 			+ trans_id
 		)
 
-		response = self.do_request(self.http.patch, path, body)
+		response = self._do_request(self.http.patch, path, body)
 		return response
 
 	def dispute_trans(self, node_id, trans_id, dispute_reason):
@@ -390,7 +419,7 @@ class User():
 		)
 
 		body = { 'dispute_reason': dispute_reason }
-		response = self.do_request(self.http.patch, path, body)
+		response = self._do_request(self.http.patch, path, body)
 		return response
 
 	def cancel_trans(self, node_id, trans_id):
@@ -407,7 +436,7 @@ class User():
 			+ '/'
 			+ trans_id
 		)
-		response = self.do_request(self.http.delete, path)
+		response = self._do_request(self.http.delete, path)
 		return response
 
 	def dummy_tran(self, node_id, is_credit=False):
@@ -423,7 +452,7 @@ class User():
 			+ paths['dummy']
 		)
 		credit = 'YES' if is_credit else 'NO'
-		response = self.do_request(
+		response = self._do_request(
 			self.http.get, path, is_credit=credit
 		)
 		return response
@@ -441,7 +470,7 @@ class User():
 			+ paths['subn']
 		)
 
-		response = self.do_request(self.http.post, path, body, idempotency_key=idempotency_key)
+		response = self._do_request(self.http.post, path, body, idempotency_key=idempotency_key)
 		return Subnet(response)
 
 	def get_subnet(self, node_id, subnet_id):
@@ -458,7 +487,7 @@ class User():
 			+ '/'
 			+ subnet_id
 		)
-		response = self.do_request(self.http.get, path)
+		response = self._do_request(self.http.get, path)
 		return Subnet(response)
 
 	def get_all_nodes(self, page=None, per_page=None, type=None):
@@ -466,7 +495,7 @@ class User():
 		'''
 		path = paths['users'] + '/' + self.id + paths['nodes']
 
-		response = self.do_request(
+		response = self._do_request(
 			self.http.get,
 			path,
 			page=page,
@@ -487,7 +516,7 @@ class User():
 			+ node_id
 			+ paths['trans']
 		)
-		response = self.do_request(
+		response = self._do_request(
 			self.http.get,path, page=page, per_page=per_page
 		)
 		return Transactions(response)
@@ -496,7 +525,7 @@ class User():
 		'''
 		'''
 		path = paths['users'] + '/' + self.id + paths['trans']
-		response = self.do_request(
+		response = self._do_request(
 			self.http.get, path, page=page, per_page=per_page
 		)
 		return Transactions(response)
@@ -513,7 +542,7 @@ class User():
 			+ node_id
 			+ paths['subn']
 		)
-		response = self.do_request(
+		response = self._do_request(
 			self.http.get, path, page=page, per_page=per_page
 		)
 		return Subnets(response)
