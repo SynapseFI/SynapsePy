@@ -21,6 +21,7 @@ from models.http_client import HttpClient
 class UserTests(TestCase):
 	'''
 	TODO: need to add path/endpoint tests
+	test all user methods
 	'''
 
 	def setUp(self):

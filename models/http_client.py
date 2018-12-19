@@ -27,7 +27,7 @@ class HttpClient():
 		self.logger.debug("updating headers")
 
 		for header in kwargs.keys():
-			if kwargs.get(header):
+			if kwargs.get(header) is not None:
 				setattr(self, header, kwargs.get(header))
 
 		self.session.headers.update(

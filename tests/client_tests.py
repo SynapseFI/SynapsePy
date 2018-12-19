@@ -14,6 +14,10 @@ from models.node import Node, Nodes
 from models.subscription import Subscription, Subscriptions
 
 class ClientTests(TestCase):
+	'''
+	TODO: need to add path/endpoint tests
+	test all client methods
+	'''
 
 	def setUp(self):
 		self.client = test_client
