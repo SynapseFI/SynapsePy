@@ -108,3 +108,101 @@ basedocs_user = {
     "is_business": False
   }
 }
+
+users_resp = {
+    "error_code": "0",
+    "http_code": "200",
+    "limit": 20,
+    "page": 1,
+    "page_count": 1,
+    "success": True,
+    "users": [
+        {
+            "_id": "5c1323875596f200c41149dc",
+            "_links": {
+                "self": {
+                    "href": "https://uat-api.synapsefi.com/v3.1/users/5c1323875596f200c41149dc"
+                }
+            },
+            "client": {
+                "id": "5be38afd6a785e6bddfffe68",
+                "name": "test user"
+            },
+            "doc_status": {
+                "physical_doc": "MISSING|INVALID",
+                "virtual_doc": "MISSING|INVALID"
+            },
+            "documents": [],
+            "emails": [],
+            "extra": {
+                "cip_tag": 1,
+                "date_joined": 1544758151570,
+                "extra_security": False,
+                "is_business": False,
+                "last_updated": 1544758151570,
+                "public_note": None,
+                "supp_id": "my_user_id"
+            },
+            "is_hidden": False,
+            "legal_names": [
+                "Test User"
+            ],
+            "logins": [
+                {
+                    "email": "test@synapsepay.com",
+                    "scope": "READ_AND_WRITE"
+                }
+            ],
+            "permission": "UNVERIFIED",
+            "phone_numbers": [
+                "901.111.1111"
+            ],
+            "photos": [],
+            "refresh_token": "refresh_hk3nUvwdtf8YVDl7JOK2PQq6zrXFexIRjbaSCs5T"
+        },
+        {
+            "_id": "5c1321f35596f200c616db1b",
+            "_links": {
+                "self": {
+                    "href": "https://uat-api.synapsefi.com/v3.1/users/5c1321f35596f200c616db1b"
+                }
+            },
+            "client": {
+                "id": "5be38afd6a785e6bddfffe68",
+                "name": "test user"
+            },
+            "doc_status": {
+                "physical_doc": "MISSING|INVALID",
+                "virtual_doc": "MISSING|INVALID"
+            },
+            "documents": [],
+            "emails": [],
+            "extra": {
+                "cip_tag": 1,
+                "date_joined": 1544757747072,
+                "extra_security": False,
+                "is_business": False,
+                "last_updated": 1544757747072,
+                "public_note": None,
+                "supp_id": "my_user_id"
+            },
+            "is_hidden": False,
+            "legal_names": [
+                "Test User"
+            ],
+            "logins": [
+                {
+                    "email": "test@synapsepay.com",
+                    "scope": "READ_AND_WRITE"
+                }
+            ],
+            "permission": "UNVERIFIED",
+            "phone_numbers": [
+                "901.111.1111"
+            ],
+            "photos": [],
+            "refresh_token": "refresh_MAqEyG1LFuvWQdr7IBXfs86kHTD0xngO2z3Zme5l"
+        }
+    ],
+    "users_count": 2
+}

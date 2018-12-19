@@ -1,17 +1,19 @@
-
 import unittest
 import models.errors as api_errors
 
-from .fixtures.user_fixtures import *
-from .fixtures.client_fixtures import *
-from .fixtures.subscription_fixtures import *
+from unittest import TestCase, mock
+
+from .fixtures.user_fixtures import simple_response, users_resp
+from .fixtures.client_fixtures import test_client
+from .fixtures.subscription_fixtures import subs_resp, subss_resp
+from .fixtures.node_fixtures import get_nodes_response
 
 from models.client import Client
 from models.user import User, Users
 from models.node import Node, Nodes
 from models.subscription import Subscription, Subscriptions
 
-class ClientTests(unittest.TestCase):
+class ClientTests(TestCase):
 
 	def setUp(self):
 		self.client = test_client
@@ -20,54 +22,108 @@ class ClientTests(unittest.TestCase):
 		# check if obj is Client
 		self.assertIsInstance(self.client, Client)
 
-	def test_create_user(self):
+	@mock.patch(
+		'models.http_client.HttpClient.post',
+		return_value = simple_response,
+		autospec = True
+	)
+	def test_create_user(self, mock_request):
 		# check if obj is User
-		simple = self.client.create_user(simple_user)
-		basedocs = self.client.create_user(basedocs_user)
+		simple = self.client.create_user({})
 		self.assertIsInstance(simple, User)
-		self.assertIsInstance(basedocs, User)
 
-	def test_create_subs(self):
+	@mock.patch(
+		'models.http_client.HttpClient.post',
+		return_value = subs_resp,
+		autospec = True
+	)
+	def test_create_subs(self, mock_request):
 		# check if obj is Subscription
-		sub = self.client.create_subscription(webhook_url, sub_scope)
+		sub = self.client.create_subscription('', '')
 		self.assertIsInstance(sub, Subscription)
 
-	def test_get_subs(self):
-		sub_id = self.client.create_subscription(webhook_url, sub_scope).id
-		subs = self.client.get_subscription(sub_id)
+	@mock.patch(
+		'models.http_client.HttpClient.get',
+		return_value = subs_resp,
+		autospec = True
+	)
+	def test_get_subs(self, mock_request):
+		subs = self.client.get_subscription('')
 		self.assertIsInstance(subs, Subscription)
 
-	def test_crypto_quotes(self):
-		pass
+	@mock.patch(
+		'models.http_client.HttpClient.get',
+		return_value = {},
+		autospec = True
+	)
+	def test_crypto_quotes(self, mock_request):
+		response = self.client.crypto_quotes()
+		self.assertIsInstance(response, dict)
 
-	def test_crypto_market_data(self):
-		pass
+	@mock.patch(
+		'models.http_client.HttpClient.get',
+		return_value = {},
+		autospec = True
+	)
+	def test_crypto_market_data(self, mock_request):
+		response = self.client.crypto_market_data()
+		self.assertIsInstance(response, dict)
 
-	def test_locate_atms(self):
-		pass
+	@mock.patch(
+		'models.http_client.HttpClient.get',
+		return_value = {},
+		autospec = True
+	)
+	def test_locate_atms(self, mock_request):
+		response = self.client.locate_atms()
+		self.assertIsInstance(response, dict)
 
-	def test_issue_pub_key(self):
+	@mock.patch(
+		'models.http_client.HttpClient.get',
+		return_value = {'public_key_obj':{}},
+		autospec = True
+	)
+	def test_issue_pub_key(self, mock_request):
 		# check if obj is dict
-		pub_key_scope = ["OAUTH|POST"]
-		key = self.client.issue_public_key(pub_key_scope)
+		key = self.client.issue_public_key([])
 		self.assertIsInstance(key, dict)
 
-	def test_get_users(self):
+	@mock.patch(
+		'models.http_client.HttpClient.get',
+		return_value = users_resp,
+		autospec = True
+	)
+	def test_get_users(self, mock_request):
 		# check if obj is Users
 		users = self.client.get_all_users()
 		self.assertIsInstance(users, Users)
 
-	def test_get_subss(self):
+	@mock.patch(
+		'models.http_client.HttpClient.get',
+		return_value = subss_resp,
+		autospec = True
+	)
+	def test_get_subss(self, mock_request):
 		# check if obj is Subscriptions
 		subss = self.client.get_all_subs()
 		self.assertIsInstance(subss, Subscriptions)
 
-	def test_get_nodes(self):
+	@mock.patch(
+		'models.http_client.HttpClient.get',
+		return_value = get_nodes_response,
+		autospec = True
+	)
+	def test_get_nodes(self, mock_request):
 		# check if obj is Nodes
 		nodes = self.client.get_all_nodes()
 		self.assertIsInstance(nodes, Nodes)
 
-	def test_get_inst(self):
+	@mock.patch(
+		'models.http_client.HttpClient.get',
+		return_value = {},
+		autospec = True
+	)
+	def test_get_inst(self, mock_request):
 		# check if obj is JSON
 		inst = self.client.get_all_inst()
 		self.assertIsInstance(inst, dict)

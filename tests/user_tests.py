@@ -13,7 +13,11 @@ from models.subnet import Subnet, Subnets
 
 from models.http_client import HttpClient
 
-@mock.patch('models.user.User.do_request', return_value={}, autospec=True)
+@mock.patch(
+	'models.user.User.do_request',
+	return_value={},
+	autospec=True
+)
 class UserTests(TestCase):
 	'''
 	TODO: need to add path/endpoint tests
