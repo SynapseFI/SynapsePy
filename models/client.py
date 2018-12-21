@@ -22,9 +22,9 @@ class Client():
 		Args:
 			client_id (str): API client id
 			client_secret (str): API client secret
-			fingerprint (str):
-			ip_address (str):
-			devmode (bool): (opt) switches between sandbox and production base_url
+			fingerprint (str): device fingerprint
+			ip_address (str): user IP address
+			devmode (bool): (opt) switches between sandbox and production base url
 			logging (bool): (opt) enables logger
 		"""
 		self.client_id = client_id
@@ -35,14 +35,22 @@ class Client():
 			client_secret=client_secret,
 			fingerprint=fingerprint,
 			ip_address=ip_address,
-			base_url='https://uat-api.synapsefi.com/v3.1' if devmode else 'https://api.synapsefi.com/v3.1',
+			base_url=
+				'https://uat-api.synapsefi.com/v3.1' 
+				if devmode else
+				'https://api.synapsefi.com/v3.1',
 			logging=logging
 			)
-
+		self.logging = logging
 		self.logger = self.get_log(logging)
 
 	def update_headers(self, client_secret=None, fingerprint=None, ip_address=None, oauth_key=None, idempotency_key=None):
 		'''Updates session headers
+		Args:
+			client_secret (str): (opt) API client secret
+			fingerprint (str): (opt) device fingerprint
+			ip_address (str): (opt) user IP address
+			idempotency_key (str): (opt) idempotency key for safely retrying requests
 		'''
 		self.http.update_headers(
 			client_secret=client_secret,
@@ -57,20 +65,20 @@ class Client():
 		Args:
 			enable (bool): enables if True, disables if False
 		Returns:
-			logger (Logger): logging.Logger object used to debug
+			Logger: logging.Logger object used to debug
 		'''
 		logging.basicConfig()
-		logger = logging.getLogger("__name__")
+		logger = logging.getLogger(__name__)
 		logger.setLevel(logging.DEBUG)
 		logger.disabled = not enable
 
 		return logger
 
 	def create_user(self, body, idempotency_key=None):
-		"""
+		"""Creates a User object containing a user's record
 		Args:
-			body (json): user record
-			json (json): JSON
+			body (dict): user record
+			idempotency_key (str): (opt) idempotency key for safely retrying requests
 		Returns:
 			user (User): object containing User record
 		"""
@@ -80,32 +88,43 @@ class Client():
 		response = self.http.post(
 			path, body, idempotency_key=idempotency_key
 		)
+<<<<<<< HEAD
 		
 		return User(response, self.http, full_dehydrate=False)
+=======
+		return User(response, self.http, full_dehydrate=False, logging=self.logging)
+>>>>>>> master
 	
 	def create_subscription(self, webhook_url, scope, idempotency_key=None):
-		'''
+		'''Creates a webhook
 		Args:
 			webhook_url (str): subscription url
 			scope (list of str): API call types to subscribe to
 		Returns:
-			
+			dict: dictionary object containing json response
 		'''
 		self.logger.debug("Creating a new subscription")
 
 		path = paths['subs']
 
+<<<<<<< HEAD
 		body = {'scope': scope, 'url': webhook_url}
+=======
+		body = {
+			'scope': scope,
+			'url': webhook_url
+		}
+>>>>>>> master
 		response = self.http.post(
 			path, body, idempotency_key=idempotency_key
 		)
 		return Subscription(response)
 
-
 	def get_user(self, user_id, full_dehydrate=False):
-		"""Returns user object
+		"""Returns User object grabbed from API
 		Args:
-			user_id (Str): identification for user
+			user_id (str): identification for user
+			full_dehydrate (bool): Full Dehydrate True will return back user's KYC info.
 		Returns:
 			user (User): object containing User record
 		"""
@@ -114,17 +133,22 @@ class Client():
 		path = paths['users'] + '/' + user_id
 
 		full_d = 'yes' if full_dehydrate else None
+<<<<<<< HEAD
 		response = self.http.get(
 			path, full_dehydrate=full_d
 		)
 		return User(response, self.http, full_dehydrate=full_d)
+=======
+		response = self.http.get(path, full_dehydrate=full_d)
+		return User(response, self.http, full_dehydrate=full_d, logging=self.logging)
+>>>>>>> master
 
 	def get_subscription(self, sub_id):
-		'''
+		'''Returns Subscription object of webhook
 		Args:
 			sub_id (Str): subscription id
 		Returns:
-			(Subscription Object)
+			Subscription Object
 		'''
 		self.logger.debug("getting a subscription")
 
@@ -134,14 +158,14 @@ class Client():
 		return Subscription(response)
 
 	def update_subscription(self, sub_id, body, idempotency_key=None):
-		'''
+		'''Updates a webhook
 		Args:
 			sub_id (str): subscription id
 			body (JSON): update body
 		Returns:
 			(Subscription): object containing subscription record
 		'''
-		# self.logger.debug("updating subscription")
+		self.logger.debug("updating subscription")
 
 		path = paths['subs'] + '/' + sub_id
 
@@ -149,7 +173,9 @@ class Client():
 		return Subscription(response)
 
 	def crypto_quotes(self):
-		'''
+		'''Gets quotes for crypto currencies
+		Returns:
+			dict: dictionary containing crypto quotes
 		'''
 		path = paths['nodes'] + paths['cryptoq']
 
@@ -157,21 +183,48 @@ class Client():
 		return response
 
 	def crypto_market_data(self, limit=None, currency=None):
+<<<<<<< HEAD
 		'''
 		'''
 		path = paths['nodes'] + paths['cryptom']
 
+=======
+		'''Returns current market data for a particular crytpo-currency
+		Args:
+			limit (int): (opt) Number of days from today
+			currency (str): (opt) crypto-currency to grab market data for
+		Returns:
+			dict: dictionary containing market data for crypto-currency
+		'''
+		path = paths['nodes'] + paths['cryptom']
+>>>>>>> master
 		response = self.http.get(
 			path, limit=limit, currency=currency
 		)
 		return response
 
 	def locate_atms(self, zip=None, lat=None, rad=None, page=None, per_page=None):
+<<<<<<< HEAD
 		'''
 		'''
 		path = paths['nodes'] + paths['atms']
 
 		response = self.http.patch(
+=======
+		'''Returns atms closest to a particular coordinate
+		Args:
+			zip (str): (opt) Zip code for ATM locator
+			lat (str): (opt) Latitude of the pin
+			lon (str): (opt) Longitude of the pin
+			radius (str): (opt) radius in miles
+			page (int): (opt) Page number
+			per_page (str): (opt) Number of Nodes per page
+		Returns:
+			dict: dictionary containing closest atms
+		'''
+		path = paths['nodes'] + paths['atms']
+		response = self.http.get(
+>>>>>>> master
 			path,
 			zip=zip,
 			lat=lat,
@@ -182,9 +235,11 @@ class Client():
 		return response
 
 	def issue_public_key(self, scope):
-		'''
+		'''Issues a public key for use with a UIaaS product
 		Args:
-
+			scope (list of str): Scopes that you wish to issue the public keys for
+		Returns:
+			dict: dictionary containing public key info 
 		'''
 		self.logger.debug("issuing a public key")
 		
@@ -197,13 +252,21 @@ class Client():
 
 	def get_all_users(self, query=None, page=None, per_page=None, show_refresh_tokens=None):
 		"""Returns all user objects in a list
+		Args:
+			query (string): (opt) Name/Email of the user that you wish to search
+			page (int): (opt) Page number
+			per_page (int): (opt) How many users do you want us to return per page.
+			show_refresh_tokens (bool): (opt) [yes/no] When dehydrating if the user object should have refresh tokens or not.
 		Returns:
-			(list of Json): json containing User records
+			(Users): object containing pagination info and list of User objects
 		"""
 		self.logger.debug("getting all users")
 
 		path = paths['users']
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 		response = self.http.get(
 			path,
 			query=query,
@@ -214,32 +277,49 @@ class Client():
 		return Users(response, self.http)
 
 	def get_all_trans(self, page=None, per_page=None):
-		'''gets all client transactions
+		'''Gets all client transactions
+		Args:
+			page (int): (opt) Page number
+			per_page (int): (opt) How many trans do you want us to return per page.
 		Returns:
-			(list of Transactions): list of all transaction records for client
+			(Transactions): object containing pagination info and list of Transaction objects
 		'''
 		self.logger.debug("getting all transactions")
 		
 		path = paths['trans']
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 		response = self.http.get(
 			path, page=page, per_page=per_page
 		)
 		return Transactions(response)
 
-	def get_all_nodes(self, query=None, page=None, per_page=None, show_refresh_tokens=None):
-		'''gets all client nodes
+	def get_all_nodes(self, page=None, per_page=None, type=None):
+		'''Gets all client nodes
+		Args:
+			page (int): (opt) Page number
+			per_page (int): (opt) How many nodes do you want us to return per page.
+			type (bool): (opt) Type of nodes you wish to see. (NOTE: deprecated in v3.2)
 		Returns:
-			(list of Nodes): list of all node records for client
+			(Nodes): object containing pagination info and list of Node objects
 		'''
 		self.logger.debug("getting all nodes")
 		
 		path = paths['nodes']
-		response = self.http.get(path)
+		response = self.http.get(
+			path, page=page, per_page=per_page, type=type
+		)
 		return Nodes(response)
 
 	def get_all_subs(self, page=None, per_page=None):
-		'''
+		'''Gets all client webhooks
+		Args:
+			page (int): (opt) Page number
+			per_page (int): (opt) How many nodes do you want us to return per page.
+		Returns:
+			(Subscriptions): object containing pagination info and list of Subscription objects
 		'''
 		self.logger.debug("getting all subscriptions")
 		
@@ -250,7 +330,9 @@ class Client():
 		return Subscriptions(response)
 
 	def get_all_inst(self):
-		'''
+		'''Gets all institutions
+		Returns:
+			dict: dictionary containing institutions
 		'''
 		self.logger.debug("getting all institutions")
 		
