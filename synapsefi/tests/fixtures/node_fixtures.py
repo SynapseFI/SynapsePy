@@ -261,6 +261,17 @@ get_nodes_response = {
 	"success": True
 }
 
+ach_mfa_resp = {
+	"error_code": "10",
+	"http_code": "202",
+	"mfa": {
+		"access_token": "fake_cd60680b9addc013ca7fb25b2b704be324d0295b34a6e3d14473e3cc65aa82d3",
+		"message": "I heard you like questions so we put a question in your question?",
+		"type": "question"
+	},
+	"success": True
+}
+
 """ Everything below is technically unused or can be mocked """
 
 ach_us_logins = {

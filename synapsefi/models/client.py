@@ -88,12 +88,7 @@ class Client():
 		response = self.http.post(
 			path, body, idempotency_key=idempotency_key
 		)
-<<<<<<< HEAD
-		
-		return User(response, self.http, full_dehydrate=False)
-=======
 		return User(response, self.http, full_dehydrate=False, logging=self.logging)
->>>>>>> master
 	
 	def create_subscription(self, webhook_url, scope, idempotency_key=None):
 		'''Creates a webhook
@@ -107,14 +102,10 @@ class Client():
 
 		path = paths['subs']
 
-<<<<<<< HEAD
-		body = {'scope': scope, 'url': webhook_url}
-=======
 		body = {
 			'scope': scope,
 			'url': webhook_url
 		}
->>>>>>> master
 		response = self.http.post(
 			path, body, idempotency_key=idempotency_key
 		)
@@ -131,17 +122,9 @@ class Client():
 		self.logger.debug("getting a user")
 
 		path = paths['users'] + '/' + user_id
-
 		full_d = 'yes' if full_dehydrate else None
-<<<<<<< HEAD
-		response = self.http.get(
-			path, full_dehydrate=full_d
-		)
-		return User(response, self.http, full_dehydrate=full_d)
-=======
 		response = self.http.get(path, full_dehydrate=full_d)
 		return User(response, self.http, full_dehydrate=full_d, logging=self.logging)
->>>>>>> master
 
 	def get_subscription(self, sub_id):
 		'''Returns Subscription object of webhook
@@ -153,7 +136,6 @@ class Client():
 		self.logger.debug("getting a subscription")
 
 		path = paths['subs'] + '/' + sub_id
-
 		response = self.http.get(path)
 		return Subscription(response)
 
@@ -167,9 +149,8 @@ class Client():
 		'''
 		self.logger.debug("updating subscription")
 
-		path = paths['subs'] + '/' + sub_id
-
-		response = self.http.patch(path, body)
+		url = paths['subs'] + '/' + sub_id
+		response = self.http.patch(url, body)
 		return Subscription(response)
 
 	def crypto_quotes(self):
@@ -178,17 +159,10 @@ class Client():
 			dict: dictionary containing crypto quotes
 		'''
 		path = paths['nodes'] + paths['cryptoq']
-
 		response = self.http.get(path)
 		return response
 
 	def crypto_market_data(self, limit=None, currency=None):
-<<<<<<< HEAD
-		'''
-		'''
-		path = paths['nodes'] + paths['cryptom']
-
-=======
 		'''Returns current market data for a particular crytpo-currency
 		Args:
 			limit (int): (opt) Number of days from today
@@ -197,20 +171,12 @@ class Client():
 			dict: dictionary containing market data for crypto-currency
 		'''
 		path = paths['nodes'] + paths['cryptom']
->>>>>>> master
 		response = self.http.get(
 			path, limit=limit, currency=currency
 		)
 		return response
 
 	def locate_atms(self, zip=None, lat=None, rad=None, page=None, per_page=None):
-<<<<<<< HEAD
-		'''
-		'''
-		path = paths['nodes'] + paths['atms']
-
-		response = self.http.patch(
-=======
 		'''Returns atms closest to a particular coordinate
 		Args:
 			zip (str): (opt) Zip code for ATM locator
@@ -224,7 +190,6 @@ class Client():
 		'''
 		path = paths['nodes'] + paths['atms']
 		response = self.http.get(
->>>>>>> master
 			path,
 			zip=zip,
 			lat=lat,
@@ -263,10 +228,6 @@ class Client():
 		self.logger.debug("getting all users")
 
 		path = paths['users']
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 		response = self.http.get(
 			path,
 			query=query,
@@ -287,10 +248,6 @@ class Client():
 		self.logger.debug("getting all transactions")
 		
 		path = paths['trans']
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 		response = self.http.get(
 			path, page=page, per_page=per_page
 		)
@@ -339,5 +296,4 @@ class Client():
 		path = paths['inst']
 		response = self.http.get(path)
 		return response
-
 

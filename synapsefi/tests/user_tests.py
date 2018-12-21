@@ -14,7 +14,7 @@ from models.subnet import Subnet, Subnets
 from models.http_client import HttpClient
 
 @mock.patch(
-	'models.user.User.do_request',
+	'models.user.User._do_request',
 	return_value={},
 	autospec=True
 )
@@ -69,15 +69,20 @@ class UserTests(TestCase):
 		)
 
 	def test_update_info(self, mock_request):
-		self.assertEqual(
-			self.user.update_info({}),
-			mock_request.return_value
+		self.assertIsInstance(
+			self.user.update_info({}), dict
 		)
 
 	def test_create_node(self, mock_request):
 		mock_request.return_value = get_nodes_response
 		self.assertIsInstance(
 			self.user.create_node({}), Nodes
+		)
+
+		mock_request.return_value = ach_mfa_resp
+		self.assertIsInstance(
+			self.user.create_node(self.ach_us_id,{}),
+			dict
 		)
 
 	def test_get_node(self, mock_request):
@@ -111,10 +116,17 @@ class UserTests(TestCase):
 		mock_request.return_value = get_nodes_response
 		self.assertIsInstance(self.user.ach_mfa({}), Nodes)
 
+		mock_request.return_value = ach_mfa_resp
+		self.assertIsInstance(
+			self.user.ach_mfa({}),
+			dict
+		)
+
 	def test_verify_micro(self, mock_request):
-		self.assertEqual(
+		mock_request.return_value = ach_us_get_response
+		self.assertIsInstance(
 			self.user.verify_micro(self.ach_us_id,{}),
-			mock_request.return_value
+			Node
 		)
 
 	def test_reinit_micro(self, mock_request):

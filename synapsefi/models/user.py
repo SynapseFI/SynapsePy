@@ -35,13 +35,7 @@ class User():
 		'''
 		path = paths['users'] + '/' + self.id
 
-<<<<<<< HEAD
-		self.body = self.http.get(
-			path, full_dehydrate=self.full_dehydrate
-		)
-=======
 		self.body = self.http.get(path, full_dehydrate=self.full_dehydrate)
->>>>>>> master
 		return self.body['refresh_token']
 
 	def oauth(self, payload=None):
@@ -54,13 +48,9 @@ class User():
 		path = paths['oauth'] + '/' + self.id
 
 		body = {'refresh_token': self.body['refresh_token']}
-<<<<<<< HEAD
-		body.update(payload)
-=======
 
 		if payload:
 			body.update(payload)
->>>>>>> master
 
 		try:
 			response = self.http.post(path, body)
@@ -87,7 +77,7 @@ class User():
 		body = {
 			'refresh_token': self.body['refresh_token'],
 			'phone_number': device
-		}
+			}
 
 		response = self.http.post(path, body)
 		return response
@@ -105,7 +95,7 @@ class User():
 		body = {
 			'refresh_token': self.body['refresh_token'],
 			'validation_pin': pin
-		}
+			}
 
 		response = self.http.post(path, body)
 		self.http.update_headers(
@@ -131,17 +121,10 @@ class User():
 		try:
 			response = req_dict[req_func.__name__]()
 
-<<<<<<< HEAD
-		except (
-			requests.exceptions.HTTPError,
-			api_errors.IncorrectUserCredentials
-		) as e:
-=======
 		except (requests.exceptions.HTTPError, api_errors.IncorrectUserCredentials) as e:
 			self.logger.debug(
 				"user's oauth expired. re-authenticatng"
 			)
->>>>>>> master
 			self.oauth()
 
 			self.logger.debug(
@@ -163,15 +146,9 @@ class User():
 		'''
 		path = paths['users'] + '/' + self.id
 
-<<<<<<< HEAD
-		response = self.do_request(
-			self.http.patch, path, body
-		)
-=======
 		response = self._do_request(self.http.patch, path, body)
->>>>>>> master
 		self.body = response
-		return User(response)
+		return response
 
 
 	def create_node(self, body, idempotency_key=None):
@@ -182,11 +159,7 @@ class User():
 		'''
 		path = paths['users'] + '/' + self.id + paths['nodes']
 
-<<<<<<< HEAD
-		response = self.do_request(
-=======
 		response = self._do_request(
->>>>>>> master
 			self.http.post,
 			path,
 			body,
@@ -198,9 +171,6 @@ class User():
 		return Nodes(response)
 
 	def get_node(self, node_id, full_dehydrate=False, force_refresh=False):
-<<<<<<< HEAD
-		'''
-=======
 		'''Gets Node from database
 		Args:
 			node_id (str): Node ID for the Node you are trying to get
@@ -210,23 +180,12 @@ class User():
 				force refresh yes will attempt updating the account balance and transactions
 		Returns:
 			Node: Node object containing node info
->>>>>>> master
 		'''
 		path = (
 			paths['users']
 			+ '/'
 			+ self.id
 			+ paths['nodes']
-<<<<<<< HEAD
-			+ '/'
-			+ node_id
-		)
-
-		full_d = 'yes' if full_dehydrate else 'no'
-		force_r = 'yes' if force_refresh else 'no'
-
-		response = self.do_request(
-=======
 			+'/'
 			+ node_id
 		)
@@ -234,7 +193,6 @@ class User():
 		force_r = 'yes' if force_refresh else 'no'
 
 		response = self._do_request(
->>>>>>> master
 			self.http.get,
 			path,
 			full_dehydrate=full_d,
@@ -243,16 +201,12 @@ class User():
 		return Node(response, full_dehydrate=full_dehydrate)
 
 	def update_node(self, node_id, body):
-<<<<<<< HEAD
-		'''
-=======
 		'''Updates a node's info in the database
 		Args:
 			node_id (str): ID of the Node to update
 			body (dict): dictionary containing updated info
 		Returns:
 			Node: Node object with updated info
->>>>>>> master
 		'''
 		path = (
 			paths['users']
@@ -262,14 +216,7 @@ class User():
 			+ '/'
 			+ node_id
 		)
-<<<<<<< HEAD
-
-		response = self.do_request(
-			self.http.patch, path, body
-		)
-=======
 		response = self._do_request(self.http.patch, path, body)
->>>>>>> master
 		return Node(response)
 
 	def ach_mfa(self, body):
@@ -281,36 +228,21 @@ class User():
 			or
 			dict: dictionary response if another MFA flow is needed
 		'''
-<<<<<<< HEAD
-		path = (
-			paths['users']
-			+ '/' + self.id
-			+ paths['nodes']
-		)
-=======
 		path = paths['users'] + '/' + self.id + paths['nodes']
 
 		response = self._do_request(self.http.post, path, body)
->>>>>>> master
 
-		response = self.do_request(
-			self.http.post, path, body
-		)
 		if response.get('mfa'):
 			return response
 		return Nodes(response)
 
 	def verify_micro(self, node_id, body):
-<<<<<<< HEAD
-		'''
-=======
 		'''Verifies micro transactions for adding ACH-US Node with AC/RT
 		Args:
 			node_id (str): ID of the Node to verify
 			body (dict): dictionary containing micro (list of micro-deposit amounts)
 		Returns:
 			Node: Node object containing node info
->>>>>>> master
 		'''
 		path = (
 			paths['users']
@@ -320,24 +252,6 @@ class User():
 			+ '/'
 			+ node_id
 		)
-<<<<<<< HEAD
-
-		response = self.do_request(self.http.patch, body)
-		return response
-
-	def reinit_micro(self, node_id, body):
-		'''
-		'''
-		path = (
-			paths['users']
-			+ '/' + self.id
-			+ paths['nodes']
-			+ '/' + node_id
-		)
-
-		response = self.do_request(
-			self.http.patch, body, resend_micro='YES'
-=======
 		response = self._do_request(self.http.patch, path, body)
 		return Node(response)
 
@@ -363,7 +277,6 @@ class User():
 		)
 		response = self._do_request(
 			self.http.patch, path, {}, resend_micro='YES'
->>>>>>> master
 		)
 		return response
 
@@ -378,12 +291,7 @@ class User():
 			+ '/'
 			+ node_id
 		)
-<<<<<<< HEAD
-
-		response = self.do_request(
-=======
 		response = self._do_request(
->>>>>>> master
 			self.http.patch, path, body, ship='YES'
 		)
 		return response
@@ -393,14 +301,6 @@ class User():
 		'''
 		path = (
 			paths['users']
-<<<<<<< HEAD
-			+ '/' + self.id
-			+ paths['nodes']
-			+ '/' + node_id
-		)
-
-		response = self.do_request(
-=======
 			+ '/'
 			+ self.id
 			+ paths['nodes']
@@ -408,17 +308,12 @@ class User():
 			+ node_id
 		)
 		response = self._do_request(
->>>>>>> master
 			self.http.patch, path, {}, reset='YES'
 		)
 		return response
 
 	def generate_apple_pay(self, node_id, body):
-<<<<<<< HEAD
-		'''
-=======
 		'''Generates an ApplePay token (currently not working in API)
->>>>>>> master
 		'''
 		path = (
 			paths['users']
@@ -429,48 +324,14 @@ class User():
 			+ node_id
 			+ paths['apple']
 		)
-<<<<<<< HEAD
-
-		response = self.do_request(
-			self.http.patch, path, body
-		)
-=======
 		response = self._do_request(self.http.patch, path, body)
->>>>>>> master
 		return response
 
 	def create_ubo(self, body):
 		'''
 		'''
-<<<<<<< HEAD
-		path = paths['users'] + '/' + self.id + paths['ubo']
-
-		response = self.do_request(
-			self.http.patch, path, body
-		)
-		return response
-
-	def dummy_tran(self, node_id, is_credit=False):
-		'''
-		'''
-		path = (
-			paths['users']
-			+ '/'
-			+ self.id
-			+ paths['nodes']
-			+ '/'
-			+ node_id 
-			+ paths['dummy']
-		)
-
-		credit = 'YES' if is_credit else 'NO'
-		response = self.do_request(
-			self.http.get, path, is_credit=credit
-		)
-=======
 		path = paths['users'] +'/'+ self.id + paths['ubo']
 		response = self._do_request(self.http.patch, path, body)
->>>>>>> master
 		return response
 
 	def delete_node(self, node_id):
@@ -484,12 +345,7 @@ class User():
 			+ '/'
 			+ node_id
 		)
-<<<<<<< HEAD
-
-		response = self.do_request(self.http.delete, path)
-=======
 		response = self._do_request(self.http.delete, path)
->>>>>>> master
 		return response
 
 	def create_trans(self, node_id, body, idempotency_key=None):
@@ -504,17 +360,11 @@ class User():
 			+ node_id
 			+ paths['trans']
 		)
-<<<<<<< HEAD
-
-		response = self.do_request(
-			self.http.post, path, body, idempotency_key=idempotency_key
-=======
 		response = self._do_request(
 			self.http.post,
 			path,
 			body,
 			idempotency_key=idempotency_key
->>>>>>> master
 		)
 		return Trans(response)
 
@@ -531,12 +381,7 @@ class User():
 			+ paths['trans']
 			+ trans_id
 		)
-<<<<<<< HEAD
-
-		response = self.do_request(self.http.get, path)
-=======
 		response = self._do_request(self.http.get, path)
->>>>>>> master
 		return Trans(response)
 
 	def comment_trans(self, node_id, trans_id, body):
@@ -554,13 +399,7 @@ class User():
 			+ trans_id
 		)
 
-<<<<<<< HEAD
-		response = self.do_request(
-			self.http.patch, path, body
-		)
-=======
 		response = self._do_request(self.http.patch, path, body)
->>>>>>> master
 		return response
 
 	def dispute_trans(self, node_id, trans_id, dispute_reason):
@@ -571,32 +410,21 @@ class User():
 			+ '/'
 			+ self.id
 			+ paths['nodes']
-<<<<<<< HEAD
-			+ '/'
-=======
 			+'/'
->>>>>>> master
 			+ node_id
 			+ paths['trans']
 			+ '/'
 			+ trans_id
-<<<<<<< HEAD
-=======
 			+ paths['dispute']
->>>>>>> master
 		)
 
 		body = { 'dispute_reason': dispute_reason }
 		response = self._do_request(self.http.patch, path, body)
 		return response
 
-<<<<<<< HEAD
-	def dispute_trans(self, node_id, trans_id, dispute_reason):
-=======
 	def cancel_trans(self, node_id, trans_id):
 		'''
 		'''
->>>>>>> master
 		path = (
 			paths['users']
 			+ '/'
@@ -604,16 +432,6 @@ class User():
 			+ paths['nodes']
 			+ '/'
 			+ node_id
-<<<<<<< HEAD
-			+ paths['trans'] 
-			+ trans_id 
-			+ paths['dispute']
-		)
-
-		body = {'dispute_reason': dispute_reason}
-		response = self.do_request(
-			self.http.patch, path, body
-=======
 			+ paths['trans']
 			+ '/'
 			+ trans_id
@@ -636,7 +454,6 @@ class User():
 		credit = 'YES' if is_credit else 'NO'
 		response = self._do_request(
 			self.http.get, path, is_credit=credit
->>>>>>> master
 		)
 		return response
 
@@ -647,26 +464,13 @@ class User():
 			paths['users']
 			+ '/'
 			+ self.id
-<<<<<<< HEAD
-			+ paths['nodes'] 
-=======
 			+ paths['nodes']
->>>>>>> master
 			+ '/'
 			+ node_id
 			+ paths['subn']
 		)
 
-<<<<<<< HEAD
-		response = self.do_request(
-			self.http.post,
-			path,
-			body,
-			idempotency_key=idempotency_key
-		)
-=======
 		response = self._do_request(self.http.post, path, body, idempotency_key=idempotency_key)
->>>>>>> master
 		return Subnet(response)
 
 	def get_subnet(self, node_id, subnet_id):
@@ -675,11 +479,7 @@ class User():
 		path = (
 			paths['users']
 			+ '/'
-<<<<<<< HEAD
-			+ self.id 
-=======
 			+ self.id
->>>>>>> master
 			+ paths['nodes']
 			+ '/'
 			+ node_id
@@ -687,12 +487,7 @@ class User():
 			+ '/'
 			+ subnet_id
 		)
-<<<<<<< HEAD
-
-		response = self.do_request(self.http.get, path)
-=======
 		response = self._do_request(self.http.get, path)
->>>>>>> master
 		return Subnet(response)
 
 	def get_all_nodes(self, page=None, per_page=None, type=None):
@@ -700,26 +495,18 @@ class User():
 		'''
 		path = paths['users'] + '/' + self.id + paths['nodes']
 
-<<<<<<< HEAD
-		response = self.do_request(
-			self.http.get, path, page=page, per_page=per_page, type=type
-=======
 		response = self._do_request(
 			self.http.get,
 			path,
 			page=page,
 			per_page=per_page,
 			type=type
->>>>>>> master
 		)
 		return Nodes(response)
 
 	def get_all_node_trans(self, node_id, page=None, per_page=None):
-<<<<<<< HEAD
-=======
 		'''
 		'''
->>>>>>> master
 		path = (
 			paths['users']
 			+ '/'
@@ -729,17 +516,8 @@ class User():
 			+ node_id
 			+ paths['trans']
 		)
-<<<<<<< HEAD
-
-		response = self.do_request(
-			self.http.get,
-			path,
-			page=page,
-			per_page=per_page
-=======
 		response = self._do_request(
 			self.http.get,path, page=page, per_page=per_page
->>>>>>> master
 		)
 		return Transactions(response)
 
@@ -747,17 +525,8 @@ class User():
 		'''
 		'''
 		path = paths['users'] + '/' + self.id + paths['trans']
-<<<<<<< HEAD
-
-		response = self.do_request(
-			self.http.get,
-			path,
-			page=page,
-			per_page=per_page
-=======
 		response = self._do_request(
 			self.http.get, path, page=page, per_page=per_page
->>>>>>> master
 		)
 		return Transactions(response)
 
@@ -773,16 +542,8 @@ class User():
 			+ node_id
 			+ paths['subn']
 		)
-<<<<<<< HEAD
-		response = self.do_request(
-			self.http.get,
-			path,
-			page=page,
-			per_page=per_page
-=======
 		response = self._do_request(
 			self.http.get, path, page=page, per_page=per_page
->>>>>>> master
 		)
 		return Subnets(response)
 
@@ -805,10 +566,7 @@ class Users():
 		self.page_count = response['page_count']
 		self.limit = response['limit']
 		self.users_count = response['users_count']
-<<<<<<< HEAD
-=======
 
->>>>>>> master
 		self.list_of_users = [
 			User(user_r, http)
 			for user_r in response['users']
