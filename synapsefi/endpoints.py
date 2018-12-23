@@ -1,5 +1,4 @@
 
-
 paths = {
 	'oauth': '/oauth',
 	'client': '/client',
