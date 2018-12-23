@@ -5,6 +5,7 @@ from .user import User, Users
 from .node import Node, Nodes
 from .transaction import Trans, Transactions
 from .subscription import Subscription, Subscriptions
+from . import errors as api_errors
 
 from .endpoints import paths
 
@@ -12,7 +13,7 @@ import sys
 import json
 import logging
 import requests
-import models.errors as api_errors
+
 
 class Client():
 	""" Client Record """

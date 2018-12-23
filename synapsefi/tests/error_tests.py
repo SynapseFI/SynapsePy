@@ -1,9 +1,9 @@
 
 import unittest
-import models.errors as api_errors
+import synapsefi.models.errors as api_errors
 
-from tests.fixtures.error_fixtures import *
-from tests.fixtures.client_fixtures import *
+from .fixtures.error_fixtures import *
+from .fixtures.client_fixtures import *
 
 class ErrorTests(unittest.TestCase):
 	

@@ -2,7 +2,8 @@ import json
 import logging
 import requests
 import http.client as http_client
-import models.errors as api_errors
+from . import errors as api_errors
+
 
 class HttpClient():
 	"""Handles HTTP requests (including headers) and API errors.
@@ -140,11 +141,11 @@ class HttpClient():
 		try:
 			response.raise_for_status()
 
-		except requests.exceptions.HTTPError as e:
+		except requests.exceptions.RequestException as e:
 			raise api_errors.ErrorFactory.from_response(payload) from e
 
 		if payload.get('error') and int(payload.get('error_code', 0)) == 10: # checks for unregistered fingerprint
-			raise api_errors.ErrorFactory.from_response(payload) from None
+			raise api_errors.ErrorFactory.from_response(payload)
 
 		return response.json()
 

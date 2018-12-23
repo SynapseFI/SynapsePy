@@ -1,7 +1,9 @@
 from unittest.mock import Mock
 from requests.models import Response
+from requests.exceptions import HTTPError
 
 act_pend = Mock(spec=Response)
+act_pend.raise_for_status.side_effect = HTTPError
 act_pend.status_code = 202
 act_pend.json.return_value = { 
 	"error": {
@@ -13,6 +15,7 @@ act_pend.json.return_value = {
 	}
 
 inc_cli_cred = Mock(spec=Response)
+inc_cli_cred.raise_for_status.side_effect = HTTPError
 inc_cli_cred.status_code = 400
 inc_cli_cred.json.return_value = { 
 	"error": {
@@ -24,6 +27,7 @@ inc_cli_cred.json.return_value = {
 	}
 
 inc_user_cred = Mock(spec=Response)
+inc_user_cred.raise_for_status.side_effect = HTTPError
 inc_user_cred.status_code = 400
 inc_user_cred.json.return_value = { 
 	"error": {
@@ -35,6 +39,7 @@ inc_user_cred.json.return_value = {
 	}
 
 unauth_fing = Mock(spec=Response)
+unauth_fing.raise_for_status.side_effect = HTTPError
 unauth_fing.status_code = 400
 unauth_fing.json.return_value = { 
 	"error": {
@@ -46,6 +51,7 @@ unauth_fing.json.return_value = {
 	}
 
 payload_err = Mock(spec=Response)
+payload_err.raise_for_status.side_effect = HTTPError
 payload_err.status_code = 400
 payload_err.json.return_value = { 
 	"error": {
@@ -57,6 +63,7 @@ payload_err.json.return_value = {
 	}
 
 unauth_act = Mock(spec=Response)
+unauth_act.raise_for_status.side_effect = HTTPError
 unauth_act.status_code = 400
 unauth_act.json.return_value = { 
 	"error": {
@@ -68,6 +75,7 @@ unauth_act.json.return_value = {
 	}
 
 inc_val = Mock(spec=Response)
+inc_val.raise_for_status.side_effect = HTTPError
 inc_val.status_code = 400
 inc_val.json.return_value = { 
 	"error": {
@@ -79,6 +87,7 @@ inc_val.json.return_value = {
 	}
 
 obj_not_found = Mock(spec=Response)
+obj_not_found.raise_for_status.side_effect = HTTPError
 obj_not_found.status_code = 404
 obj_not_found.json.return_value = { 
 	"error": {
@@ -90,6 +99,7 @@ obj_not_found.json.return_value = {
 	}
 
 act_not_allow = Mock(spec=Response)
+act_not_allow.raise_for_status.side_effect = HTTPError
 act_not_allow.status_code = 400
 act_not_allow.json.return_value = { 
 	"error": {
@@ -101,6 +111,7 @@ act_not_allow.json.return_value = {
 	}
 
 too_many_req = Mock(spec=Response)
+too_many_req.raise_for_status.side_effect = HTTPError
 too_many_req.status_code = 400
 too_many_req.json.return_value = { 
 	"error": {
@@ -112,6 +123,7 @@ too_many_req.json.return_value = {
 	}
 
 idem_conf = Mock(spec=Response)
+idem_conf.raise_for_status.side_effect = HTTPError
 idem_conf.status_code = 400
 idem_conf.json.return_value = { 
 	"error": {
@@ -123,6 +135,7 @@ idem_conf.json.return_value = {
 	}
 
 req_fail = Mock(spec=Response)
+req_fail.raise_for_status.side_effect = HTTPError
 req_fail.status_code = 400
 req_fail.json.return_value = { 
 	"error": {
@@ -134,6 +147,7 @@ req_fail.json.return_value = {
 	}
 
 serv_error = Mock(spec=Response)
+serv_error.raise_for_status.side_effect = HTTPError
 serv_error.status_code = 500
 serv_error.json.return_value = { 
 	"error": {
@@ -145,6 +159,7 @@ serv_error.json.return_value = {
 	}
 
 serv_unav = Mock(spec=Response)
+serv_unav.raise_for_status.side_effect = HTTPError
 serv_unav.status_code = 503
 serv_unav.json.return_value = { 
 	"error": {

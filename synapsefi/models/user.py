@@ -10,7 +10,7 @@ from functools import partial
 import json
 import logging
 import requests
-import models.errors as api_errors
+from . import errors as api_errors
 
 class User():
 	""" User Record

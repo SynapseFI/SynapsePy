@@ -6,15 +6,15 @@ from .fixtures.node_fixtures import *
 from .fixtures.trans_fixtures import *
 from .fixtures.subnet_fixtures import *
 
-from models.user import User
-from models.node import Node, Nodes
-from models.transaction import Trans, Transactions
-from models.subnet import Subnet, Subnets
+from synapsefi.models.user import User
+from synapsefi.models.node import Node, Nodes
+from synapsefi.models.transaction import Trans, Transactions
+from synapsefi.models.subnet import Subnet, Subnets
 
-from models.http_client import HttpClient
+from synapsefi.models.http_client import HttpClient
 
 @mock.patch(
-	'models.user.User._do_request',
+	'synapsefi.models.user.User._do_request',
 	return_value={},
 	autospec=True
 )
@@ -48,7 +48,7 @@ class UserTests(TestCase):
 		self.node_trans_count = get_all_trans_resp['trans_count']
 
 	@mock.patch(
-		'models.http_client.HttpClient.get',
+		'synapsefi.models.http_client.HttpClient.get',
 		return_value={'refresh_token':'1234'},
 		autospec=True
 	)
@@ -59,7 +59,7 @@ class UserTests(TestCase):
 		)
 
 	@mock.patch(
-		'models.http_client.HttpClient.post',
+		'synapsefi.models.http_client.HttpClient.post',
 		return_value={'oauth_key':'1234'},
 		autospec=True
 	)

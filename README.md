@@ -22,5 +22,5 @@ import synapsefi
 ```
 Running the test suite:
 ```bash
-python3 -m unittest tests
+python -m unittest discover -s synapsefi.tests -p '*_tests.py
 ```
