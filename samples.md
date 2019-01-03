@@ -1,22 +1,22 @@
 # Table of Contents
-[Client](#client)
-        * [Create Client](#create-client)
-        * [Create User](#create-user)
-        * [Get User](#get-user)
-        * [Get Subscription](#get-subscription)
-        * [Update Subscription](#update-subscription)
-        * [Get All Users](#get-all-users)
-        * [Get All Client Transactions](#get-all-client-transactions)
-        * [Get All Client Nodes](#get-all-client-nodes)
-        * [Get All Client Institutions](#get-all-client-institutions)
-        * [Issue Public Key](#issue-public-key)
-[User](#user)
-        * [Get New Oauth](#get-new-oauth)
-        * [Update User or Update/Add Documents](#update-user-or-update-add-documents)
-        * [Generate UBO](#generate-ubo)
-        * [Get All User Nodes](#get-all-user-nodes)
-        * [Get All User Transactions](#get-all-user-transactions)
-    [Nodes](#nodes)
+- [Client](#client)
+    * [Initialize Client](#initialize-client)
+    * [Create User](#create-user)
+    * [Get User](#get-user)
+    * [Get Subscription](#get-subscription)
+    * [Update Subscription](#update-subscription)
+    * [Get All Users](#get-all-users)
+    * [Get All Client Transactions](#get-all-client-transactions)
+    * [Get All Client Nodes](#get-all-client-nodes)
+    * [Get All Client Institutions](#get-all-client-institutions)
+    * [Issue Public Key](#issue-public-key)
+- [User](#user)
+    * [Get New Oauth](#get-new-oauth)
+    * [Update User or Update/Add Documents](#update-user-or-update-add-documents)
+    * [Generate UBO](#generate-ubo)
+    * [Get All User Nodes](#get-all-user-nodes)
+    * [Get All User Transactions](#get-all-user-transactions)
+    + [Nodes](#nodes)
         * [Create Node](#create-node)
         * [Get Node](#get-node)
         * [Get All User Nodes](#get-all-user-nodes-1)
@@ -29,10 +29,10 @@
         * [Delete Node](#delete-node)
         * [Get All Node Subnets](#get-all-node-subnets)
         * [Get All Node Transactions](#get-all-node-transactions)
-    [Subnets](#subnets)
+    + [Subnets](#subnets)
         * [Create Subnet](#create-subnet)
         * [Get Subnet](#get-subnet)
-    [Transactions](#transactions)
+    + [Transactions](#transactions)
         * [Create Transaction](#create-transaction)
         * [Get Transaction](#get-transaction)
         * [Comment on Status](#comment-on-status)
@@ -41,7 +41,7 @@
 
 # Client
 
-##### Create Client
+##### Initialize Client
 ```python
 client = Client(
 	client_id='client_id_1239ABCdefghijk1092312309',
