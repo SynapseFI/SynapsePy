@@ -40,7 +40,6 @@
         * [Cancel/Delete Transaction](#cancel-delete-transaction)
 
 # Client
-
 ##### Initialize Client
 ```python
 client = Client(
