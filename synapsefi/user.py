@@ -174,10 +174,10 @@ class User():
 		'''Gets Node from database
 		Args:
 			node_id (str): Node ID for the Node you are trying to get
-			full_dehydrate (bool): (opt) Full Dehydrate True will will return back all the node info,
+			full_dehydrate (bool): (opt) Full Dehydrate True will return all the node info,
 				including decrypted account/routing number, transaction history, etc.
 			force_refresh (bool): (opt) If the node was created with bank logins,
-				force refresh yes will attempt updating the account balance and transactions
+				force refresh 'yes' will attempt updating the account balance and transactions
 		Returns:
 			Node: Node object containing node info
 		'''
