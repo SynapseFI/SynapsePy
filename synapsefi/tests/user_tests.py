@@ -194,7 +194,7 @@ class UserTests(TestCase):
 	def test_comment_trans(self, mock_request):
 		self.assertEqual(
 			self.user.comment_trans(
-				self.card_us_id, self.trans_id, {}
+				self.card_us_id, self.trans_id, ''
 			),
 			mock_request.return_value
 		)
@@ -211,7 +211,7 @@ class UserTests(TestCase):
 		mock_request.return_value = subnet_get_resp
 
 		test_subnet = self.user.create_subnet(
-			'', subnet_payload
+			'', subnet_payload['nickname']
 		)
 		self.assertIsInstance(test_subnet, Subnet)
 

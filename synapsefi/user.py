@@ -15,7 +15,6 @@ from . import errors as api_errors
 class User():
 	""" User Record
 	"""
-
 	def __init__(self, response, http, full_dehydrate=False, logging=False):
 		"""Initializes the User by parsing response from API
 		"""
@@ -302,7 +301,11 @@ class User():
 		return response
 
 	def reset_debit(self, node_id):
-		'''
+		'''Resets the debit card number, card cvv, and expiration date
+		Args:
+			node_id (str): ID of the Node object to reset card info for
+		Returns:
+			dict: dictionary of response from API
 		'''
 		path = (
 			paths['users']
@@ -333,14 +336,22 @@ class User():
 		return response
 
 	def create_ubo(self, body):
-		'''
+		'''Generates an UBO and REG GG form
+		Args:
+			body (dict): dictionary containing relevent document and user info needed to generate UBO
+		Returns:
+			dict: dictionary of response from API
 		'''
 		path = paths['users'] +'/'+ self.id + paths['ubo']
 		response = self._do_request(self.http.patch, path, body)
 		return response
 
 	def delete_node(self, node_id):
-		'''
+		'''Deletes a Node from the API
+		Args:
+			node_id (str): ID of the Node to delete
+		Returns:
+			dict: dictionary of response from API
 		'''
 		path = (
 			paths['users']
@@ -354,7 +365,13 @@ class User():
 		return response
 
 	def create_trans(self, node_id, body, idempotency_key=None):
-		'''
+		'''Create a transaction
+		Args:
+			node_id (str): ID of the from Node
+			body (dict): dictionary containing relevent transaction details
+			idempotency_key: (opt) Idempotency key for safely retrying requests
+		Returns:
+			Trans: Trans object containing transaction record
 		'''
 		path = (
 			paths['users']
@@ -374,7 +391,12 @@ class User():
 		return Trans(response)
 
 	def get_trans(self, node_id, trans_id):
-		'''
+		'''Retrieves a transaction record from the API
+		Args:
+			node_id (str): ID of the from Node
+			trans_id (str): ID of the transaction
+		Returns:
+			Trans: Trans object containing transaction record
 		'''
 		path = (
 			paths['users']
@@ -389,8 +411,14 @@ class User():
 		response = self._do_request(self.http.get, path)
 		return Trans(response)
 
-	def comment_trans(self, node_id, trans_id, body):
-		'''
+	def comment_trans(self, node_id, trans_id, comment):
+		'''Comment on a Transaction
+		Args:
+			node_id (str): ID of the from Node
+			trans_id (str): ID of the transaction
+			comment (str): Comment you wish to add for the transaction status
+		Returns:
+			dict: dictionary of response from API
 		'''
 		path = (
 			paths['users']
@@ -403,12 +431,18 @@ class User():
 			+ '/'
 			+ trans_id
 		)
-
+		body = {'comment': comment}
 		response = self._do_request(self.http.patch, path, body)
 		return response
 
 	def dispute_trans(self, node_id, trans_id, dispute_reason):
-		'''
+		'''Disputes a transaction
+		Args:
+			node_id (str): ID of the from Node
+			trans_id (str): ID of the transaction
+			dispute_reason (str): Reason for disputing the transaction
+		Returns:
+			dict: dictionary of response from API
 		'''
 		path = (
 			paths['users']
@@ -428,7 +462,12 @@ class User():
 		return response
 
 	def cancel_trans(self, node_id, trans_id):
-		'''
+		'''Cancels/Deletes a transaction
+		Args:
+			node_id (str): ID of the from Node
+			trans_id (str): ID of the transaction
+		Returns:
+			dict: dictionary of response from API
 		'''
 		path = (
 			paths['users']
@@ -445,7 +484,12 @@ class User():
 		return response
 
 	def dummy_tran(self, node_id, is_credit=False):
-		'''
+		'''Trigger external dummy transactions on deposit or card accounts
+		Args:
+			node_id (str): ID of the from Node
+			is_credit (str): (opt) If the transaction is a credit or debit
+		Returns:
+			dict: dictionary of response from API
 		'''
 		path = (
 			paths['users']
@@ -462,8 +506,14 @@ class User():
 		)
 		return response
 
-	def create_subnet(self, node_id, body, idempotency_key=None):
-		'''
+	def create_subnet(self, node_id, nickname, idempotency_key=None):
+		'''Creates account and routing number on an account
+		Args:
+			node_id (str): ID of the from Node
+			nickname (str): Any nickname/common name given to the node
+			idempotency_key: (opt) Idempotency key for safely retrying requests
+		Returns:
+			Subnet: Subnet object containing Subnet record
 		'''
 		path = (
 			paths['users']
@@ -474,12 +524,18 @@ class User():
 			+ node_id
 			+ paths['subn']
 		)
+		body = {'nickname': nickname}
 
 		response = self._do_request(self.http.post, path, body, idempotency_key=idempotency_key)
 		return Subnet(response)
 
 	def get_subnet(self, node_id, subnet_id):
-		'''
+		'''Retrieves the account and routing numbers on an account
+		Args:
+			node_id (str): ID of the from Node
+			subnet_id (str): ID of the Subnet
+		Returns:
+			Subnet: Subnet object containing Subnet record
 		'''
 		path = (
 			paths['users']
@@ -496,7 +552,13 @@ class User():
 		return Subnet(response)
 
 	def get_all_nodes(self, page=None, per_page=None, type=None):
-		'''
+		'''Retrieves all Nodes for a User
+		Args:
+			page (int): (opt) Page number
+			per_page (int): (opt) How many nodes do you want us to return per page.
+			type (str): (opt) Type of Node to filter
+		Returns:
+			Nodes: Nodes object containing paginated info and Node records
 		'''
 		path = paths['users'] + '/' + self.id + paths['nodes']
 
@@ -510,7 +572,13 @@ class User():
 		return Nodes(response)
 
 	def get_all_node_trans(self, node_id, page=None, per_page=None):
-		'''
+		'''Retrieves all Transactions for a Node
+		Args:
+			node_id (str): ID of the Node
+			page (int): (opt) Page number
+			per_page (int): (opt) How many transactions do you want us to return per page.
+		Returns:
+			Transactions: Transactions object containing paginated info and Trans records
 		'''
 		path = (
 			paths['users']
@@ -527,7 +595,12 @@ class User():
 		return Transactions(response)
 
 	def get_all_trans(self, page=None, per_page=None):
-		'''
+		'''Retrieves all Transactions for a User
+		Args:
+			page (int): (opt) Page number
+			per_page (int): (opt) How many transactions do you want us to return per page.
+		Returns:
+			Transactions: Transactions object containing paginated info and Trans records
 		'''
 		path = paths['users'] + '/' + self.id + paths['trans']
 		response = self._do_request(
@@ -536,7 +609,13 @@ class User():
 		return Transactions(response)
 
 	def get_all_subnets(self, node_id, page=None, per_page=None):
-		'''
+		'''Retrieves all Subnets for a Node
+		Args:
+			node_id (str): ID of the Node
+			page (int): (opt) Page number
+			per_page (int): (opt) How many transactions do you want us to return per page.
+		Returns:
+			Subnets: Subnets object containing paginated info and Subnet records
 		'''
 		path = (
 			paths['users']
@@ -553,7 +632,7 @@ class User():
 		return Subnets(response)
 
 	def get_log(self, enable):
-		'''
+		'''Creates logger
 		'''
 		logging.basicConfig()
 		logger = logging.getLogger(__name__)
@@ -563,9 +642,8 @@ class User():
 
 
 class Users():
-
 	def __init__(self, response, http):
-		'''
+		'''Initializes a Users object containing pagination info and User Records
 		'''
 		self.page = response['page']
 		self.page_count = response['page_count']

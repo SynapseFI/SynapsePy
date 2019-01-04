@@ -285,7 +285,7 @@ class Client():
 		'''Gets all client webhooks
 		Args:
 			page (int): (opt) Page number
-			per_page (int): (opt) How many nodes do you want us to return per page.
+			per_page (int): (opt) How many subs do you want us to return per page.
 		Returns:
 			(Subscriptions): object containing pagination info and list of Subscription objects
 		'''

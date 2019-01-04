@@ -2,7 +2,7 @@
 
 Python wrapper for SynapseFi API
 ## Code Example
-Refer to [samples.md](samples.md) and our [API documentation](http://docs.synapsepay.com/v3.1) for examples.
+Refer to [samples.md](samples.md) and our [API documentation](https://docs.synapsefi.com/v3.1) for examples.
 
 ## Installation
 ```bash
