@@ -6,13 +6,15 @@ Refer to [samples.md](samples.md) and our [API documentation](https://docs.synap
 
 ## Installation
 ```bash
-pip install synapsefi
+$ pip install synapsefi
 ```
 1. Clone repo
+```bash
+$ git clone https://github.com/SynapseFI/SynapseFi-Python-v2.git
+```
 2. Install requirements
 ```bash
-git clone https://github.com/SynapseFI/SynapseFi-Python-v2.git
-pip install -r requirements.txt
+$ pip install -r requirements.txt
 ```
 
 ## USAGE
@@ -27,7 +29,7 @@ import synapsefi
 $ pip install twine
 ```
 ##### Setup Source Distribution
-1. Update version number in [setup.py](setup.py)
+1. Update version number in [setup.py](setup.py):
 
 ```python
 setup(
@@ -37,18 +39,18 @@ setup(
     ...
 )
 ```
-2. Create the source distribution by running [setup.py](setup.py)
+2. Create the source distribution by running [setup.py](setup.py) using the following command:
 
 ```bash
 $ python setup.py sdist
 ```
 ##### Upload Distribution
-Replace `{{VERSION NUMBER}}` with the new distribution version
+Replace `{{VERSION NUMBER}}` with the new version number in the following command then run:
 ```bash
 $ twine upload dist/synapsefi-{{VERSION NUMBER}}.tar.gz
 ```
 ### Testing
-Run from root directory of package
+Run the following command from the root package directory
 ```bash
 $ python -m unittest discover -s synapsefi.tests -p '*tests.py'
 ```
