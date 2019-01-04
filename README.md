@@ -27,17 +27,17 @@ import synapsefi
 $ pip install twine
 ```
 ##### Setup Source Distribution
-1. Update version number in setup.py
+1. Update version number in [setup.py](setup.py)
 
 ```python
 setup(
     name='synapsefi',
     ...
-    version='0.0.15' # new version number goes here
+    version='0.0.15' # NEW VERSION NUMBER GOES HERE
     ...
 )
 ```
-2. Create the source distribution by running setup.py
+2. Create the source distribution by running [setup.py](setup.py)
 
 ```bash
 $ python setup.py sdist
