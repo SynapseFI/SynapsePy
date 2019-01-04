@@ -8,12 +8,13 @@ Refer to [samples.md](samples.md) and our [API documentation](https://docs.synap
 ```bash
 $ pip install synapsefi
 ```
-1. Clone repo
+Clone repo
 ```bash
 $ git clone https://github.com/SynapseFI/SynapseFi-Python-v2.git
 ```
-2. Install requirements
+Install requirements
 ```bash
+$ cd SynapseFi-Python-v2
 $ pip install -r requirements.txt
 ```
 
