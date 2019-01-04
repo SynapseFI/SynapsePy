@@ -90,6 +90,21 @@ class Client():
 			path, body, idempotency_key=idempotency_key
 		)
 		return User(response, self.http, full_dehydrate=False, logging=self.logging)
+
+	def get_user(self, user_id, full_dehydrate=False):
+		"""Returns User object grabbed from API
+		Args:
+			user_id (str): identification for user
+			full_dehydrate (bool): Full Dehydrate True will return back user's KYC info.
+		Returns:
+			user (User): object containing User record
+		"""
+		self.logger.debug("getting a user")
+
+		path = paths['users'] + '/' + user_id
+		full_d = 'yes' if full_dehydrate else None
+		response = self.http.get(path, full_dehydrate=full_d)
+		return User(response, self.http, full_dehydrate=full_d, logging=self.logging)
 	
 	def create_subscription(self, webhook_url, scope, idempotency_key=None):
 		'''Creates a webhook
@@ -111,21 +126,6 @@ class Client():
 			path, body, idempotency_key=idempotency_key
 		)
 		return Subscription(response)
-
-	def get_user(self, user_id, full_dehydrate=False):
-		"""Returns User object grabbed from API
-		Args:
-			user_id (str): identification for user
-			full_dehydrate (bool): Full Dehydrate True will return back user's KYC info.
-		Returns:
-			user (User): object containing User record
-		"""
-		self.logger.debug("getting a user")
-
-		path = paths['users'] + '/' + user_id
-		full_d = 'yes' if full_dehydrate else None
-		response = self.http.get(path, full_dehydrate=full_d)
-		return User(response, self.http, full_dehydrate=full_d, logging=self.logging)
 
 	def get_subscription(self, sub_id):
 		'''Returns Subscription object of webhook
@@ -150,9 +150,19 @@ class Client():
 		'''
 		self.logger.debug("updating subscription")
 
-		url = paths['subs'] + '/' + sub_id
-		response = self.http.patch(url, body)
+		path = paths['subs'] + '/' + sub_id
+		response = self.http.patch(path, body)
 		return Subscription(response)
+
+	def webhook_logs(self):
+		'''Returns all of the webhooks sent by SynapseFi
+		'''
+		headers = self.http.get_headers()
+		content_type = headers.pop('Content-Type')
+		path = paths['subs'] + paths['logs']
+		response = self.http.get(path)
+		headers['Content-Type'] = content_type
+		return response
 
 	def crypto_quotes(self):
 		'''Gets quotes for crypto currencies

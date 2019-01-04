@@ -37,6 +37,16 @@ class ClientTests(TestCase):
 		self.assertIsInstance(simple, User)
 
 	@mock.patch(
+		'synapsefi.http_client.HttpClient.get',
+		return_value = simple_response,
+		autospec = True
+	)
+	def test_get_user(self, mock_request):
+		# check if obj is User
+		simple = self.client.get_user('')
+		self.assertIsInstance(simple, User)
+
+	@mock.patch(
 		'synapsefi.http_client.HttpClient.post',
 		return_value = subs_resp,
 		autospec = True
@@ -54,6 +64,15 @@ class ClientTests(TestCase):
 	def test_get_subs(self, mock_request):
 		subs = self.client.get_subscription('')
 		self.assertIsInstance(subs, Subscription)
+
+	@mock.patch(
+		'synapsefi.http_client.HttpClient.get',
+		return_value = {},
+		autospec = True
+	)
+	def test_webhook_logs(self, mock_request):
+		logs = self.client.webhook_logs()
+		self.assertIsInstance(logs, dict)
 
 	@mock.patch(
 		'synapsefi.http_client.HttpClient.get',

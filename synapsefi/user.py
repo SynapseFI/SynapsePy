@@ -284,6 +284,7 @@ class User():
 		'''Ship physical debit card to user
 		Args:
 			node_id (str): ID of the Node object to reinitiate micro deposits for
+			body (dict): dictionary containing Node and shipping information
 		Returns:
 			dict: dictionary of response from API
 		'''

@@ -14,5 +14,6 @@ paths = {
 	'cryptom': '/crypto-market-watch',
 	'dummy': '/dummy-tran',
 	'dispute': '/dispute',
-	'ubo': '/ubo'
+	'ubo': '/ubo',
+	'logs': '/logs'
 }
