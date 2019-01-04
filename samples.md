@@ -74,6 +74,21 @@ client.create_user(body)
 ```python
 client.get_user('594e0fa2838454002ea317a0', full_dehydrate=True)
 ```
+##### Create Subscription
+```python
+body = {
+  "scope": [
+    "USERS|POST",
+    "USER|PATCH",
+    "NODES|POST",
+    "NODE|PATCH",
+    "TRANS|POST",
+    "TRAN|PATCH"
+  ],
+  "url": "https://requestb.in/zp216zzp"
+}
+subs = client.get_subscription(subs_id)
+```
 ##### Get Subscription
 ```python
 subs_id = '589b6adec83e17002122196c'
@@ -181,17 +196,17 @@ user.get_all_trans(page=4, per_page=10)
 ### Nodes
 ##### Create Node
 Refer to the following docs for how to setup the payload for a specific Node type:
-- [Deposit Accounts](http://docs.synapsepay.com/v3.1/docs/deposit-accounts)
-- [Card Issuance](http://docs.synapsepay.com/v3.1/docs/card-issuance)
-- [ACH-US with Logins](http://docs.synapsepay.com/v3.1/docs/add-ach-us-node)
-- [ACH-US MFA](http://docs.synapsepay.com/v3.1/docs/add-ach-us-node-via-bank-logins-mfa)
-- [ACH-US with AC/RT](http://docs.synapsepay.com/v3.1/docs/add-ach-us-node-via-acrt-s)
-- [INTERCHANGE-US](http://docs.synapsepay.com/v3.1/docs/interchange-us)
-- [CHECK-US](http://docs.synapsepay.com/v3.1/docs/check-us)
-- [CRYPTO-US](http://docs.synapsepay.com/v3.1/docs/crypto-us)
-- [WIRE-US](http://docs.synapsepay.com/v3.1/docs/add-wire-us-node)
-- [WIRE-INT](http://docs.synapsepay.com/v3.1/docs/add-wire-int-node)
-- [IOU](http://docs.synapsepay.com/v3.1/docs/add-iou-node)
+- [Deposit Accounts](https://docs.synapsepay.com/v3.1/docs/deposit-accounts)
+- [Card Issuance](https://docs.synapsepay.com/v3.1/docs/card-issuance)
+- [ACH-US with Logins](https://docs.synapsepay.com/v3.1/docs/add-ach-us-node)
+- [ACH-US MFA](https://docs.synapsepay.com/v3.1/docs/add-ach-us-node-via-bank-logins-mfa)
+- [ACH-US with AC/RT](https://docs.synapsepay.com/v3.1/docs/add-ach-us-node-via-acrt-s)
+- [INTERCHANGE-US](https://docs.synapsepay.com/v3.1/docs/interchange-us)
+- [CHECK-US](https://docs.synapsepay.com/v3.1/docs/check-us)
+- [CRYPTO-US](https://docs.synapsepay.com/v3.1/docs/crypto-us)
+- [WIRE-US](https://docs.synapsepay.com/v3.1/docs/add-wire-us-node)
+- [WIRE-INT](https://docs.synapsepay.com/v3.1/docs/add-wire-int-node)
+- [IOU](https://docs.synapsepay.com/v3.1/docs/add-iou-node)
 
 ```python
 body = {

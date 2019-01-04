@@ -20,7 +20,9 @@ pip install -r requirements.txt
 ```python
 import synapsefi
 ```
-Running the test suite (run in root folder of package):
+## Development
+##### Testing
+Run from root directory of package
 ```bash
 python -m unittest discover -s synapsefi.tests -p '*tests.py'
 ``` 

@@ -260,7 +260,7 @@ class User():
 		Args:
 			node_id (str): ID of the Node object to reinitiate micro deposits for
 		Returns:
-			dict: dictionary of response from API	
+			dict: dictionary of response from API
 		'''
 		self.logger.debug(
 			"reinitiating micro transaction for node_id: {}".format(
@@ -281,7 +281,11 @@ class User():
 		return response
 
 	def ship_debit(self, node_id, body):
-		'''
+		'''Ship physical debit card to user
+		Args:
+			node_id (str): ID of the Node object to reinitiate micro deposits for
+		Returns:
+			dict: dictionary of response from API
 		'''
 		path = (
 			paths['users']
