@@ -196,17 +196,17 @@ user.get_all_trans(page=4, per_page=10)
 ### Nodes
 ##### Create Node
 Refer to the following docs for how to setup the payload for a specific Node type:
-- [Deposit Accounts](https://docs.synapsepay.com/v3.1/docs/deposit-accounts)
-- [Card Issuance](https://docs.synapsepay.com/v3.1/docs/card-issuance)
-- [ACH-US with Logins](https://docs.synapsepay.com/v3.1/docs/add-ach-us-node)
-- [ACH-US MFA](https://docs.synapsepay.com/v3.1/docs/add-ach-us-node-via-bank-logins-mfa)
-- [ACH-US with AC/RT](https://docs.synapsepay.com/v3.1/docs/add-ach-us-node-via-acrt-s)
-- [INTERCHANGE-US](https://docs.synapsepay.com/v3.1/docs/interchange-us)
-- [CHECK-US](https://docs.synapsepay.com/v3.1/docs/check-us)
-- [CRYPTO-US](https://docs.synapsepay.com/v3.1/docs/crypto-us)
-- [WIRE-US](https://docs.synapsepay.com/v3.1/docs/add-wire-us-node)
-- [WIRE-INT](https://docs.synapsepay.com/v3.1/docs/add-wire-int-node)
-- [IOU](https://docs.synapsepay.com/v3.1/docs/add-iou-node)
+- [Deposit Accounts](https://docs.synapsefi.com/v3.1/docs/deposit-accounts)
+- [Card Issuance](https://docs.synapsefi.com/v3.1/docs/card-issuance)
+- [ACH-US with Logins](https://docs.synapsefi.com/v3.1/docs/add-ach-us-node)
+- [ACH-US MFA](https://docs.synapsefi.com/v3.1/docs/add-ach-us-node-via-bank-logins-mfa)
+- [ACH-US with AC/RT](https://docs.synapsefi.com/v3.1/docs/add-ach-us-node-via-acrt-s)
+- [INTERCHANGE-US](https://docs.synapsefi.com/v3.1/docs/interchange-us)
+- [CHECK-US](https://docs.synapsefi.com/v3.1/docs/check-us)
+- [CRYPTO-US](https://docs.synapsefi.com/v3.1/docs/crypto-us)
+- [WIRE-US](https://docs.synapsefi.com/v3.1/docs/add-wire-us-node)
+- [WIRE-INT](https://docs.synapsefi.com/v3.1/docs/add-wire-int-node)
+- [IOU](https://docs.synapsefi.com/v3.1/docs/add-iou-node)
 
 ```python
 body = {
