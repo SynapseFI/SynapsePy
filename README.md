@@ -24,12 +24,12 @@ import synapsefi
 ```
 ## Development
 ### Package Deployment
-##### Install Requirements
+##### 1. Install Requirements
 ```bash
 $ pip install twine
 ```
-##### Setup Source Distribution
-1. Update version number in [setup.py](setup.py):
+##### 2. Setup Source Distribution
+Update version number in [setup.py](setup.py):
 
 ```python
 setup(
@@ -39,12 +39,12 @@ setup(
     ...
 )
 ```
-2. Create the source distribution by running [setup.py](setup.py) using the following command:
+Create the source distribution by running [setup.py](setup.py) using the following command:
 
 ```bash
 $ python setup.py sdist
 ```
-##### Upload Distribution
+##### 3. Upload Distribution
 Replace `{{VERSION NUMBER}}` with the new version number in the following command then run:
 ```bash
 $ twine upload dist/synapsefi-{{VERSION NUMBER}}.tar.gz
