@@ -17,7 +17,6 @@ import requests
 
 class Client():
 	""" Client Record """
-
 	def __init__(self, client_id, client_secret, fingerprint, ip_address, devmode=False, logging=False):
 		"""
 		Args:

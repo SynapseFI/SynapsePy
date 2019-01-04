@@ -9,7 +9,6 @@ class HttpClient():
 	"""Handles HTTP requests (including headers) and API errors.
 	"""
 	def __init__(self, client_id, client_secret, fingerprint, ip_address, base_url, logging):
-		
 		self.client_id = client_id
 		self.client_secret = client_secret
 		self.fingerprint = fingerprint
