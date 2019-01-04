@@ -21,8 +21,34 @@ pip install -r requirements.txt
 import synapsefi
 ```
 ## Development
-##### Testing
+### Package Deployment
+##### Install Requirements
+```bash
+$ pip install twine
+```
+##### Setup Source Distribution
+1. Update version number in setup.py
+
+```python
+setup(
+    name='synapsefi',
+    ...
+    version='0.0.15' # new version number goes here
+    ...
+)
+```
+2. Create the source distribution by running setup.py
+
+```bash
+$ python setup.py sdist
+```
+##### Upload Distribution
+Replace `{{VERSION NUMBER}}` with the new distribution version
+```bash
+$ twine upload dist/synapsefi-{{VERSION NUMBER}}.tar.gz
+```
+### Testing
 Run from root directory of package
 ```bash
-python -m unittest discover -s synapsefi.tests -p '*tests.py'
-``` 
+$ python -m unittest discover -s synapsefi.tests -p '*tests.py'
+```
