@@ -32,6 +32,7 @@ class User():
 		Returns:
 			dict: dict response of user record with new refresh_token
 		'''
+		self.logger.debug("Getting new User and refresh_token")
 		path = paths['users'] + '/' + self.id
 
 		self.body = self.http.get(path, full_dehydrate=self.full_dehydrate)
@@ -44,6 +45,7 @@ class User():
 		Returns:
 			OAuth (str): newly created OAuth within scope
 		'''
+		self.logger.debug("Getting new OAuth for user")
 		path = paths['oauth'] + '/' + self.id
 
 		body = {'refresh_token': self.body['refresh_token']}
@@ -71,6 +73,7 @@ class User():
 		Returns:
 			dict: dictionary containing API response
 		'''
+		self.logger.debug("Sending chosen 2FA device")
 		path = paths['oauth'] + '/' + self.id
 
 		body = {
@@ -89,6 +92,7 @@ class User():
 		Returns:
 			dict: dictionary containing API response
 		'''
+		self.logger.debug("Confirming 2FA Pin")
 		path = paths['oauth'] + '/' + self.id
 
 		body = {
@@ -143,6 +147,7 @@ class User():
 		Returns:
 			response (User): User object containing updated info
 		'''
+		self.logger.debug("Updating user info")
 		path = paths['users'] + '/' + self.id
 
 		response = self._do_request(self.http.patch, path, body)
@@ -156,6 +161,7 @@ class User():
 			body (dict): dictionary containing new Node information
 			idempotency_key: (opt) Idempotency key for safely retrying requests
 		'''
+		self.logger.debug("Creating {} Node".format(body.get('type')))
 		path = paths['users'] + '/' + self.id + paths['nodes']
 
 		response = self._do_request(
@@ -180,6 +186,8 @@ class User():
 		Returns:
 			Node: Node object containing node info
 		'''
+		self.logger.debug("Retrieving Node")
+
 		path = (
 			paths['users']
 			+ '/'
@@ -207,6 +215,7 @@ class User():
 		Returns:
 			Node: Node object with updated info
 		'''
+		self.logger.debug("Updating Node info")
 		path = (
 			paths['users']
 			+ '/'
@@ -227,6 +236,7 @@ class User():
 			or
 			dict: dictionary response if another MFA flow is needed
 		'''
+		self.logger.debug("Sending MFA flow information")
 		path = paths['users'] + '/' + self.id + paths['nodes']
 
 		response = self._do_request(self.http.post, path, body)
@@ -243,6 +253,7 @@ class User():
 		Returns:
 			Node: Node object containing node info
 		'''
+		self.logger.debug("Verifying micro-transactions")
 		path = (
 			paths['users']
 			+ '/'
@@ -287,6 +298,7 @@ class User():
 		Returns:
 			dict: dictionary of response from API
 		'''
+		self.logger.debug("Shipping debit card")
 		path = (
 			paths['users']
 			+ '/'
@@ -307,6 +319,7 @@ class User():
 		Returns:
 			dict: dictionary of response from API
 		'''
+		self.logger.debug("Resetting debit card")
 		path = (
 			paths['users']
 			+ '/'
@@ -323,6 +336,7 @@ class User():
 	def generate_apple_pay(self, node_id, body):
 		'''Generates an ApplePay token (currently not working in API)
 		'''
+		self.logger.debug("Generating apple pay token")
 		path = (
 			paths['users']
 			+ '/'
@@ -342,6 +356,7 @@ class User():
 		Returns:
 			dict: dictionary of response from API
 		'''
+		self.logger.debug("Generating UBO and REG GG form")
 		path = paths['users'] +'/'+ self.id + paths['ubo']
 		response = self._do_request(self.http.patch, path, body)
 		return response
@@ -353,6 +368,7 @@ class User():
 		Returns:
 			dict: dictionary of response from API
 		'''
+		self.logger.debug("Deleting Node")
 		path = (
 			paths['users']
 			+ '/'
@@ -373,6 +389,7 @@ class User():
 		Returns:
 			Trans: Trans object containing transaction record
 		'''
+		self.logger.debug("Creating transaction")
 		path = (
 			paths['users']
 			+ '/'
@@ -398,6 +415,7 @@ class User():
 		Returns:
 			Trans: Trans object containing transaction record
 		'''
+		self.logger.debug("Retrieving Transaction")
 		path = (
 			paths['users']
 			+ '/'
@@ -420,6 +438,7 @@ class User():
 		Returns:
 			dict: dictionary of response from API
 		'''
+		self.logger.debug("Commenting on Transaction")
 		path = (
 			paths['users']
 			+ '/'
@@ -444,6 +463,7 @@ class User():
 		Returns:
 			dict: dictionary of response from API
 		'''
+		self.logger.debug("Disputing Transaction")
 		path = (
 			paths['users']
 			+ '/'
@@ -469,6 +489,7 @@ class User():
 		Returns:
 			dict: dictionary of response from API
 		'''
+		self.logger.debug("Cancelling Transaction")
 		path = (
 			paths['users']
 			+ '/'
@@ -491,6 +512,7 @@ class User():
 		Returns:
 			dict: dictionary of response from API
 		'''
+		self.logger.debug("Triggering dummy Transactions for Node")
 		path = (
 			paths['users']
 			+ '/'
@@ -515,6 +537,7 @@ class User():
 		Returns:
 			Subnet: Subnet object containing Subnet record
 		'''
+		self.logger.debug("Creating Subnet {}".format(nickname))
 		path = (
 			paths['users']
 			+ '/'
@@ -537,6 +560,7 @@ class User():
 		Returns:
 			Subnet: Subnet object containing Subnet record
 		'''
+		self.logger.debug("Retrieving Subnet info")
 		path = (
 			paths['users']
 			+ '/'
@@ -560,6 +584,7 @@ class User():
 		Returns:
 			Nodes: Nodes object containing paginated info and Node records
 		'''
+		self.logger.debug("Retrieving all Nodes for User")
 		path = paths['users'] + '/' + self.id + paths['nodes']
 
 		response = self._do_request(
@@ -580,6 +605,7 @@ class User():
 		Returns:
 			Transactions: Transactions object containing paginated info and Trans records
 		'''
+		self.logger.debug("Retrieving all Transactions for Node")
 		path = (
 			paths['users']
 			+ '/'
@@ -602,6 +628,7 @@ class User():
 		Returns:
 			Transactions: Transactions object containing paginated info and Trans records
 		'''
+		self.logger.debug("Retrieving all Transactions for User")
 		path = paths['users'] + '/' + self.id + paths['trans']
 		response = self._do_request(
 			self.http.get, path, page=page, per_page=per_page
@@ -617,6 +644,7 @@ class User():
 		Returns:
 			Subnets: Subnets object containing paginated info and Subnet records
 		'''
+		self.logger.debug("Retrieving all Subnets for Node")
 		path = (
 			paths['users']
 			+ '/'

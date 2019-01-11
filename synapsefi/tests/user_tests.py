@@ -76,12 +76,12 @@ class UserTests(TestCase):
 	def test_create_node(self, mock_request):
 		mock_request.return_value = get_nodes_response
 		self.assertIsInstance(
-			self.user.create_node({}), Nodes
+			self.user.create_node(card_us_payload), Nodes
 		)
 
 		mock_request.return_value = ach_mfa_resp
 		self.assertIsInstance(
-			self.user.create_node(self.ach_us_id,{}),
+			self.user.create_node(ach_us_logins),
 			dict
 		)
 
