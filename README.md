@@ -1,6 +1,6 @@
-# SynapseFi Python Library
+# SynapseFI Python Library
 
-Python wrapper for SynapseFi API
+Python wrapper for SynapseFI API
 ## Code Example
 Refer to [samples.md](samples.md) and our [API documentation](https://docs.synapsefi.com/v3.1) for examples.
 
@@ -10,11 +10,11 @@ $ pip install synapsefi
 ```
 Clone repo
 ```bash
-$ git clone https://github.com/SynapseFI/SynapseFi-Python-v2.git
+$ git clone https://github.com/SynapseFI/SynapseFI-Python-v2.git
 ```
 Install requirements
 ```bash
-$ cd SynapseFi-Python-v2
+$ cd SynapseFI-Python-v2
 $ pip install -r requirements.txt
 ```
 
