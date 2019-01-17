@@ -87,7 +87,7 @@ body = {
   ],
   "url": "https://requestb.in/zp216zzp"
 }
-subs = client.get_subscription(subs_id)
+subs = client.create_subscription(body)
 ```
 ##### Get Subscription
 ```python
