@@ -12,6 +12,7 @@
 		* [Issue Public Key](#issue-public-key)
 - [User](#user)
 		* [Get New Oauth](#get-new-oauth)
+		* [Register New Fingerprint](#register-new-fingerprint)
 		* [Update User or Update/Add Documents](#update-user-or-update-add-documents)
 		* [Generate UBO](#generate-ubo)
 		* [Get All User Nodes](#get-all-user-nodes)
@@ -38,6 +39,7 @@
 				* [Comment on Status](#comment-on-status)
 				* [Dispute Transaction](#dispute-transaction)
 				* [Cancel/Delete Transaction](#cancel-delete-transaction)
+				* [Trigger Dummy Transactions](#trigger-dummy-transactions)
 
 # Client
 ##### Initialize Client
@@ -148,6 +150,21 @@ body = {
 
 user.oauth(body)
 ```
+##### Register New Fingerprint
+1. Supply the new fingerprint:
+```python
+client.update_headers(fingerprint='e83cf6ddcf778e37bfe3d48fc78a6502062fcxx')
+user.oauth()
+```
+2. Supply 2FA device from the list
+```python
+user.select_2fa_device('test@synapsefi.com')
+```
+3. Verify the pin sent to the 2FA device
+```python
+user.confirm_2fa_pin('594230')
+```
+
 ##### Update User or Update/Add Documents
 ```python
 body = {
