@@ -1,43 +1,43 @@
 # Table of Contents
 - [Client](#client)
-    * [Initialize Client](#initialize-client)
-    * [Create User](#create-user)
-    * [Get User](#get-user)
-    * [Get Subscription](#get-subscription)
-    * [Update Subscription](#update-subscription)
-    * [Get All Users](#get-all-users)
-    * [Get All Client Transactions](#get-all-client-transactions)
-    * [Get All Client Nodes](#get-all-client-nodes)
-    * [Get All Client Institutions](#get-all-client-institutions)
-    * [Issue Public Key](#issue-public-key)
+		* [Initialize Client](#initialize-client)
+		* [Create User](#create-user)
+		* [Get User](#get-user)
+		* [Get Subscription](#get-subscription)
+		* [Update Subscription](#update-subscription)
+		* [Get All Users](#get-all-users)
+		* [Get All Client Transactions](#get-all-client-transactions)
+		* [Get All Client Nodes](#get-all-client-nodes)
+		* [Get All Client Institutions](#get-all-client-institutions)
+		* [Issue Public Key](#issue-public-key)
 - [User](#user)
-    * [Get New Oauth](#get-new-oauth)
-    * [Update User or Update/Add Documents](#update-user-or-update-add-documents)
-    * [Generate UBO](#generate-ubo)
-    * [Get All User Nodes](#get-all-user-nodes)
-    * [Get All User Transactions](#get-all-user-transactions)
-    + [Nodes](#nodes)
-        * [Create Node](#create-node)
-        * [Get Node](#get-node)
-        * [Get All User Nodes](#get-all-user-nodes-1)
-        * [Update Node](#update-node)
-        * [Ship Debit](#ship-debit)
-        * [Reset Debit](#reset-debit)
-        * [Verify Micro Deposit](#verify-micro-deposit)
-        * [Reinitiate Micro Deposit](#reinitiate-micro-deposit)
-        * [Generate Apple Pay](#generate-apple-pay)
-        * [Delete Node](#delete-node)
-        * [Get All Node Subnets](#get-all-node-subnets)
-        * [Get All Node Transactions](#get-all-node-transactions)
-    + [Subnets](#subnets)
-        * [Create Subnet](#create-subnet)
-        * [Get Subnet](#get-subnet)
-    + [Transactions](#transactions)
-        * [Create Transaction](#create-transaction)
-        * [Get Transaction](#get-transaction)
-        * [Comment on Status](#comment-on-status)
-        * [Dispute Transaction](#dispute-transaction)
-        * [Cancel/Delete Transaction](#cancel-delete-transaction)
+		* [Get New Oauth](#get-new-oauth)
+		* [Update User or Update/Add Documents](#update-user-or-update-add-documents)
+		* [Generate UBO](#generate-ubo)
+		* [Get All User Nodes](#get-all-user-nodes)
+		* [Get All User Transactions](#get-all-user-transactions)
+		+ [Nodes](#nodes)
+				* [Create Node](#create-node)
+				* [Get Node](#get-node)
+				* [Get All User Nodes](#get-all-user-nodes-1)
+				* [Update Node](#update-node)
+				* [Ship Debit](#ship-debit)
+				* [Reset Debit](#reset-debit)
+				* [Verify Micro Deposit](#verify-micro-deposit)
+				* [Reinitiate Micro Deposit](#reinitiate-micro-deposit)
+				* [Generate Apple Pay](#generate-apple-pay)
+				* [Delete Node](#delete-node)
+				* [Get All Node Subnets](#get-all-node-subnets)
+				* [Get All Node Transactions](#get-all-node-transactions)
+		+ [Subnets](#subnets)
+				* [Create Subnet](#create-subnet)
+				* [Get Subnet](#get-subnet)
+		+ [Transactions](#transactions)
+				* [Create Transaction](#create-transaction)
+				* [Get Transaction](#get-transaction)
+				* [Comment on Status](#comment-on-status)
+				* [Dispute Transaction](#dispute-transaction)
+				* [Cancel/Delete Transaction](#cancel-delete-transaction)
 
 # Client
 ##### Initialize Client
@@ -53,19 +53,19 @@ client = Client(
 ##### Create User
 ```python
 body = {
-  "logins": [
-    {
-      "email": "test@synapsefi.com"
-    }
-  ],
-  "phone_numbers": [
-    "901.111.1111",
-    "test@synapsefi.com"
-  ],
-  "legal_names": [
-    "Test User"
-  ],
-  ...
+	"logins": [
+		{
+			"email": "test@synapsefi.com"
+		}
+	],
+	"phone_numbers": [
+		"901.111.1111",
+		"test@synapsefi.com"
+	],
+	"legal_names": [
+		"Test User"
+	],
+	...
 }
 
 client.create_user(body)
@@ -77,15 +77,15 @@ client.get_user('594e0fa2838454002ea317a0', full_dehydrate=True)
 ##### Create Subscription
 ```python
 body = {
-  "scope": [
-    "USERS|POST",
-    "USER|PATCH",
-    "NODES|POST",
-    "NODE|PATCH",
-    "TRANS|POST",
-    "TRAN|PATCH"
-  ],
-  "url": "https://requestb.in/zp216zzp"
+	"scope": [
+		"USERS|POST",
+		"USER|PATCH",
+		"NODES|POST",
+		"NODE|PATCH",
+		"TRANS|POST",
+		"TRAN|PATCH"
+	],
+	"url": "https://requestb.in/zp216zzp"
 }
 subs = client.create_subscription(body)
 ```
@@ -97,15 +97,15 @@ subs = client.get_subscription(subs_id)
 ##### Update Subscription
 ```python
 body = {
-    'subs_id': '589b6adec83e17002122196c'
-    'url': 'https://requestb.in/zp216zzp'
-    'scope': [
-        "USERS|POST",
-        "USER|PATCH",
-        "NODES|POST",
-        ...
-      ]
-    }
+		'subs_id': '589b6adec83e17002122196c'
+		'url': 'https://requestb.in/zp216zzp'
+		'scope': [
+				"USERS|POST",
+				"USER|PATCH",
+				"NODES|POST",
+				...
+			]
+		}
 subs = client.update_subscription(body)
 ```
 ##### Get All Users
@@ -127,23 +127,23 @@ allinst = client.get_all_inst()
 ##### Issue Public Key
 ```python
 scope = [
-    "USERS|POST",
-    "USER|PATCH",
-    "NODES|POST",
-    ...
-  ]
+		"USERS|POST",
+		"USER|PATCH",
+		"NODES|POST",
+		...
+	]
 pubkey = client.issue_public_key(scope)
 ```
 # User
 ##### Get New Oauth
 ```python
 body = {
-    "refresh_token":"refresh_Y5beJdBLtgvply3KIzrh72UxWMEqiTNoVAfDs98G",
-    "scope":[
-        "USER|PATCH",
-        "USER|GET",
-        ...
-    ]
+		"refresh_token":"refresh_Y5beJdBLtgvply3KIzrh72UxWMEqiTNoVAfDs98G",
+		"scope":[
+				"USER|PATCH",
+				"USER|GET",
+				...
+		]
 }
 
 user.oauth(body)
@@ -151,16 +151,16 @@ user.oauth(body)
 ##### Update User or Update/Add Documents
 ```python
 body = {
-  "update":{
-    "login":{
-      "email":"test2@synapsefi.com"
-    },
-    "remove_login":{
-      "email":"test@synapsefi.com"
-    },
-    "phone_number":"901-111-2222",
-    "remove_phone_number":"901.111.1111"
-    }
+	"update":{
+		"login":{
+			"email":"test2@synapsefi.com"
+		},
+		"remove_login":{
+			"email":"test@synapsefi.com"
+		},
+		"phone_number":"901-111-2222",
+		"remove_phone_number":"901.111.1111"
+		}
 }
 
 user.update_info(body)
@@ -168,19 +168,19 @@ user.update_info(body)
 ##### Generate UBO
 ```python
 body = {
-   "entity_info": {
-      "cryptocurrency": True,
-      "msb": {
-         "federal": True,
-         "states": ["AL"]
-      },
-      "public_company": False,
-      "majority_owned_by_listed": False,
-      "registered_SEC": False,
-      "regulated_financial": False,
-      "gambling": False,
-      "document_id": "2a4a5957a3a62aaac1a0dd0edcae96ea2cdee688ec6337b20745eed8869e3ac8"
-   ...
+	 "entity_info": {
+			"cryptocurrency": True,
+			"msb": {
+				 "federal": True,
+				 "states": ["AL"]
+			},
+			"public_company": False,
+			"majority_owned_by_listed": False,
+			"registered_SEC": False,
+			"regulated_financial": False,
+			"gambling": False,
+			"document_id": "2a4a5957a3a62aaac1a0dd0edcae96ea2cdee688ec6337b20745eed8869e3ac8"
+	 ...
 }
 
 user.create_ubo(body)
@@ -196,24 +196,22 @@ user.get_all_trans(page=4, per_page=10)
 ### Nodes
 ##### Create Node
 Refer to the following docs for how to setup the payload for a specific Node type:
-- [Deposit Accounts](https://docs.synapsefi.com/v3.1/docs/deposit-accounts)
-- [Card Issuance](https://docs.synapsefi.com/v3.1/docs/card-issuance)
-- [ACH-US with Logins](https://docs.synapsefi.com/v3.1/docs/add-ach-us-node)
-- [ACH-US MFA](https://docs.synapsefi.com/v3.1/docs/add-ach-us-node-via-bank-logins-mfa)
-- [ACH-US with AC/RT](https://docs.synapsefi.com/v3.1/docs/add-ach-us-node-via-acrt-s)
-- [INTERCHANGE-US](https://docs.synapsefi.com/v3.1/docs/interchange-us)
-- [CHECK-US](https://docs.synapsefi.com/v3.1/docs/check-us)
-- [CRYPTO-US](https://docs.synapsefi.com/v3.1/docs/crypto-us)
-- [WIRE-US](https://docs.synapsefi.com/v3.1/docs/add-wire-us-node)
-- [WIRE-INT](https://docs.synapsefi.com/v3.1/docs/add-wire-int-node)
-- [IOU](https://docs.synapsefi.com/v3.1/docs/add-iou-node)
+- [Direct Deposit Accounts](https://docs.synapsefi.com/docs/opening-direct-deposit-accounts)
+- [Issue Card](https://docs.synapsefi.com/docs/issue-a-card-number-1)
+- [ACH-US with Logins](https://docs.synapsefi.com/docs/linking-an-ach-account-via-bank-logins)
+- [ACH-US with AC/RT](https://docs.synapsefi.com/docs/linking-an-ach-account-with-accountrouting-number)
+- [INTERCHANGE-US](https://docs.synapsefi.com/docs/link-a-card)
+- [CHECK-US](https://docs.synapsefi.com/docs/create-the-check-account)
+- [WIRE-US](https://docs.synapsefi.com/docs/sending-a-domestic-wire)
+- [WIRE-INT](https://docs.synapsefi.com/docs/sending-an-international-wire)
+- [IOU](https://docs.synapsefi.com/docs/opening-a-ledgering-account)
 
 ```python
 body = {
-  "type": "DEPOSIT-US",
-  "info":{
-      "nickname":"My Checking"
-  }
+	"type": "DEPOSIT-US",
+	"info":{
+			"nickname":"My Checking"
+	}
 }
 
 user.create_node(body, idempotency_key='123456')
@@ -231,7 +229,7 @@ nodes = user.get_nodes(page=1, per_page=5, type='ACH-US')
 ```python
 node_id = '5ba05ed620b3aa005882c52a'
 body = {
-  "supp_id":"new_supp_id_1234"
+	"supp_id":"new_supp_id_1234"
 }
 nodes = user.update_node(node_id, body)
 ```
@@ -240,8 +238,8 @@ nodes = user.update_node(node_id, body)
 node_id = '5ba05ed620b3aa005882c52a'
 
 body = {
-  "fee_node_id":"5ba05e7920b3aa006482c5ad",
-  "expedite":True
+	"fee_node_id":"5ba05e7920b3aa006482c5ad",
+	"expedite":True
 }
 
 nodes = user.ship_debit(node_id, body)
@@ -255,7 +253,7 @@ nodes = user.reset_debit(node_id)
 ```python
 node_id = '5ba05ed620b3aa005882c52a'
 body = {
-  "micro":[0.1,0.1]
+	"micro":[0.1,0.1]
 }
 nodes = user.verify_micro(node_id, body)
 ```
@@ -268,9 +266,9 @@ nodes = user.reinit_micro(node_id)
 ```python
 node_id = '5ba05ed620b3aa005882c52a'
 body = {
-  "certificate": "your applepay cert",
-  "nonce": "9c02xxx2",
-  "nonce_signature": "4082f883ae62d0700c283e225ee9d286713ef74"
+	"certificate": "your applepay cert",
+	"nonce": "9c02xxx2",
+	"nonce_signature": "4082f883ae62d0700c283e225ee9d286713ef74"
 }
 nodes = user.generate_apple_pay(node_id)
 ```
@@ -294,7 +292,7 @@ user.get_all_node_trans(node_id, page=4, per_page=10)
 ```python
 node_id = '594e606212e17a002f2e3251'
 body = {
-  "nickname":"Test AC/RT"
+	"nickname":"Test AC/RT"
 }
 user.create_subnet(node_id, body)
 ```
@@ -309,17 +307,17 @@ user.get_subnet(node_id, subn_id)
 ```python
 node_id = '594e606212e17a002f2e3251'
 body = {
-  "to": {
-    "type": "ACH-US",
-    "id": "594e6e6c12e17a002f2e39e4"
-  },
-  "amount": {
-    "amount": 20.1,
-    "currency": "USD"
-  },
-  "extra": {
-    "ip": "192.168.0.1"
-  }
+	"to": {
+		"type": "ACH-US",
+		"id": "594e6e6c12e17a002f2e39e4"
+	},
+	"amount": {
+		"amount": 20.1,
+		"currency": "USD"
+	},
+	"extra": {
+		"ip": "192.168.0.1"
+	}
 }
 
 user.create_trans(node_id, body)
@@ -347,5 +345,11 @@ user.cancel_trans(node_id, trans_id, dispute_reason)
 ```python
 node_id = '594e606212e17a002f2e3251'
 trans_id = '594e72124599e8002fe62e4f'
-user.cancel_trans(node_id, trans_id)
+user.dummy_tran(node_id, trans_id)
+```
+
+##### Trigger Dummy Transactions
+```python
+node_id = '594e606212e17a002f2e3251'
+user.cancel_trans(node_id, is_credit=True)
 ```

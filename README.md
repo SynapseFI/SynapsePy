@@ -2,7 +2,7 @@
 
 Python wrapper for SynapseFI API
 ## Code Example
-Refer to [samples.md](samples.md) and our [API documentation](https://docs.synapsefi.com/v3.1) for examples.
+Refer to [samples.md](samples.md) and our [API documentation](https://docs.synapsefi.com/) for examples.
 
 ## Installation
 ```bash
@@ -10,18 +10,18 @@ $ pip install synapsepy
 ```
 Clone repo
 ```bash
-$ git clone https://github.com/SynapseFI/SynapseFI-Python-v2.git
+$ git clone https://github.com/SynapseFI/SynapsePy.git
 ```
 Install requirements
 ```bash
-$ cd SynapseFI-Python-v2
+$ cd SynapsePy
 $ pip install -r requirements.txt
 ```
 
 ## USAGE
 ##### Import
 ```python
-import synapsefi
+import synapsepy
 ```
 ## Development
 ### Package Deployment
@@ -34,10 +34,10 @@ Update version number in [setup.py](setup.py):
 
 ```python
 setup(
-    name='synapsefi',
-    ...
-    version='0.0.15' # NEW VERSION NUMBER GOES HERE
-    ...
+	name='synapsepy',
+	...
+	version='0.0.15' # NEW VERSION NUMBER GOES HERE
+	...
 )
 ```
 Create the source distribution by running [setup.py](setup.py) using the following command:
@@ -48,10 +48,10 @@ $ python setup.py sdist
 ##### 3. Upload Distribution
 Replace `{{VERSION NUMBER}}` with the new version number in the following command then run:
 ```bash
-$ twine upload dist/synapsefi-{{VERSION NUMBER}}.tar.gz
+$ twine upload dist/synapsepy-{{VERSION NUMBER}}.tar.gz
 ```
 ### Testing
 Run the following command from the root package directory
 ```bash
-$ python -m unittest discover -s synapsefi.tests -p '*tests.py'
+$ python -m unittest discover -s synapsepy.tests -p '*tests.py'
 ```
