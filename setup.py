@@ -16,7 +16,7 @@ from os import path
 #     long_description = f.read()
 
 setup(
-    name='synapsefi',
+    name='synapsepy',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
@@ -55,7 +55,7 @@ setup(
     ],
 
     # What does your project relate to?
-    keywords='SynapseFi v3 Rest API',
+    keywords='SynapseFi v3 API Wrapper',
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().

@@ -6,7 +6,7 @@ Refer to [samples.md](samples.md) and our [API documentation](https://docs.synap
 
 ## Installation
 ```bash
-$ pip install synapsefi
+$ pip install synapsepy
 ```
 Clone repo
 ```bash

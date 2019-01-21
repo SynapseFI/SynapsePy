@@ -3,4 +3,5 @@ __pycache__
 environment.yml
 *.pyc
 synapsefi.egg-info/*
+synapsepy.egg-info/*
 dist/*
