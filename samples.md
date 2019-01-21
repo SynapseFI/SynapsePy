@@ -1,45 +1,46 @@
 # Table of Contents
 - [Client](#client)
-		* [Initialize Client](#initialize-client)
-		* [Create User](#create-user)
-		* [Get User](#get-user)
-		* [Get Subscription](#get-subscription)
-		* [Update Subscription](#update-subscription)
-		* [Get All Users](#get-all-users)
-		* [Get All Client Transactions](#get-all-client-transactions)
-		* [Get All Client Nodes](#get-all-client-nodes)
-		* [Get All Client Institutions](#get-all-client-institutions)
-		* [Issue Public Key](#issue-public-key)
+	* [Initialize Client](#initialize-client)
+	* [Update Headers](#update-headers)
+	* [Create User](#create-user)
+	* [Get User](#get-user)
+	* [Get Subscription](#get-subscription)
+	* [Update Subscription](#update-subscription)
+	* [Get All Users](#get-all-users)
+	* [Get All Client Transactions](#get-all-client-transactions)
+	* [Get All Client Nodes](#get-all-client-nodes)
+	* [Get All Client Institutions](#get-all-client-institutions)
+	* [Issue Public Key](#issue-public-key)
 - [User](#user)
-		* [Get New Oauth](#get-new-oauth)
-		* [Register New Fingerprint](#register-new-fingerprint)
-		* [Update User or Update/Add Documents](#update-user-or-update-add-documents)
-		* [Generate UBO](#generate-ubo)
-		* [Get All User Nodes](#get-all-user-nodes)
-		* [Get All User Transactions](#get-all-user-transactions)
-		+ [Nodes](#nodes)
-				* [Create Node](#create-node)
-				* [Get Node](#get-node)
-				* [Get All User Nodes](#get-all-user-nodes-1)
-				* [Update Node](#update-node)
-				* [Ship Debit](#ship-debit)
-				* [Reset Debit](#reset-debit)
-				* [Verify Micro Deposit](#verify-micro-deposit)
-				* [Reinitiate Micro Deposit](#reinitiate-micro-deposit)
-				* [Generate Apple Pay](#generate-apple-pay)
-				* [Delete Node](#delete-node)
-				* [Get All Node Subnets](#get-all-node-subnets)
-				* [Get All Node Transactions](#get-all-node-transactions)
-		+ [Subnets](#subnets)
-				* [Create Subnet](#create-subnet)
-				* [Get Subnet](#get-subnet)
-		+ [Transactions](#transactions)
-				* [Create Transaction](#create-transaction)
-				* [Get Transaction](#get-transaction)
-				* [Comment on Status](#comment-on-status)
-				* [Dispute Transaction](#dispute-transaction)
-				* [Cancel/Delete Transaction](#cancel-delete-transaction)
-				* [Trigger Dummy Transactions](#trigger-dummy-transactions)
+	* [Get New Oauth](#get-new-oauth)
+	* [Register New Fingerprint](#register-new-fingerprint)
+	* [Update User or Update/Add Documents](#update-user-or-update-add-documents)
+	* [Generate UBO](#generate-ubo)
+	* [Get All User Nodes](#get-all-user-nodes)
+	* [Get All User Transactions](#get-all-user-transactions)
+	+ [Nodes](#nodes)
+			* [Create Node](#create-node)
+			* [Get Node](#get-node)
+			* [Get All User Nodes](#get-all-user-nodes-1)
+			* [Update Node](#update-node)
+			* [Ship Debit](#ship-debit)
+			* [Reset Debit](#reset-debit)
+			* [Verify Micro Deposit](#verify-micro-deposit)
+			* [Reinitiate Micro Deposit](#reinitiate-micro-deposit)
+			* [Generate Apple Pay](#generate-apple-pay)
+			* [Delete Node](#delete-node)
+			* [Get All Node Subnets](#get-all-node-subnets)
+			* [Get All Node Transactions](#get-all-node-transactions)
+	+ [Subnets](#subnets)
+			* [Create Subnet](#create-subnet)
+			* [Get Subnet](#get-subnet)
+	+ [Transactions](#transactions)
+			* [Create Transaction](#create-transaction)
+			* [Get Transaction](#get-transaction)
+			* [Comment on Status](#comment-on-status)
+			* [Dispute Transaction](#dispute-transaction)
+			* [Cancel/Delete Transaction](#cancel-delete-transaction)
+			* [Trigger Dummy Transactions](#trigger-dummy-transactions)
 
 # Client
 ##### Initialize Client
@@ -50,6 +51,16 @@ client = Client(
 	fingerprint='1023918209480asdf8341098',
 	ip_address='1.2.3.132',
 	devmode=True
+	)
+```
+##### Update Headers
+```python
+client.update_headers(
+	client_secret='client_secret_1239ABCdefghijk1092312309',
+	fingerprint='1023918209480asdf8341098',
+	ip_address='1.2.3.132',
+	oauth_key='oauth_bo4WXMIT5V0zKSRLYcqNwGtHZEDaA1k3pBv7r20s',
+	idempotency_key='1234567'
 	)
 ```
 ##### Create User
@@ -364,7 +375,6 @@ node_id = '594e606212e17a002f2e3251'
 trans_id = '594e72124599e8002fe62e4f'
 user.dummy_tran(node_id, trans_id)
 ```
-
 ##### Trigger Dummy Transactions
 ```python
 node_id = '594e606212e17a002f2e3251'
