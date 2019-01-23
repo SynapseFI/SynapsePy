@@ -13,6 +13,7 @@
 	* [Issue Public Key](#issue-public-key)
 	* [View Crypto Quotes](#view-crypto-quotes)
 	* [View Crypto Market Data](#view-crypto-market-data)
+	* [Locate ATMs](#locate-atms)
 - [User](#user)
 	* [Get New Oauth](#get-new-oauth)
 	* [Register New Fingerprint](#register-new-fingerprint)
@@ -156,7 +157,11 @@ crypto_quotes = client.crypto_quotes()
 ```
 ##### View Crypto Market Data
 ```python
-market_data = crypto_market_data(limit=5, currency='BTC')
+market_data = client.crypto_market_data(limit=5, currency='BTC')
+```
+##### Locate ATMs
+```python
+market_data = client.locate_atms(zip='94114', lat=None, rad=None, page=None, per_page=None)
 ```
 # User
 ##### Get New Oauth
