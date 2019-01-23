@@ -11,6 +11,8 @@
 	* [Get All Client Nodes](#get-all-client-nodes)
 	* [Get All Client Institutions](#get-all-client-institutions)
 	* [Issue Public Key](#issue-public-key)
+	* [View Crypto Quotes](#view-crypto-quotes)
+	* [View Crypto Market Data](#view-crypto-market-data)
 - [User](#user)
 	* [Get New Oauth](#get-new-oauth)
 	* [Register New Fingerprint](#register-new-fingerprint)
@@ -34,6 +36,7 @@
 	+ [Subnets](#subnets)
 		* [Create Subnet](#create-subnet)
 		* [Get Subnet](#get-subnet)
+		* [Update Subnet](#update-subnet)
 	+ [Transactions](#transactions)
 		* [Create Transaction](#create-transaction)
 		* [Get Transaction](#get-transaction)
@@ -146,6 +149,14 @@ scope = [
 		...
 	]
 pubkey = client.issue_public_key(scope)
+```
+##### View Crypto Quotes
+```python
+crypto_quotes = client.crypto_quotes()
+```
+##### View Crypto Market Data
+```python
+market_data = crypto_market_data(limit=5, currency='BTC')
 ```
 # User
 ##### Get New Oauth
@@ -329,6 +340,21 @@ user.create_subnet(node_id, body)
 node_id = '594e606212e17a002f2e3251'
 subn_id = '59c9f77cd412960028b99d2b'
 user.get_subnet(node_id, subn_id)
+```
+##### Update Subnet
+```python
+node_id = '594e606212e17a002f2e3251'
+subn_id = '59c9f77cd412960028b99d2b'
+body = {
+    "status": "ACTIVE",
+    "card_pin": "1234",
+    "preferences": {
+      "allow_foreign_transactions": True,
+      "daily_atm_withdrawal_limit": 10,
+      "daily_transaction_limit": 1000
+    }
+}
+user.update(node_id, subn_id)
 ```
 ### Transactions
 ##### Create Transaction

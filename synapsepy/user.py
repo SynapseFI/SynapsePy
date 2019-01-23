@@ -575,6 +575,30 @@ class User():
 		response = self._do_request(self.http.get, path)
 		return Subnet(response)
 
+	def update_subnet(self, node_id, subnet_id, body):
+		'''Updates the subnet's prefrences
+		Args:
+			node_id (str): ID of the Node
+			subnet_id (str): ID of the Subnet
+			body (dict): dictionary containing preference updates
+		Returns:
+			Subnet: Subnet object containing Subnet record
+		'''
+		self.logger.debug("Updating Subnet info")
+		path = (
+			paths['users']
+			+ '/'
+			+ self.id
+			+ paths['nodes']
+			+ '/'
+			+ node_id
+			+ paths['subn']
+			+ '/'
+			+ subnet_id
+		)
+		response = self._do_request(self.http.patch, path, body)
+		return Subnet(response)
+
 	def get_all_nodes(self, page=None, per_page=None, type=None):
 		'''Retrieves all Nodes for a User
 		Args:

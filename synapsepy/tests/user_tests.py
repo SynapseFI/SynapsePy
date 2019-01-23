@@ -6,15 +6,15 @@ from .fixtures.node_fixtures import *
 from .fixtures.trans_fixtures import *
 from .fixtures.subnet_fixtures import *
 
-from synapsefi.user import User
-from synapsefi.node import Node, Nodes
-from synapsefi.transaction import Trans, Transactions
-from synapsefi.subnet import Subnet, Subnets
+from synapsepy.user import User
+from synapsepy.node import Node, Nodes
+from synapsepy.transaction import Trans, Transactions
+from synapsepy.subnet import Subnet, Subnets
 
-from synapsefi.http_client import HttpClient
+from synapsepy.http_client import HttpClient
 
 @mock.patch(
-	'synapsefi.user.User._do_request',
+	'synapsepy.user.User._do_request',
 	return_value={},
 	autospec=True
 )
@@ -48,7 +48,7 @@ class UserTests(TestCase):
 		self.node_trans_count = get_all_trans_resp['trans_count']
 
 	@mock.patch(
-		'synapsefi.http_client.HttpClient.get',
+		'synapsepy.http_client.HttpClient.get',
 		return_value={'refresh_token':'1234'},
 		autospec=True
 	)
@@ -59,7 +59,7 @@ class UserTests(TestCase):
 		)
 
 	@mock.patch(
-		'synapsefi.http_client.HttpClient.post',
+		'synapsepy.http_client.HttpClient.post',
 		return_value={'oauth_key':'1234'},
 		autospec=True
 	)
@@ -219,6 +219,12 @@ class UserTests(TestCase):
 		mock_request.return_value = subnet_get_resp
 
 		test_subnet = self.user.get_subnet('', '')
+		self.assertIsInstance(test_subnet, Subnet)
+
+	def test_update_subnet(self, mock_request):
+		mock_request.return_value = subnet_get_resp
+
+		test_subnet = self.user.update_subnet('','',{})
 		self.assertIsInstance(test_subnet, Subnet)
 
 	def test_get_all_nodes(self, mock_request):

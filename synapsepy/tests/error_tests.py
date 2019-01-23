@@ -1,6 +1,6 @@
 
 import unittest
-import synapsefi.errors as api_errors
+import synapsepy.errors as api_errors
 
 from .fixtures.error_fixtures import *
 from .fixtures.client_fixtures import *

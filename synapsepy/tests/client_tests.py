@@ -1,5 +1,5 @@
 import unittest
-import synapsefi.errors as api_errors
+import synapsepy.errors as api_errors
 
 from unittest import TestCase, mock
 
@@ -8,10 +8,10 @@ from .fixtures.client_fixtures import test_client
 from .fixtures.subscription_fixtures import subs_resp, subss_resp
 from .fixtures.node_fixtures import get_nodes_response
 
-from synapsefi.client import Client
-from synapsefi.user import User, Users
-from synapsefi.node import Node, Nodes
-from synapsefi.subscription import Subscription, Subscriptions
+from synapsepy.client import Client
+from synapsepy.user import User, Users
+from synapsepy.node import Node, Nodes
+from synapsepy.subscription import Subscription, Subscriptions
 
 class ClientTests(TestCase):
 	'''
@@ -27,7 +27,7 @@ class ClientTests(TestCase):
 		self.assertIsInstance(self.client, Client)
 
 	@mock.patch(
-		'synapsefi.http_client.HttpClient.post',
+		'synapsepy.http_client.HttpClient.post',
 		return_value = simple_response,
 		autospec = True
 	)
@@ -37,7 +37,7 @@ class ClientTests(TestCase):
 		self.assertIsInstance(simple, User)
 
 	@mock.patch(
-		'synapsefi.http_client.HttpClient.get',
+		'synapsepy.http_client.HttpClient.get',
 		return_value = simple_response,
 		autospec = True
 	)
@@ -47,7 +47,7 @@ class ClientTests(TestCase):
 		self.assertIsInstance(simple, User)
 
 	@mock.patch(
-		'synapsefi.http_client.HttpClient.post',
+		'synapsepy.http_client.HttpClient.post',
 		return_value = subs_resp,
 		autospec = True
 	)
@@ -57,7 +57,7 @@ class ClientTests(TestCase):
 		self.assertIsInstance(sub, Subscription)
 
 	@mock.patch(
-		'synapsefi.http_client.HttpClient.get',
+		'synapsepy.http_client.HttpClient.get',
 		return_value = subs_resp,
 		autospec = True
 	)
@@ -66,7 +66,7 @@ class ClientTests(TestCase):
 		self.assertIsInstance(subs, Subscription)
 
 	@mock.patch(
-		'synapsefi.http_client.HttpClient.get',
+		'synapsepy.http_client.HttpClient.get',
 		return_value = {},
 		autospec = True
 	)
@@ -75,7 +75,7 @@ class ClientTests(TestCase):
 		self.assertIsInstance(logs, dict)
 
 	@mock.patch(
-		'synapsefi.http_client.HttpClient.get',
+		'synapsepy.http_client.HttpClient.get',
 		return_value = {},
 		autospec = True
 	)
@@ -84,7 +84,7 @@ class ClientTests(TestCase):
 		self.assertIsInstance(response, dict)
 
 	@mock.patch(
-		'synapsefi.http_client.HttpClient.get',
+		'synapsepy.http_client.HttpClient.get',
 		return_value = {},
 		autospec = True
 	)
@@ -93,7 +93,7 @@ class ClientTests(TestCase):
 		self.assertIsInstance(response, dict)
 
 	@mock.patch(
-		'synapsefi.http_client.HttpClient.get',
+		'synapsepy.http_client.HttpClient.get',
 		return_value = {},
 		autospec = True
 	)
@@ -102,7 +102,7 @@ class ClientTests(TestCase):
 		self.assertIsInstance(response, dict)
 
 	@mock.patch(
-		'synapsefi.http_client.HttpClient.get',
+		'synapsepy.http_client.HttpClient.get',
 		return_value = {'public_key_obj':{}},
 		autospec = True
 	)
@@ -112,7 +112,7 @@ class ClientTests(TestCase):
 		self.assertIsInstance(key, dict)
 
 	@mock.patch(
-		'synapsefi.http_client.HttpClient.get',
+		'synapsepy.http_client.HttpClient.get',
 		return_value = users_resp,
 		autospec = True
 	)
@@ -122,7 +122,7 @@ class ClientTests(TestCase):
 		self.assertIsInstance(users, Users)
 
 	@mock.patch(
-		'synapsefi.http_client.HttpClient.get',
+		'synapsepy.http_client.HttpClient.get',
 		return_value = subss_resp,
 		autospec = True
 	)
@@ -132,7 +132,7 @@ class ClientTests(TestCase):
 		self.assertIsInstance(subss, Subscriptions)
 
 	@mock.patch(
-		'synapsefi.http_client.HttpClient.get',
+		'synapsepy.http_client.HttpClient.get',
 		return_value = get_nodes_response,
 		autospec = True
 	)
@@ -142,7 +142,7 @@ class ClientTests(TestCase):
 		self.assertIsInstance(nodes, Nodes)
 
 	@mock.patch(
-		'synapsefi.http_client.HttpClient.get',
+		'synapsepy.http_client.HttpClient.get',
 		return_value = {},
 		autospec = True
 	)
