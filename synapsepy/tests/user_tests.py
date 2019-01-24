@@ -135,15 +135,15 @@ class UserTests(TestCase):
 			mock_request.return_value
 		)
 
-	def test_ship_debit(self, mock_request):
+	def test_ship_card_node(self, mock_request):
 		self.assertEqual(
-			self.user.ship_debit(self.card_us_id, {}),
+			self.user.ship_card_node(self.card_us_id, {}),
 			mock_request.return_value
 		)
 
-	def test_reset_debit(self, mock_request):
+	def test_reset_card_node(self, mock_request):
 		self.assertEqual(
-			self.user.reset_debit(self.debit_us_id),
+			self.user.reset_card_node(self.debit_us_id),
 			mock_request.return_value
 		)
 
@@ -226,6 +226,10 @@ class UserTests(TestCase):
 
 		test_subnet = self.user.update_subnet('','',{})
 		self.assertIsInstance(test_subnet, Subnet)
+
+	def test_ship_card(self, mock_request):
+		test_response = self.user.ship_card('','',{})
+		self.assertEqual(test_response, {})
 
 	def test_get_all_nodes(self, mock_request):
 		mock_request.return_value = get_nodes_response

@@ -26,8 +26,8 @@
 		* [Get Node](#get-node)
 		* [Get All User Nodes](#get-all-user-nodes-1)
 		* [Update Node](#update-node)
-		* [Ship Debit](#ship-debit)
-		* [Reset Debit](#reset-debit)
+		* [Ship Card Node](#ship-card-node)
+		* [Reset Debit](#reset-card-node)
 		* [Verify Micro Deposit](#verify-micro-deposit)
 		* [Reinitiate Micro Deposit](#reinitiate-micro-deposit)
 		* [Generate Apple Pay](#generate-apple-pay)
@@ -38,6 +38,7 @@
 		* [Create Subnet](#create-subnet)
 		* [Get Subnet](#get-subnet)
 		* [Update Subnet](#update-subnet)
+		* [Ship Card](#ship-card)
 	+ [Transactions](#transactions)
 		* [Create Transaction](#create-transaction)
 		* [Get Transaction](#get-transaction)
@@ -277,7 +278,7 @@ body = {
 }
 nodes = user.update_node(node_id, body)
 ```
-##### Ship Debit
+##### Ship Card Node
 ```python
 node_id = '5ba05ed620b3aa005882c52a'
 
@@ -286,12 +287,12 @@ body = {
 	"expedite":True
 }
 
-nodes = user.ship_debit(node_id, body)
+nodes = user.ship_card_node(node_id, body)
 ```
-##### Reset Debit
+##### Reset Card Node
 ```python
 node_id = '5ba05ed620b3aa005882c52a'
-nodes = user.reset_debit(node_id)
+nodes = user.reset_card_node(node_id)
 ```
 ##### Verify Micro Deposit
 ```python
@@ -360,6 +361,17 @@ body = {
     }
 }
 user.update(node_id, subn_id)
+```
+##### Ship Card
+```python
+node_id = '594e606212e17a002f2e3251'
+subn_id = '59c9f77cd412960028b99d2b'
+body = {
+  "fee_node_id":"5bba781485411800991b606b",
+  "expedite":False,
+  "card_style_id":"555"
+}
+user.ship_card(node_id, subn_id, body)
 ```
 ### Transactions
 ##### Create Transaction

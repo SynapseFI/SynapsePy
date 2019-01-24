@@ -10,6 +10,7 @@ from functools import partial
 import json
 import logging
 import requests
+import warnings
 from . import errors as api_errors
 
 class User():
@@ -290,8 +291,8 @@ class User():
 		)
 		return response
 
-	def ship_debit(self, node_id, body):
-		'''Ship physical debit card to user
+	def ship_card_node(self, node_id, body):
+		'''DEPRECATED - Ship physical debit card to user
 		Args:
 			node_id (str): ID of the Node object to reinitiate micro deposits for
 			body (dict): dictionary containing Node and shipping information
@@ -299,6 +300,14 @@ class User():
 			dict: dictionary of response from API
 		'''
 		self.logger.debug("Shipping debit card")
+		warnings.warn(
+			(
+				"CARD-US Nodes have been deprecated and replaced by Subnet Cards."
+				+ "\nPlease migrate to Subnet based card issuance."
+				+ "\nSee: https://docs.synapsefi.com/docs/issue-a-card-number-1"
+			),
+			DeprecationWarning
+		)
 		path = (
 			paths['users']
 			+ '/'
@@ -312,14 +321,23 @@ class User():
 		)
 		return response
 
-	def reset_debit(self, node_id):
-		'''Resets the debit card number, card cvv, and expiration date
+	def reset_card_node(self, node_id):
+		'''DEPRECATED - Resets the debit card number, card cvv, and expiration date
 		Args:
 			node_id (str): ID of the Node object to reset card info for
 		Returns:
 			dict: dictionary of response from API
 		'''
 		self.logger.debug("Resetting debit card")
+		warnings.warn(
+			(
+				"CARD-US Nodes have been deprecated and replaced by Subnet Cards."
+				+ "\nPlease migrate to Subnet based card issuance."
+				+ "\nSee: https://docs.synapsefi.com/docs/issue-a-card-number-1"
+			),
+			DeprecationWarning
+		)
+
 		path = (
 			paths['users']
 			+ '/'
@@ -598,6 +616,33 @@ class User():
 		)
 		response = self._do_request(self.http.patch, path, body)
 		return Subnet(response)
+
+	def ship_card(self, node_id, subnet_id, body):
+		'''Ship physical debit card to user
+		Args:
+			node_id (str): ID of the Node
+			subnet_id (str): ID of the Subnet
+			body (dict): dictionary containing fee Node and card information
+		Returns:
+			dict: dictionary of response from API
+		'''
+		self.logger.debug("Processing card shipment data")
+
+		path = (
+			paths['users']
+			+ '/'
+			+ self.id
+			+ paths['nodes']
+			+ '/'
+			+ node_id
+			+ paths['subn']
+			+ '/'
+			+ subnet_id
+			+ paths['ship']
+		)
+
+		response = self._do_request(self.http.patch, path, body)
+		return response
 
 	def get_all_nodes(self, page=None, per_page=None, type=None):
 		'''Retrieves all Nodes for a User
