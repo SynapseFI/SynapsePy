@@ -209,8 +209,9 @@ class User():
 		return Node(response, full_dehydrate=full_dehydrate)
 
 	def get_node_statements(self, node_id, page=None, per_page=None):
-		'''Retrieves all Statements for a User
+		'''Retrieves all Statements for a User's Node
 		Args:
+			node_id (str): Node ID
 			page (int): (opt) Page number
 			per_page (int): (opt) How many nodes do you want us to return per page.
 		Returns:
