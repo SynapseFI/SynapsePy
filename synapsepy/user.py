@@ -208,6 +208,33 @@ class User():
 		)
 		return Node(response, full_dehydrate=full_dehydrate)
 
+	def get_node_statements(self, node_id, page=None, per_page=None):
+		'''Retrieves all Statements for a User
+		Args:
+			page (int): (opt) Page number
+			per_page (int): (opt) How many nodes do you want us to return per page.
+		Returns:
+			dict: dictionary response of the collection of statements for User
+		'''
+		self.logger.debug("Retrieving all statements for User")
+		path = (
+			paths['users']
+			+ '/'
+			+ self.id
+			+ paths['nodes']
+			+ '/'
+			+ node_id
+			+ paths['statem']
+			)
+
+		response = self._do_request(
+			self.http.get,
+			path,
+			page=page,
+			per_page=per_page
+		)
+		return response
+
 	def update_node(self, node_id, body):
 		'''Updates a node's info in the database
 		Args:
@@ -755,6 +782,7 @@ class User():
 			per_page=per_page
 		)
 		return response
+
 class Users():
 	def __init__(self, response, http):
 		'''Initializes a Users object containing pagination info and User Records

@@ -35,6 +35,7 @@
 		* [Delete Node](#delete-node)
 		* [Get All Node Subnets](#get-all-node-subnets)
 		* [Get All Node Transactions](#get-all-node-transactions)
+		* [Get All Node Statements](#get-all-node-statements)
 	+ [Subnets](#subnets)
 		* [Create Subnet](#create-subnet)
 		* [Get Subnet](#get-subnet)
@@ -336,6 +337,11 @@ user.get_all_subnets(node_id, page=4, per_page=10)
 ```python
 node_id = '594e606212e17a002f2e3251'
 user.get_all_node_trans(node_id, page=4, per_page=10)
+```
+##### Get All Node Statements
+```python
+node_id = '594e606212e17a002f2e3251'
+user.get_statements(node_id, page=4, per_page=10)
 ```
 ### Subnets
 ##### Create Subnet

@@ -96,6 +96,10 @@ class UserTests(TestCase):
 			test_node.body, card_us_get_response
 		)
 
+	def test_get_node_statements(self, mock_request):
+		statem = self.user.get_node_statements('')
+		self.assertIsInstance(statem, dict)
+
 	def test_update_node(self, mock_request):
 		mock_request.return_value = card_us_up_response
 
