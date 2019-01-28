@@ -284,5 +284,9 @@ class UserTests(TestCase):
 		test_get_all_subn = self.user.get_all_subnets('')
 		self.assertIsInstance(test_get_all_subn, Subnets)
 
+	def test_get_statements(self, mock_request):
+		statem = self.user.get_statements()
+		self.assertIsInstance(statem, dict)
+
 if __name__ == '__main__':
 	unittest.main()

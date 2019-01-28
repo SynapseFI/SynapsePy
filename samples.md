@@ -21,6 +21,7 @@
 	* [Generate UBO](#generate-ubo)
 	* [Get All User Nodes](#get-all-user-nodes)
 	* [Get All User Transactions](#get-all-user-transactions)
+	* [Get All User Statements](#get-all-user-statements)
 	+ [Nodes](#nodes)
 		* [Create Node](#create-node)
 		* [Get Node](#get-node)
@@ -237,6 +238,10 @@ user.get_all_nodes(page=4, per_page=10, type='DEPOSIT-US')
 ##### Get All User Transactions
 ```python
 user.get_all_trans(page=4, per_page=10)
+```
+##### Get All User Statements
+```python
+user.get_statements(page=4, per_page=10)
 ```
 ### Nodes
 ##### Create Node

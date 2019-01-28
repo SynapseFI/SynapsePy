@@ -16,5 +16,6 @@ paths = {
 	'dispute': '/dispute',
 	'ubo': '/ubo',
 	'logs': '/logs',
-	'ship': '/ship'
+	'ship': '/ship',
+	'statem': '/statements'
 }
