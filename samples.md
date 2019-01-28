@@ -4,12 +4,15 @@
 	* [Update Headers](#update-headers)
 	* [Create User](#create-user)
 	* [Get User](#get-user)
+	* [Create Subscription](#create-subscription)
 	* [Get Subscription](#get-subscription)
 	* [Update Subscription](#update-subscription)
 	* [Get All Users](#get-all-users)
 	* [Get All Client Transactions](#get-all-client-transactions)
 	* [Get All Client Nodes](#get-all-client-nodes)
 	* [Get All Client Institutions](#get-all-client-institutions)
+	* [Get All Client Subscriptions](#get-all-client-subscriptions)
+	* [Get All Client Subscription Logs](#get-all-subscription-logs)
 	* [Issue Public Key](#issue-public-key)
 	* [View Crypto Quotes](#view-crypto-quotes)
 	* [View Crypto Market Data](#view-crypto-market-data)
@@ -117,7 +120,6 @@ subs = client.get_subscription(subs_id)
 ##### Update Subscription
 ```python
 body = {
-		'subs_id': '589b6adec83e17002122196c'
 		'url': 'https://requestb.in/zp216zzp'
 		'scope': [
 				"USERS|POST",
@@ -143,6 +145,14 @@ allnodes = client.get_all_nodes()
 ##### Get All Client Institutions
 ```python
 allinst = client.get_all_inst()
+```
+##### Get All Client Subscriptions
+```python
+allsubs = client.get_all_subs()
+```
+##### Get All Client Subscription Logs
+```python
+allsublogs = client.webhook_logs()
 ```
 ##### Issue Public Key
 ```python
@@ -427,10 +437,10 @@ user.cancel_trans(node_id, trans_id, dispute_reason)
 ```python
 node_id = '594e606212e17a002f2e3251'
 trans_id = '594e72124599e8002fe62e4f'
-user.dummy_tran(node_id, trans_id)
+user.cancel_trans(node_id, trans_id)
 ```
 ##### Trigger Dummy Transactions
 ```python
 node_id = '594e606212e17a002f2e3251'
-user.cancel_trans(node_id, is_credit=True)
+user.dummy_tran(node_id, is_credit=True)
 ```
