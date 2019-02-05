@@ -470,6 +470,7 @@ class User():
 			+ '/'
 			+ node_id
 			+ paths['trans']
+			+ '/'
 			+ trans_id
 		)
 		response = self._do_request(self.http.get, path)
