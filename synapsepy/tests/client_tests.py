@@ -4,7 +4,6 @@ from .. import errors as api_errors
 from unittest import TestCase, mock
 
 from .fixtures.user_fixtures import simple_response, users_resp
-from .fixtures.client_fixtures import test_client
 from .fixtures.subscription_fixtures import subs_resp, subss_resp
 from .fixtures.node_fixtures import get_nodes_response
 
