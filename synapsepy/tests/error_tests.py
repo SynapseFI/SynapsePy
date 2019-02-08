@@ -1,14 +1,21 @@
 
 import unittest
-import synapsepy.errors as api_errors
 
+from ..client import Client
+from .. import errors as api_errors
 from .fixtures.error_fixtures import *
-from .fixtures.client_fixtures import *
 
 class ErrorTests(unittest.TestCase):
 	
 	def setUp(self):
-		self.http = test_client.http
+		self.client = Client(
+			client_id='',
+			client_secret='',
+			fingerprint='',
+			ip_address='',
+			devmode=True,
+			logging=False )
+		self.http = self.client.http
 
 	def test_act_pend(self):
 		self.assertRaises(api_errors.ActionPending, self.http.parse_response, act_pend)

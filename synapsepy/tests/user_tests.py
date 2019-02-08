@@ -1,17 +1,17 @@
 import unittest
 from unittest import TestCase, mock
 from .fixtures.user_fixtures import *
-from .fixtures.client_fixtures import *
 from .fixtures.node_fixtures import *
 from .fixtures.trans_fixtures import *
 from .fixtures.subnet_fixtures import *
 
-from synapsepy.user import User
-from synapsepy.node import Node, Nodes
-from synapsepy.transaction import Trans, Transactions
-from synapsepy.subnet import Subnet, Subnets
+from ..client import Client
+from ..user import User
+from ..node import Node, Nodes
+from ..transaction import Trans, Transactions
+from ..subnet import Subnet, Subnets
 
-from synapsepy.http_client import HttpClient
+from ..http_client import HttpClient
 
 @mock.patch(
 	'synapsepy.user.User._do_request',
@@ -25,7 +25,15 @@ class UserTests(TestCase):
 	'''
 
 	def setUp(self):
-		self.user = User(simple_response, test_client.http)
+		self.client = Client(
+			client_id='',
+			client_secret='',
+			fingerprint='',
+			ip_address='',
+			devmode=True,
+			logging=False )
+
+		self.user = User(simple_response, self.client.http)
 
 		self.card_us_id = card_us_get_response['_id']
 		self.card_us_type = card_us_get_response['type']

@@ -1,5 +1,5 @@
 import unittest
-import synapsepy.errors as api_errors
+from .. import errors as api_errors
 
 from unittest import TestCase, mock
 
@@ -8,10 +8,10 @@ from .fixtures.client_fixtures import test_client
 from .fixtures.subscription_fixtures import subs_resp, subss_resp
 from .fixtures.node_fixtures import get_nodes_response
 
-from synapsepy.client import Client
-from synapsepy.user import User, Users
-from synapsepy.node import Node, Nodes
-from synapsepy.subscription import Subscription, Subscriptions
+from ..client import Client
+from ..user import User, Users
+from ..node import Node, Nodes
+from ..subscription import Subscription, Subscriptions
 
 class ClientTests(TestCase):
 	'''
@@ -20,7 +20,13 @@ class ClientTests(TestCase):
 	'''
 
 	def setUp(self):
-		self.client = test_client
+		self.client = Client(
+			client_id='',
+			client_secret='',
+			fingerprint='',
+			ip_address='',
+			devmode=True,
+			logging=False )
 
 	def test_client_init(self):
 		# check if obj is Client
