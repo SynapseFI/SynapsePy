@@ -1,7 +1,7 @@
 # SynapseFI Python Library
-![PyPI](https://img.shields.io/pypi/v/synapsepy.svg)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/synapsepy.svg)
-![PyPI - Status](https://img.shields.io/pypi/status/synapsepy.svg)
+![[PyPI](https://img.shields.io/pypi/v/synapsepy.svg)](https://pypi.org/project/synapsepy/)
+![[PyPI - Python Version](https://img.shields.io/pypi/pyversions/synapsepy.svg)](https://pypi.org/project/synapsepy/)
+![[PyPI - Status](https://img.shields.io/pypi/status/synapsepy.svg)](https://pypi.org/project/synapsepy/)
 
 Python wrapper for SynapseFI API
 ## Code Example
