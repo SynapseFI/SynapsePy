@@ -1,5 +1,7 @@
 # SynapseFI Python Library
-
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/synapsepy.svg)
+![PyPI](https://img.shields.io/pypi/v/synapsepy.svg)
+![PyPI - Status](https://img.shields.io/pypi/status/synapsepy.svg)
 Python wrapper for SynapseFI API
 ## Code Example
 Refer to [samples.md](samples.md) and our [API documentation](https://docs.synapsefi.com/) for examples.
