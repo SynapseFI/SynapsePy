@@ -12,7 +12,7 @@ class SynapseError(Exception):
 		super(SynapseError, self).__init__(message)
 
 	def __repr__(self):
-		return '{0}(code={1},message={2})'.format(self.__class__, self.code, self.message)
+		return '{0}(code={1},message={2})'.format(self.__class__, self.error_code, self.message)
 
 class ActionPending(SynapseError):
 	"""
