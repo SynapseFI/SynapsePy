@@ -342,7 +342,7 @@ nodes = user.generate_apple_pay(node_id)
 ##### Delete Node
 ```python
 node_id = '594e606212e17a002f2e3251'
-user.delete_node(node_id, trans_id, 'Pending verification...')
+user.delete_node(node_id)
 ```
 ##### Get All Node Subnets
 ```python
