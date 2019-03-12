@@ -39,6 +39,8 @@ class HttpClient():
 			}
 		)
 
+		self.logger.debug(json.dumps(self.session.headers.__dict__, indent=2))
+
 		if self.idempotency_key:
 			self.session.headers['X-SP-IDEMPOTENCY-KEY'] = self.idempotency_key
 

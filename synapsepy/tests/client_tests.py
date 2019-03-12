@@ -1,7 +1,7 @@
 import unittest
-from .. import errors as api_errors
-
 from unittest import TestCase, mock
+
+from .. import errors as api_errors
 
 from .fixtures.user_fixtures import simple_response, users_resp
 from .fixtures.subscription_fixtures import subs_resp, subss_resp
@@ -38,7 +38,7 @@ class ClientTests(TestCase):
 	)
 	def test_create_user(self, mock_request):
 		# check if obj is User
-		simple = self.client.create_user({})
+		simple = self.client.create_user({},'CREATE_USER_IP',fingerprint='CREATE_USER_FP')
 		self.assertIsInstance(simple, User)
 
 	@mock.patch(
@@ -48,7 +48,7 @@ class ClientTests(TestCase):
 	)
 	def test_get_user(self, mock_request):
 		# check if obj is User
-		simple = self.client.get_user('')
+		simple = self.client.get_user('', ip='GET_USER_IP', fingerprint='GET_USER_FP')
 		self.assertIsInstance(simple, User)
 
 	@mock.patch(

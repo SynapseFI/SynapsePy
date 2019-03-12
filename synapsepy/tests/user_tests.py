@@ -1,5 +1,7 @@
 import unittest
+import warnings
 from unittest import TestCase, mock
+
 from .fixtures.user_fixtures import *
 from .fixtures.node_fixtures import *
 from .fixtures.trans_fixtures import *
@@ -148,12 +150,14 @@ class UserTests(TestCase):
 		)
 
 	def test_ship_card_node(self, mock_request):
+		warnings.simplefilter("ignore")
 		self.assertEqual(
 			self.user.ship_card_node(self.card_us_id, {}),
 			mock_request.return_value
 		)
 
 	def test_reset_card_node(self, mock_request):
+		warnings.simplefilter("ignore")
 		self.assertEqual(
 			self.user.reset_card_node(self.debit_us_id),
 			mock_request.return_value

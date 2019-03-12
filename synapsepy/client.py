@@ -14,7 +14,6 @@ import json
 import logging
 import requests
 
-
 class Client():
 	""" Client Record """
 	def __init__(self, client_id, client_secret, fingerprint, ip_address, devmode=False, logging=False):
@@ -74,10 +73,12 @@ class Client():
 
 		return logger
 
-	def create_user(self, body, idempotency_key=None):
+	def create_user(self, body, ip, fingerprint=None, idempotency_key=None):
 		"""Creates a User object containing a user's record
 		Args:
 			body (dict): user record
+			ip (str): IP address of the user to create
+			fingerprint (str) (opt): device fingerprint of the user 
 			idempotency_key (str): (opt) idempotency key for safely retrying requests
 		Returns:
 			user (User): object containing User record
@@ -85,20 +86,32 @@ class Client():
 		self.logger.debug("Creating a new user")
 
 		path = paths['users']
+
+		if fingerprint:
+			self.update_headers(fingerprint=fingerprint)
+		self.update_headers(ip_address=ip)
+
 		response = self.http.post(
 			path, body, idempotency_key=idempotency_key
 		)
 		return User(response, self.http, full_dehydrate=False, logging=self.logging)
 
-	def get_user(self, user_id, full_dehydrate=False):
+	def get_user(self, user_id, ip=None, fingerprint=None, full_dehydrate=False):
 		"""Returns User object grabbed from API
 		Args:
 			user_id (str): identification for user
-			full_dehydrate (bool): Full Dehydrate True will return back user's KYC info.
+			ip (str) (opt): IP address of the user to create
+			fingerprint (str) (opt): device fingerprint of the user 
+			full_dehydrate (bool) (opt): Full Dehydrate True will return back user's KYC info.
 		Returns:
 			user (User): object containing User record
 		"""
 		self.logger.debug("getting a user")
+
+		if ip:
+			self.update_headers(ip_address=ip)
+		if fingerprint:
+			self.update_headers(fingerprint=fingerprint)
 
 		path = paths['users'] + '/' + user_id
 		full_d = 'yes' if full_dehydrate else None
