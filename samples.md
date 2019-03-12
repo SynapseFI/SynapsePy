@@ -75,6 +75,8 @@ client.update_headers(
 ```
 ##### Create User
 ```python
+ip = '1.2.3.132'
+fingerprint = '1023918209480asdf8341098'
 body = {
 	"logins": [
 		{
@@ -91,11 +93,15 @@ body = {
 	...
 }
 
-client.create_user(body)
+client.create_user(body, ip, fingerprint=fingerprint)
 ```
 ##### Get User
 ```python
-client.get_user('594e0fa2838454002ea317a0', full_dehydrate=True)
+user_id = '594e0fa2838454002ea317a0'
+ip = '1.2.3.132'
+fingerprint = '1023918209480asdf8341098'
+
+client.get_user(user_id, ip=ip, fingerprint=fingerprint, full_dehydrate=True)
 ```
 ##### Create Subscription
 ```python
