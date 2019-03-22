@@ -59,7 +59,7 @@ class User():
 
 		except api_errors.IncorrectValues as e:
 			self.refresh()
-			body['refresh_token'] = user.body['refresh_token']
+			body['refresh_token'] = self.body['refresh_token']
 			response = self.http.post(path, body)
 
 		self.http.update_headers(
