@@ -594,8 +594,6 @@ class User():
 			+ node_id
 			+ paths['subn']
 		)
-		# body = {'nickname': nickname}
-
 		response = self._do_request(self.http.post, path, body, idempotency_key=idempotency_key)
 		return Subnet(response)
 
