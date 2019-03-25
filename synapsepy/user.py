@@ -575,7 +575,7 @@ class User():
 		)
 		return response
 
-	def create_subnet(self, node_id, nickname, idempotency_key=None):
+	def create_subnet(self, node_id, body, idempotency_key=None):
 		'''Creates account and routing number on an account
 		Args:
 			node_id (str): ID of the from Node
@@ -594,7 +594,7 @@ class User():
 			+ node_id
 			+ paths['subn']
 		)
-		body = {'nickname': nickname}
+		# body = {'nickname': nickname}
 
 		response = self._do_request(self.http.post, path, body, idempotency_key=idempotency_key)
 		return Subnet(response)
