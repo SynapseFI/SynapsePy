@@ -584,7 +584,7 @@ class User():
 		Returns:
 			Subnet: Subnet object containing Subnet record
 		'''
-		self.logger.debug("Creating Subnet {}".format(nickname))
+		self.logger.debug("Creating Subnet\n" + json.dumps(body, indent=2))
 		path = (
 			paths['users']
 			+ '/'

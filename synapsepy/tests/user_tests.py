@@ -227,7 +227,7 @@ class UserTests(TestCase):
 		mock_request.return_value = subnet_get_resp
 
 		test_subnet = self.user.create_subnet(
-			'', subnet_payload['nickname']
+			'', {}
 		)
 		self.assertIsInstance(test_subnet, Subnet)
 
