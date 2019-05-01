@@ -17,5 +17,6 @@ paths = {
 	'ubo': '/ubo',
 	'logs': '/logs',
 	'ship': '/ship',
-	'statem': '/statements'
+	'statem': '/statements',
+	'trade': '/trade-market-watch'
 }

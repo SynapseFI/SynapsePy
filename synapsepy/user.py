@@ -125,7 +125,7 @@ class User():
 		try:
 			response = req_dict[req_func.__name__]()
 
-		except (requests.exceptions.HTTPError, api_errors.IncorrectUserCredentials) as e:
+		except (requests.exceptions.HTTPError, api_errors.UnauthorizedAction, api_errors.IncorrectUserCredentials) as e:
 			self.logger.debug(
 				"user's oauth expired. re-authenticatng"
 			)
@@ -551,7 +551,7 @@ class User():
 		response = self._do_request(self.http.delete, path)
 		return response
 
-	def dummy_tran(self, node_id, is_credit=False):
+	def dummy_tran(self, node_id, subnet_id=None, type=None, is_credit=False, foreign_transaction=False):
 		'''Trigger external dummy transactions on deposit or card accounts
 		Args:
 			node_id (str): ID of the from Node
@@ -570,8 +570,9 @@ class User():
 			+ paths['dummy']
 		)
 		credit = 'YES' if is_credit else 'NO'
+		foreign = 'YES' if foreign_transaction else 'NO'
 		response = self._do_request(
-			self.http.get, path, is_credit=credit
+			self.http.get, path, subnet_id=subnet_id, type=type, is_credit=credit, foreign_transaction=foreign
 		)
 		return response
 

@@ -199,6 +199,20 @@ class Client():
 		)
 		return response
 
+	def trade_market_data(self, ticker):
+		'''Returns current market data for a particular crytpo-currency
+		Args:
+			limit (int): (opt) Number of days from today
+			currency (str): (opt) crypto-currency to grab market data for
+		Returns:
+			dict: dictionary containing market data for crypto-currency
+		'''
+		path = paths['nodes'] + paths['trade']
+		response = self.http.get(
+			path, ticker=ticker
+		)
+		return response
+
 	def locate_atms(self, zip=None, lat=None, rad=None, page=None, per_page=None):
 		'''Returns atms closest to a particular coordinate
 		Args:

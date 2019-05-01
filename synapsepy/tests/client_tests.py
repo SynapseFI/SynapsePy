@@ -102,6 +102,15 @@ class ClientTests(TestCase):
 		return_value = {},
 		autospec = True
 	)
+	def test_trade_market_data(self, mock_request):
+		response = self.client.trade_market_data('')
+		self.assertIsInstance(response, dict)
+
+	@mock.patch(
+		'synapsepy.http_client.HttpClient.get',
+		return_value = {},
+		autospec = True
+	)
 	def test_locate_atms(self, mock_request):
 		response = self.client.locate_atms()
 		self.assertIsInstance(response, dict)

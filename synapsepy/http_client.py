@@ -64,9 +64,13 @@ class HttpClient():
 			'is_credit',
 			'issue_public_key',
 			'show_refresh_tokens',
+			'subnet_id',
+			'type',
+			'foreign_transaction',
 			'full_dehydrate',
 			'force_refresh',
 			'limit',
+			'ticker',
 			'currency',
 			'radius',
 			'scope',
@@ -145,7 +149,7 @@ class HttpClient():
 			raise api_errors.ErrorFactory.from_response(payload) from e
 
 		if payload.get('error') and int(payload.get('error_code', 0)) == 10: # checks for unregistered fingerprint
-			raise api_errors.ErrorFactory.from_response(payload)
+			raise api_errors.ErrorFactory.from_response(payload) from e
 
 		return response.json()
 
