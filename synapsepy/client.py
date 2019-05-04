@@ -213,7 +213,7 @@ class Client():
 		)
 		return response
 
-	def locate_atms(self, zip=None, lat=None, rad=None, page=None, per_page=None):
+	def locate_atms(self, zip=None, lat=None, lon=None, rad=None, page=None, per_page=None):
 		'''Returns atms closest to a particular coordinate
 		Args:
 			zip (str): (opt) Zip code for ATM locator
@@ -230,6 +230,7 @@ class Client():
 			path,
 			zip=zip,
 			lat=lat,
+			lon=lon,
 			radius=rad,
 			page=page,
 			per_page=per_page
