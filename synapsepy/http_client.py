@@ -149,7 +149,7 @@ class HttpClient():
 			raise api_errors.ErrorFactory.from_response(payload) from e
 
 		if payload.get('error') and int(payload.get('error_code', 0)) == 10: # checks for unregistered fingerprint
-			raise api_errors.ErrorFactory.from_response(payload) from e
+			raise api_errors.ErrorFactory.from_response(payload)
 
 		return response.json()
 
