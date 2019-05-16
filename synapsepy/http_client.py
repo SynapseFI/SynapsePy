@@ -65,7 +65,6 @@ class HttpClient():
 			'issue_public_key',
 			'show_refresh_tokens',
 			'subnet_id',
-			'type',
 			'foreign_transaction',
 			'full_dehydrate',
 			'force_refresh',
@@ -76,7 +75,8 @@ class HttpClient():
 			'scope',
 			'lat',
 			'lon',
-			'zip'
+			'zip',
+			'filter'
 		]
 
 		parameters = {}
