@@ -572,7 +572,7 @@ class User():
 		credit = 'YES' if is_credit else 'NO'
 		foreign = 'YES' if foreign_transaction else 'NO'
 		response = self._do_request(
-			self.http.get, path, subnet_id=subnet_id, type=type, is_credit=credit, foreign_transaction=foreign
+			self.http.get, path, subnetid=subnet_id, type=type, is_credit=credit, foreign_transaction=foreign
 		)
 		return response
 

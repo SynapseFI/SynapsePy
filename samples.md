@@ -448,5 +448,6 @@ user.cancel_trans(node_id, trans_id)
 ##### Trigger Dummy Transactions
 ```python
 node_id = '594e606212e17a002f2e3251'
-user.dummy_tran(node_id, is_credit=True)
+subnet_id = '594e606212e17a002f2e3251'
+user.dummy_tran(node_id, subnet_id=subnet_id, type='INTERCHANGE', foreign_transaction=False, is_credit=True)
 ```

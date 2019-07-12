@@ -65,6 +65,7 @@ class HttpClient():
 			'issue_public_key',
 			'show_refresh_tokens',
 			'subnet_id',
+			'subnetid',
 			'foreign_transaction',
 			'full_dehydrate',
 			'force_refresh',
