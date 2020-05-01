@@ -246,6 +246,8 @@ class Client():
 		'''
 		self.logger.debug("issuing a public key")
 		
+		path = paths['client']
+
 		if user_id:
 			response = self.http.get(
 				path, issue_public_key='YES', scope=scope, user_id=user_id
