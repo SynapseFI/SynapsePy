@@ -237,7 +237,7 @@ class Client():
 		)
 		return response
 
-	def issue_public_key(self, scope):
+	def issue_public_key(self, scope, user_id=None):
 		'''Issues a public key for use with a UIaaS product
 		Args:
 			scope (list of str): Scopes that you wish to issue the public keys for
@@ -248,9 +248,14 @@ class Client():
 		
 		path = paths['client']
 
-		response = self.http.get(
-			path, issue_public_key='YES', scope=scope
-		)
+		if user_id:
+			response = self.http.get(
+				path, issue_public_key='YES', scope=scope, user_id=user_id
+			)
+		else: 
+			response = self.http.get(
+				path, issue_public_key='YES', scope=scope
+			)
 		return response['public_key_obj']
 
 	def get_all_users(self, query=None, page=None, per_page=None, show_refresh_tokens=None):

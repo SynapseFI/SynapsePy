@@ -77,7 +77,8 @@ class HttpClient():
 			'lat',
 			'lon',
 			'zip',
-			'filter'
+			'filter',
+			'user_id'
 		]
 
 		parameters = {}
