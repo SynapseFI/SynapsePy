@@ -437,7 +437,17 @@ user.comment_status(node_id, trans_id, 'Pending verification...')
 node_id = '594e606212e17a002f2e3251'
 trans_id = '594e72124599e8002fe62e4f'
 dispute_reason = 'Chargeback...'
-user.cancel_trans(node_id, trans_id, dispute_reason)
+dispute_meta = {
+	  "type_of_merchandise_or_service": "groceries...",
+    "merchant_contacted": true,
+    "contact_method": "phone",
+    "contact_date": 1563474864000
+}
+certification_date = 1579308186000
+dispute_attachments = [
+    "data:image/gif;base64,SUQs=="
+  ]
+user.dispute_trans(node_id, trans_id, dispute_reason, dispute_meta, certification_date, dispute_attachments)
 ```
 ##### Cancel/Delete Transaction
 ```python
