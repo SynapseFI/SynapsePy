@@ -413,7 +413,7 @@ body = {
 		"amount": 20.1,
 		"currency": "USD"
 	},
-	"extra": {
+  "extra": {
 		"ip": "192.168.0.1"
 	}
 }
@@ -438,15 +438,15 @@ node_id = '594e606212e17a002f2e3251'
 trans_id = '594e72124599e8002fe62e4f'
 dispute_reason = 'Chargeback...'
 dispute_meta = {
-	 "type_of_merchandise_or_service": "groceries",
-    "merchant_contacted": true,
-    "contact_method": "phone",
-    "contact_date": 1563474864000
+  "type_of_merchandise_or_service": "groceries",
+	"merchant_contacted": true,
+	"contact_method": "phone",
+	"contact_date": 1563474864000
 }
 certification_date = 1579308186000
 dispute_attachments = [
-    "data:image/gif;base64,SUQs=="
-  ]
+	"data:image/gif;base64,SUQs=="
+]
 user.dispute_trans(node_id, trans_id, dispute_reason, dispute_meta, certification_date, dispute_attachments)
 ```
 ##### Cancel/Delete Transaction
