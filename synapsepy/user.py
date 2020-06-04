@@ -501,12 +501,15 @@ class User():
 		response = self._do_request(self.http.patch, path, body)
 		return response
 
-	def dispute_trans(self, node_id, trans_id, dispute_reason):
+	def dispute_trans(self, node_id, trans_id, dispute_reason, dispute_meta={}, certification_date=False, dispute_attachments=[]): 
 		'''Disputes a transaction
 		Args:
 			node_id (str): ID of the from Node
 			trans_id (str): ID of the transaction
 			dispute_reason (str): Reason for disputing the transaction
+			dispute_meta (dict): Additional information about dispute
+			dispute_attachments (list): Additional attachements
+			certification_date (int): Epoch timestamp of certification 
 		Returns:
 			dict: dictionary of response from API
 		'''
@@ -523,8 +526,16 @@ class User():
 			+ trans_id
 			+ paths['dispute']
 		)
-
 		body = { 'dispute_reason': dispute_reason }
+		if dispute_meta: 
+			body['dispute_meta'] = dispute_meta 
+
+		if certification_date: 
+			body['certification_date'] = certification_date
+
+		if dispute_attachments: 
+			body['dispute_attachments'] = dispute_attachments 
+
 		response = self._do_request(self.http.patch, path, body)
 		return response
 
