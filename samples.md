@@ -413,7 +413,7 @@ body = {
 		"amount": 20.1,
 		"currency": "USD"
 	},
-  "extra": {
+	"extra": {
 		"ip": "192.168.0.1"
 	}
 }
