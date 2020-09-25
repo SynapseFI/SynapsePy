@@ -248,6 +248,22 @@ body = {
 
 user.create_ubo(body)
 ```
+
+##### Get duplicate users
+```python
+
+user.get_duplicate_users()
+```
+
+##### Swap duplicate users 
+```python
+body = {
+	"swap_to_user_id": "5ddc57cb3c4e2800756baa97"
+}
+
+user.swap_duplicate_user(body)
+```
+
 ##### Get All User Nodes
 ```python
 user.get_all_nodes(page=4, per_page=10, type='DEPOSIT-US')

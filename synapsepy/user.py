@@ -804,7 +804,7 @@ class User():
 		return response
 
 	def swap_duplicate_user(self, body):
-		self.logger.debug("getting duplicate users")
+		self.logger.debug("swapping duplicate users")
 		path = paths['users'] + '/' + self.id + '/swap-duplicate-users'
 		
 		response = self._do_request(self.http.patch, path, body)
