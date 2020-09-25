@@ -810,20 +810,6 @@ class User():
 		response = self._do_request(self.http.patch, path, body)
 		self.body = response
 		return response
-
-	def update_info(self, body):
-		'''Updates user information in database
-		Args:
-			body (dict): user information to update
-		Returns:
-			response (User): User object containing updated info
-		'''
-		self.logger.debug("Updating user info")
-		path = paths['users'] + '/' + self.id
-
-		response = self._do_request(self.http.patch, path, body)
-		self.body = response
-		return response
 	
 
 class Users():
