@@ -795,6 +795,23 @@ class User():
 		)
 		return response
 
+	def get_duplicate_users(self):
+		self.logger.debug("getting duplicate users")
+		path = paths['users'] + '/' + self.id + '/get-duplicates'
+
+		response = self._do_request(self.http.get, path)
+		self.body = response
+		return response
+
+	def swap_duplicate_user(self, body):
+		self.logger.debug("swapping duplicate users")
+		path = paths['users'] + '/' + self.id + '/swap-duplicate-users'
+		
+		response = self._do_request(self.http.patch, path, body)
+		self.body = response
+		return response
+	
+
 class Users():
 	def __init__(self, response, http):
 		'''Initializes a Users object containing pagination info and User Records
