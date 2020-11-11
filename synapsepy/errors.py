@@ -141,7 +141,7 @@ class ErrorFactory():
 		# import pdb; pdb.set_trace()
 
 		# message = response.get('mfa', {}).get('message', response.get('message', response['error'])['en'])
-		message = response['error']['en']
+		message = response.get('error', {}).get('en', "")
 		http_code = response['http_code']
 		error_code = response['error_code']
 
