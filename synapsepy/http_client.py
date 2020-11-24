@@ -141,8 +141,10 @@ class HttpClient():
 
 	def parse_response(self, response):
 		"""Convert successful response to dict or raise error."""
-		
-		payload = response.json()
+		try:
+			payload = response.json()
+		except:
+			return response
 
 		try:
 			response.raise_for_status()
