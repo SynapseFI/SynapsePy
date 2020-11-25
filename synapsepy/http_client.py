@@ -143,8 +143,8 @@ class HttpClient():
 		"""Convert successful response to dict or raise error."""
 		try:
 			payload = response.json()
-		except:
-			return response
+		except Exception as e:
+			raise api_errors.GatewayTimeout(message="Request returned a non-JSON response due to a network timeout.", http_code=504, error_code="504", response=False)
 
 		try:
 			response.raise_for_status()
