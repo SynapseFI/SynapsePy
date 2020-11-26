@@ -113,6 +113,13 @@ class ServiceUnavailable(SynapseError):
 	"""
 	pass
 
+class GatewayTimeout(SynapseError):
+	"""
+	raised on ERROR_CODE 504
+	Gateway Timeout. The request did not get a response in time from the server that it needed in order to complete the request.
+	"""
+	pass
+
 
 class ErrorFactory():
 	"""Determines which error to raise based on status code.
@@ -132,7 +139,8 @@ class ErrorFactory():
 		"450" : IdempotencyConflict,
 		"460" : RequestFailed,
 		"500" : ServerError,
-		"503" : ServiceUnavailable
+		"503" : ServiceUnavailable,
+		"504": GatewayTimeout
 		}
 
 	@classmethod
