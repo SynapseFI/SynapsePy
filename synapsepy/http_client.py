@@ -141,8 +141,10 @@ class HttpClient():
 
 	def parse_response(self, response):
 		"""Convert successful response to dict or raise error."""
-		
-		payload = response.json()
+		try:
+			payload = response.json()
+		except Exception as e:
+			raise api_errors.GatewayTimeout(message="Request returned a non-JSON response due to a network timeout.", http_code=504, error_code="504", response=False)
 
 		try:
 			response.raise_for_status()
