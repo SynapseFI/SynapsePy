@@ -242,7 +242,7 @@ class User():
 			node_id (str): ID of the from Node
 			body: includes the start and end date for the ondemand statement in epoch time in milliseconds
 		Returns:
-			Status of the statement getting generated
+			{'node_id': '', 'status': 'Statement requested', 'success': True, 'webhook': ''}
 		'''
 		self.logger.debug("Generating on demand statements\n" + json.dumps(body, indent=2))
 		path = (
