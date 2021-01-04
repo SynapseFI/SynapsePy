@@ -236,6 +236,28 @@ class User():
 		)
 		return response
 
+	def generate_node_statements(self, node_id, body):
+		'''Generates ad-hoc statements
+		Args:
+			node_id (str): ID of the from Node
+			body: includes the start and end date for the ondemand statement in epoch time in milliseconds
+		Returns:
+			{'node_id': '', 'status': 'Statement requested', 'success': True, 'webhook': ''}
+		'''
+		self.logger.debug("Generating on demand statements\n" + json.dumps(body, indent=2))
+		path = (
+			paths['users']
+			+ '/'
+			+ self.id
+			+ paths['nodes']
+			+ '/'
+			+ node_id
+			+ '/'
+			+ paths['statem']
+		)
+		response = self._do_request(self.http.post, path, body)
+		return response
+
 	def update_node(self, node_id, body):
 		'''Updates a node's info in the database
 		Args:
