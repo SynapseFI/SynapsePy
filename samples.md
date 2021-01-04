@@ -385,7 +385,7 @@ body = {
   "date_end": 1525132800000,
   "webhook": "https://wh.synapsefi.com/gen_me_statement_001"
 }
-user.get_statements(node_id, body)
+user.generate_node_statements(node_id, body)
 ```
 
 
