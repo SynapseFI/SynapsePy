@@ -704,7 +704,7 @@ class User():
 		)
 		return Nodes(response)
 
-	def get_all_node_trans(self, node_id, page=None, per_page=None):
+	def get_all_node_trans(self, node_id, page=None, per_page=None, filter=filter):
 		'''Retrieves all Transactions for a Node
 		Args:
 			node_id (str): ID of the Node
@@ -724,11 +724,11 @@ class User():
 			+ paths['trans']
 		)
 		response = self._do_request(
-			self.http.get,path, page=page, per_page=per_page
+			self.http.get,path, page=page, per_page=per_page, filter=filter,
 		)
 		return Transactions(response)
 
-	def get_all_trans(self, page=None, per_page=None):
+	def get_all_trans(self, page=None, per_page=None, filter=filter):
 		'''Retrieves all Transactions for a User
 		Args:
 			page (int): (opt) Page number
@@ -739,7 +739,7 @@ class User():
 		self.logger.debug("Retrieving all Transactions for User")
 		path = paths['users'] + '/' + self.id + paths['trans']
 		response = self._do_request(
-			self.http.get, path, page=page, per_page=per_page
+			self.http.get, path, page=page, per_page=per_page, filter=filter
 		)
 		return Transactions(response)
 

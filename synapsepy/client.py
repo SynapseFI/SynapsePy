@@ -280,7 +280,7 @@ class Client():
 		)
 		return Users(response, self.http)
 
-	def get_all_trans(self, page=None, per_page=None):
+	def get_all_trans(self, page=None, per_page=None, filter=None):
 		'''Gets all client transactions
 		Args:
 			page (int): (opt) Page number
@@ -292,7 +292,7 @@ class Client():
 		
 		path = paths['trans']
 		response = self.http.get(
-			path, page=page, per_page=per_page
+			path, page=page, per_page=per_page, filter=filter,
 		)
 		return Transactions(response)
 
