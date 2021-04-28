@@ -1,4 +1,5 @@
 
+from .helpers import json_serialize
 from .http_client import HttpClient
 
 from .user import User, Users
@@ -289,7 +290,9 @@ class Client():
 			(Transactions): object containing pagination info and list of Transaction objects
 		'''
 		self.logger.debug("getting all transactions")
-		
+
+		filter = json_serialize(filter)
+
 		path = paths['trans']
 		response = self.http.get(
 			path, page=page, per_page=per_page, filter=filter,

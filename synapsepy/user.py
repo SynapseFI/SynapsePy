@@ -1,4 +1,5 @@
 
+from .helpers import json_serialize
 from .endpoints import paths
 
 from .node import Node, Nodes
@@ -714,6 +715,9 @@ class User():
 			Transactions: Transactions object containing paginated info and Trans records
 		'''
 		self.logger.debug("Retrieving all Transactions for Node")
+
+		filter = json_serialize(filter)
+
 		path = (
 			paths['users']
 			+ '/'
@@ -737,6 +741,9 @@ class User():
 			Transactions: Transactions object containing paginated info and Trans records
 		'''
 		self.logger.debug("Retrieving all Transactions for User")
+
+		filter = json_serialize(filter)
+
 		path = paths['users'] + '/' + self.id + paths['trans']
 		response = self._do_request(
 			self.http.get, path, page=page, per_page=per_page, filter=filter
