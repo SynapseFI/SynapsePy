@@ -683,6 +683,92 @@ class User():
 		response = self._do_request(self.http.patch, path, body)
 		return response
 
+	def view_all_card_shipments(self, node_id, subnet_id, per_page = 10, page = 1):
+		'''View all card shipments for a subnet
+		Args:
+			node_id (str): ID of the Node
+			subnet_id (str): ID of the Subnet
+			per_page (int): Number of card shipments retrieved per page, maximum is 20 
+			page (int): Page number of card shipments returned
+		Returns:
+			dict: dictionary of response from API
+		'''
+		self.logger.debug("View card shipments data")
+
+		path = (
+			paths['users']
+			+ '/'
+			+ self.id
+			+ paths['nodes']
+			+ '/'
+			+ node_id
+			+ paths['subn']
+			+ '/'
+			+ subnet_id
+			+ paths['ship']
+		)
+
+		response = self._do_request(self.http.get,path,per_page=per_page,page=page)
+		return response
+
+	def view_card_shipment(self, node_id, subnet_id, shipment_id):
+		'''View a single card shipment for a subnet by shipment ID 
+		Args:
+			node_id (str): ID of the Node
+			subnet_id (str): ID of the Subnet
+			shipment_id (str): ID of the Shipment
+		Returns:
+			dict: dictionary of response from API
+		'''
+		self.logger.debug("View card shipment data")
+
+		path = (
+			paths['users']
+			+ '/'
+			+ self.id
+			+ paths['nodes']
+			+ '/'
+			+ node_id
+			+ paths['subn']
+			+ '/'
+			+ subnet_id
+			+ paths['ship']
+			+ '/'
+			+ shipment_id
+		)
+
+		response = self._do_request(self.http.get,path)
+		return response
+
+	def cancel_card_shipment(self, node_id, subnet_id, shipment_id):
+		'''Delete a single card shipment for a subnet by shipment ID
+		Args:
+			node_id (str): ID of the Node
+			subnet_id (str): ID of the Subnet
+			shipment_id (str): ID of the Shipment
+		Returns:
+			dict: dictionary of response from API
+		'''
+		self.logger.debug("Deleting card shipment data")
+
+		path = (
+			paths['users']
+			+ '/'
+			+ self.id
+			+ paths['nodes']
+			+ '/'
+			+ node_id
+			+ paths['subn']
+			+ '/'
+			+ subnet_id
+			+ paths['ship']
+			+ '/'
+			+ shipment_id
+		)
+
+		response = self._do_request(self.http.delete,path)
+		return response
+
 	def get_all_nodes(self, page=None, per_page=None, type=None):
 		'''Retrieves all Nodes for a User
 		Args:
