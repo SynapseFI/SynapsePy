@@ -44,6 +44,9 @@
 		* [Get Subnet](#get-subnet)
 		* [Update Subnet](#update-subnet)
 		* [Ship Card](#ship-card)
+		* [Get All Card Shipments](#view-all-card-shipments)
+		* [Get Card Shipment](#view-card-shipment)
+		* [Delete Card Shipment](#delete-card-shipment)
 	+ [Transactions](#transactions)
 		* [Create Transaction](#create-transaction)
 		* [Get Transaction](#get-transaction)
@@ -416,6 +419,33 @@ body = {
 }
 user.ship_card(node_id, subn_id, body)
 ```
+
+#### Get All Card Shipments
+```python
+node_id = '594e606212e17a002f2e3251'
+subn_id = '59c9f77cd412960028b99d2b'
+page = 1
+per_page = 10
+user.view_all_card_shipments(node_id,subn_id,per_page=per_page,page=page)
+```
+
+#### Get Card Shipment
+```python
+node_id = '594e606212e17a002f2e3251'
+subn_id = '59c9f77cd412960028b99d2b'
+ship_id = '6101f4062846db14581f19e6'
+user.view_card_shipment(node_id,subn_id,ship_id)
+
+```
+
+#### Delete Card Shipment
+```python
+node_id = '594e606212e17a002f2e3251'
+subn_id = '59c9f77cd412960028b99d2b'
+ship_id = '6101f4062846db14581f19e6'
+user.cancel_card_shipment(node_id,subn_id,ship_id)
+```
+
 ### Transactions
 ##### Create Transaction
 ```python
