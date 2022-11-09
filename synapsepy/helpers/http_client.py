@@ -2,7 +2,7 @@ import json
 import logging
 import requests
 import http.client as http_client
-from . import errors as api_errors
+import helpers.errors as api_errors
 
 class HttpClient():
 	"""Handles HTTP requests (including headers) and API errors.

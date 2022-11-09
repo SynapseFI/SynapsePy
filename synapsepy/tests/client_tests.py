@@ -1,16 +1,15 @@
 import unittest
 from unittest import TestCase, mock
 
-from .. import errors as api_errors
 
-from .fixtures.user_fixtures import simple_response, users_resp
-from .fixtures.subscription_fixtures import subs_resp, subss_resp
-from .fixtures.node_fixtures import get_nodes_response
+from fixtures.user_fixtures import simple_response, users_resp
+from fixtures.subscription_fixtures import subs_resp, subss_resp
+from fixtures.node_fixtures import get_nodes_response
 
-from ..client import Client
-from ..user import User, Users
-from ..node import Node, Nodes
-from ..subscription import Subscription, Subscriptions
+# from ..lib.client import Client
+# from ..lib.user import User, Users
+from helpers.node import Node, Nodes
+from helpers.subscription import Subscription, Subscriptions
 
 class ClientTests(TestCase):
 	'''
