@@ -1,13 +1,13 @@
 
-from helpers.http_client import HttpClient
+from ..helpers.http_client import HttpClient
 
-from lib.user import User, Users
-from helpers.node import Node, Nodes
-from helpers.transaction import Trans, Transactions
-from helpers.subscription import Subscription, Subscriptions
-import helpers.errors as api_errors
+from .user import User, Users
+from ..helpers.node import Node, Nodes
+from ..helpers.transaction import Trans, Transactions
+from ..helpers.subscription import Subscription, Subscriptions
+from ..helpers import errors as api_errors
 
-from constants.endpoints import paths
+from ..constants.endpoints import paths
 
 import sys
 import json

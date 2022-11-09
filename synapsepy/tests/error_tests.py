@@ -1,8 +1,8 @@
 
 import unittest
 
-from ..client import Client
-from .. import errors as api_errors
+from ..lib.client import Client
+from ..helpers import errors as api_errors
 from .fixtures.error_fixtures import *
 
 class ErrorTests(unittest.TestCase):

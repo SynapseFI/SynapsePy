@@ -1,9 +1,9 @@
 
-from constants.endpoints import paths
+from ..constants.endpoints import paths
 
-from helpers.node import Node, Nodes
-from helpers.subnet import Subnet, Subnets
-from helpers.transaction import Trans, Transactions
+from ..helpers.node import Node, Nodes
+from ..helpers.subnet import Subnet, Subnets
+from ..helpers.transaction import Trans, Transactions
 
 from functools import partial
 
@@ -11,7 +11,7 @@ import json
 import logging
 import requests
 import warnings
-import helpers.errors as api_errors
+from ..helpers import errors as api_errors
 
 class User():
 	""" User Record

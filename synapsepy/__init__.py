@@ -1,2 +1,2 @@
-from lib.client import Client
-from lib.user import User, Users
+from .lib.client import Client
+from .lib.user import User, Users
