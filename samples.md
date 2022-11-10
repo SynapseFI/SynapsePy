@@ -12,7 +12,7 @@
 	* [Get All Client Nodes](#get-all-client-nodes)
 	* [Get All Client Institutions](#get-all-client-institutions)
 	* [Get All Client Subscriptions](#get-all-client-subscriptions)
-	* [Get All Client Subscription Logs](#get-all-subscription-logs)
+	* [Get All Client Subscription Logs](#get-all-client-subscription-logs)
 	* [Issue Public Key](#issue-public-key)
 	* [View Crypto Quotes](#view-crypto-quotes)
 	* [View Crypto Market Data](#view-crypto-market-data)
@@ -20,7 +20,7 @@
 - [User](#user)
 	* [Get New Oauth](#get-new-oauth)
 	* [Register New Fingerprint](#register-new-fingerprint)
-	* [Update User or Update/Add Documents](#update-user-or-update-add-documents)
+	* [Update User or Update/Add Documents](#update-user-or-updateadd-documents)
 	* [Generate UBO](#generate-ubo)
 	* [Get All User Nodes](#get-all-user-nodes)
 	* [Get All User Transactions](#get-all-user-transactions)
@@ -44,19 +44,22 @@
 		* [Get Subnet](#get-subnet)
 		* [Update Subnet](#update-subnet)
 		* [Ship Card](#ship-card)
-		* [Get All Card Shipments](#view-all-card-shipments)
-		* [Get Card Shipment](#view-card-shipment)
+		* [Get All Card Shipments](#get-all-card-shipments)
+		* [Get Card Shipment](#get-card-shipment)
 		* [Delete Card Shipment](#delete-card-shipment)
 	+ [Transactions](#transactions)
 		* [Create Transaction](#create-transaction)
 		* [Get Transaction](#get-transaction)
 		* [Comment on Status](#comment-on-status)
 		* [Dispute Transaction](#dispute-transaction)
-		* [Cancel/Delete Transaction](#cancel-delete-transaction)
+		* [Cancel/Delete Transaction](#cancel-deletetransaction)
 		* [Trigger Dummy Transactions](#trigger-dummy-transactions)
 
 # Client
+
 ##### Initialize Client
+[Getting Started - Creating a Client](https://docs.synapsefi.com/#setting-up-your-sandbox)
+
 ```python
 client = Client(
 	client_id='client_id_1239ABCdefghijk1092312309',
@@ -77,6 +80,7 @@ client.update_headers(
 	)
 ```
 ##### Create User
+[Creating a User](https://docs.synapsefi.com/api-references/users/create-user)
 ```python
 ip = '1.2.3.132'
 fingerprint = '1023918209480asdf8341098'
@@ -99,6 +103,8 @@ body = {
 client.create_user(body, ip, fingerprint=fingerprint)
 ```
 ##### Get User
+[Get User](https://docs.synapsefi.com/api-references/users/view-user)
+
 ```python
 user_id = '594e0fa2838454002ea317a0'
 ip = '1.2.3.132'
@@ -107,6 +113,8 @@ fingerprint = '1023918209480asdf8341098'
 client.get_user(user_id, ip=ip, fingerprint=fingerprint, full_dehydrate=True)
 ```
 ##### Create Subscription
+[Create Subscription](https://docs.synapsefi.com/api-references/subscriptions/create-subscription)
+
 ```python
 body = {
 	"scope": [
@@ -122,11 +130,15 @@ body = {
 subs = client.create_subscription(body)
 ```
 ##### Get Subscription
+[Get Subscription](https://docs.synapsefi.com/api-references/subscriptions/view-subscription)
+
 ```python
 subs_id = '589b6adec83e17002122196c'
 subs = client.get_subscription(subs_id)
 ```
 ##### Update Subscription
+[Update Subscription](https://docs.synapsefi.com/api-references/subscriptions/update-subscription)
+
 ```python
 body = {
 		'url': 'https://requestb.in/zp216zzp'
@@ -140,14 +152,18 @@ body = {
 subs = client.update_subscription(body)
 ```
 ##### Get All Users
+[Get All Users](https://docs.synapsefi.com/api-references/users/view-all-users-paginated)
+
 ```python
 allusers = client.get_all_users(show_refresh_tokens=True)
 ```
 ##### Get All Client Transactions
+
 ```python
 alltrans = client.get_all_trans()
 ```
 ##### Get All Client Nodes
+
 ```python
 allnodes = client.get_all_nodes()
 ```
@@ -155,14 +171,20 @@ allnodes = client.get_all_nodes()
 ```python
 allinst = client.get_all_inst()
 ```
+
 ##### Get All Client Subscriptions
+[Get All Client Subscriptions](https://docs.synapsefi.com/api-references/subscriptions/view-all-subscriptions)
+
 ```python
 allsubs = client.get_all_subs()
 ```
 ##### Get All Client Subscription Logs
+[Get All Client Subcription Webhook Logs](https://docs.synapsefi.com/api-references/subscriptions/view-subscription-logs)
+
 ```python
 allsublogs = client.webhook_logs()
 ```
+
 ##### Issue Public Key
 ```python
 scope = [
@@ -174,6 +196,7 @@ scope = [
 pubkey = client.issue_public_key(scope)
 ```
 ##### View Crypto Quotes
+[View Crypto Quotes](https://docs.synapsefi.com/api-references/nodes/view-crypto-quotes)
 ```python
 crypto_quotes = client.crypto_quotes()
 ```
@@ -182,11 +205,14 @@ crypto_quotes = client.crypto_quotes()
 market_data = client.crypto_market_data(limit=5, currency='BTC')
 ```
 ##### Locate ATMs
+[Locate ATMs](https://docs.synapsefi.com/api-references/nodes/view-atms)
+
 ```python
 market_data = client.locate_atms(zip='94114', lat=None, rad=None, page=None, per_page=None)
 ```
 # User
 ##### Get New Oauth
+[Get New OAuth](https://docs.synapsefi.com/api-references/oauth/oauth-via-refresh-token)
 ```python
 body = {
 		"refresh_token":"refresh_Y5beJdBLtgvply3KIzrh72UxWMEqiTNoVAfDs98G",
@@ -204,6 +230,7 @@ user.oauth(body)
 ```python
 client.update_headers(fingerprint='e83cf6ddcf778e37bfe3d48fc78a6502062fcxx')
 user.oauth()
+
 ```
 2. Supply 2FA device from the list
 ```python
@@ -215,6 +242,7 @@ user.confirm_2fa_pin('594230')
 ```
 
 ##### Update User or Update/Add Documents
+[Update User](https://docs.synapsefi.com/api-references/users/update-user)
 ```python
 body = {
 	"update":{
@@ -232,6 +260,7 @@ body = {
 user.update_info(body)
 ```
 ##### Generate UBO
+[Generate UBO](https://docs.synapsefi.com/api-references/users/generate-ubo-doc)
 ```python
 body = {
 	 "entity_info": {
@@ -253,12 +282,15 @@ user.create_ubo(body)
 ```
 
 ##### Get duplicate users
+[Get Duplicate Users](https://docs.synapsefi.com/api-references/users/manage-duplicates)
+
 ```python
 
 user.get_duplicate_users()
 ```
 
 ##### Swap duplicate users 
+[Swap Duplicate Users](https://docs.synapsefi.com/api-references/users/manage-duplicates#example-request-1)
 ```python
 body = {
 	"swap_to_user_id": "5ddc57cb3c4e2800756baa97"
@@ -268,29 +300,34 @@ user.swap_duplicate_user(body)
 ```
 
 ##### Get All User Nodes
+[Get Nodes](https://docs.synapsefi.com/api-references/nodes/view-all-user-nodes)
 ```python
 user.get_all_nodes(page=4, per_page=10, type='DEPOSIT-US')
 ```
 ##### Get All User Transactions
+[Get Transactions](https://docs.synapsefi.com/api-references/transactions/view-all-user-transactions)
 ```python
 user.get_all_trans(page=4, per_page=10)
 ```
 ##### Get All User Statements
+[Get All Users Statements](https://docs.synapsefi.com/api-references/statements/view-all-user-statements)
+
 ```python
 user.get_statements(page=4, per_page=10)
 ```
 ### Nodes
 ##### Create Node
+[Create Node](https://docs.synapsefi.com/api-references/nodes/create-node)
+
 Refer to the following docs for how to setup the payload for a specific Node type:
-- [Direct Deposit Accounts](https://docs.synapsefi.com/docs/opening-direct-deposit-accounts)
-- [Issue Card](https://docs.synapsefi.com/docs/issue-a-card-number-1)
-- [ACH-US with Logins](https://docs.synapsefi.com/docs/linking-an-ach-account-via-bank-logins)
-- [ACH-US with AC/RT](https://docs.synapsefi.com/docs/linking-an-ach-account-with-accountrouting-number)
-- [INTERCHANGE-US](https://docs.synapsefi.com/docs/link-a-card)
-- [CHECK-US](https://docs.synapsefi.com/docs/create-the-check-account)
-- [WIRE-US](https://docs.synapsefi.com/docs/sending-a-domestic-wire)
-- [WIRE-INT](https://docs.synapsefi.com/docs/sending-an-international-wire)
-- [IOU](https://docs.synapsefi.com/docs/opening-a-ledgering-account)
+- [Direct Deposit Accounts](https://docs.synapsefi.com/api-references/nodes/create-node#create-deposit-account)
+- [Issue Card](https://docs.synapsefi.com/api-references/subnets/create-subnet#issue-card)
+- [ACH-US with Logins](https://docs.synapsefi.com/api-references/nodes/create-node#create-ach-account)
+- [ACH-US with AC/RT](https://docs.synapsefi.com/api-references/nodes/create-node#create-ach-account)
+- [INTERCHANGE-US](https://docs.synapsefi.com/api-references/nodes/create-node#create-interchange-account)
+- [CHECK-US](https://docs.synapsefi.com/api-references/nodes/create-node#create-check-account)
+- [WIRE-US](https://docs.synapsefi.com/api-references/nodes/create-node#create-wire-account)
+- [WIRE-INT](https://docs.synapsefi.com/api-references/nodes/create-node#create-swift-account)
 
 ```python
 body = {
@@ -303,15 +340,21 @@ body = {
 user.create_node(body, idempotency_key='123456')
 ```
 ##### Get Node
+[Get Node](https://docs.synapsefi.com/api-references/nodes/view-node)
+
 ```python
 node_id = '594e606212e17a002f2e3251'
 node = user.get_node(node_id, full_dehydrate=True, force_refresh=True)
 ```
 ##### Get All User Nodes
+[Get All User Nodes](https://docs.synapsefi.com/api-references/nodes/view-all-user-nodes)
+
 ```python
 nodes = user.get_nodes(page=1, per_page=5, type='ACH-US')
 ```
 ##### Update Node
+[Update Node](https://docs.synapsefi.com/api-references/nodes/update-node)
+
 ```python
 node_id = '5ba05ed620b3aa005882c52a'
 body = {
@@ -320,6 +363,8 @@ body = {
 nodes = user.update_node(node_id, body)
 ```
 ##### Ship Card Node
+
+
 ```python
 node_id = '5ba05ed620b3aa005882c52a'
 
@@ -331,11 +376,15 @@ body = {
 nodes = user.ship_card_node(node_id, body)
 ```
 ##### Reset Card Node
+
+
 ```python
 node_id = '5ba05ed620b3aa005882c52a'
 nodes = user.reset_card_node(node_id)
 ```
 ##### Verify Micro Deposit
+[Verify Micro Deposit](https://docs.synapsefi.com/api-references/nodes/update-node#verify-micro-deposits)
+
 ```python
 node_id = '5ba05ed620b3aa005882c52a'
 body = {
@@ -344,11 +393,15 @@ body = {
 nodes = user.verify_micro(node_id, body)
 ```
 ##### Reinitiate Micro Deposit
+[Reinitiate Micro Deposit](https://docs.synapsefi.com/api-references/nodes/update-node#resend-micro-deposits)
+
 ```python
 node_id = '5ba05ed620b3aa005882c52a'
 nodes = user.reinit_micro(node_id)
 ```
 ##### Generate Apple Pay
+[Generate Apple Pay](https://docs.synapsefi.com/api-references/subnets/push-to-wallet)
+
 ```python
 node_id = '5ba05ed620b3aa005882c52a'
 body = {
@@ -359,27 +412,37 @@ body = {
 nodes = user.generate_apple_pay(node_id)
 ```
 ##### Delete Node
+[Delete Node](https://docs.synapsefi.com/api-references/nodes/update-node)
+
 ```python
 node_id = '594e606212e17a002f2e3251'
 user.delete_node(node_id)
 ```
 ##### Get All Node Subnets
+[Get All Subnets](https://docs.synapsefi.com/api-references/subnets/view-all-node-subnets)
+
 ```python
 node_id = '594e606212e17a002f2e3251'
 user.get_all_subnets(node_id, page=4, per_page=10)
 ```
 ##### Get All Node Transactions
+[Get All Node Transactions](https://docs.synapsefi.com/api-references/transactions/view-all-node-transactions)
+
 ```python
 node_id = '594e606212e17a002f2e3251'
 user.get_all_node_trans(node_id, page=4, per_page=10)
 ```
 ##### Get All Node Statements
+[Get All Node Statements](https://docs.synapsefi.com/api-references/statements/view-all-node-statements)
+
 ```python
 node_id = '594e606212e17a002f2e3251'
 user.get_statements(node_id, page=4, per_page=10)
 ```
 ### Subnets
 ##### Create Subnet
+[Create Subnet](https://docs.synapsefi.com/api-references/subnets/create-subnet)
+
 ```python
 node_id = '594e606212e17a002f2e3251'
 body = {
@@ -388,12 +451,16 @@ body = {
 user.create_subnet(node_id, body)
 ```
 ##### Get Subnet
+[Get Subnet](https://docs.synapsefi.com/api-references/subnets/view-subnet)
+
 ```python
 node_id = '594e606212e17a002f2e3251'
 subn_id = '59c9f77cd412960028b99d2b'
 user.get_subnet(node_id, subn_id)
 ```
 ##### Update Subnet
+[Update Subnet](https://docs.synapsefi.com/api-references/subnets/update-subnet)
+
 ```python
 node_id = '594e606212e17a002f2e3251'
 subn_id = '59c9f77cd412960028b99d2b'
@@ -409,6 +476,7 @@ body = {
 user.update(node_id, subn_id)
 ```
 ##### Ship Card
+[Ship Card](https://docs.synapsefi.com/api-references/shipments/create-shipment)
 ```python
 node_id = '594e606212e17a002f2e3251'
 subn_id = '59c9f77cd412960028b99d2b'
@@ -421,6 +489,8 @@ user.ship_card(node_id, subn_id, body)
 ```
 
 #### Get All Card Shipments
+[Get All Card Shipments](https://docs.synapsefi.com/api-references/shipments/view-all-subnet-shipments)
+
 ```python
 node_id = '594e606212e17a002f2e3251'
 subn_id = '59c9f77cd412960028b99d2b'
@@ -430,6 +500,8 @@ user.view_all_card_shipments(node_id,subn_id,per_page=per_page,page=page)
 ```
 
 #### Get Card Shipment
+[Get Card Shipment](https://docs.synapsefi.com/api-references/shipments/view-shipment)
+
 ```python
 node_id = '594e606212e17a002f2e3251'
 subn_id = '59c9f77cd412960028b99d2b'
@@ -439,6 +511,8 @@ user.view_card_shipment(node_id,subn_id,ship_id)
 ```
 
 #### Delete Card Shipment
+[Delete Card Shipment](https://docs.synapsefi.com/api-references/shipments/cancel-shipment)
+
 ```python
 node_id = '594e606212e17a002f2e3251'
 subn_id = '59c9f77cd412960028b99d2b'
@@ -448,6 +522,8 @@ user.cancel_card_shipment(node_id,subn_id,ship_id)
 
 ### Transactions
 ##### Create Transaction
+[Create Transaction](https://docs.synapsefi.com/api-references/transactions/create-transaction)
+
 ```python
 node_id = '594e606212e17a002f2e3251'
 body = {
@@ -467,6 +543,8 @@ body = {
 user.create_trans(node_id, body)
 ```
 ##### Get Transaction
+[Get Transaction](https://docs.synapsefi.com/api-references/transactions/view-transaction)
+
 ```python
 node_id = '594e606212e17a002f2e3251'
 trans_id = '594e72124599e8002fe62e4f'
@@ -479,6 +557,8 @@ trans_id = '594e72124599e8002fe62e4f'
 user.comment_status(node_id, trans_id, 'Pending verification...')
 ```
 ##### Dispute Transaction
+[Dispute Transaction](https://docs.synapsefi.com/api-references/transactions/dispute-transaction)
+
 ```python
 node_id = '594e606212e17a002f2e3251'
 trans_id = '594e72124599e8002fe62e4f'
@@ -496,12 +576,14 @@ dispute_attachments = [
 user.dispute_trans(node_id, trans_id, dispute_reason, dispute_meta, certification_date, dispute_attachments)
 ```
 ##### Cancel/Delete Transaction
+[Cancel Transaction](https://docs.synapsefi.com/api-references/transactions/cancel-transaction)
 ```python
 node_id = '594e606212e17a002f2e3251'
 trans_id = '594e72124599e8002fe62e4f'
 user.cancel_trans(node_id, trans_id)
 ```
 ##### Trigger Dummy Transactions
+[Trigger Dummy Transactions](https://docs.synapsefi.com/api-references/miscellaneous/dummy-transactions)
 ```python
 node_id = '594e606212e17a002f2e3251'
 subnet_id = '594e606212e17a002f2e3251'
