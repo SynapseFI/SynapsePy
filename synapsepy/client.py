@@ -340,3 +340,21 @@ class Client():
 		response = self.http.get(path)
 		return response
 
+	def dispute_chargeback(self, transaction_id, body):
+		'''Dispute a transaction chargeback
+    Only INTERCHANGE-US transactions that have been RETURNED within the last 14 days with return code of IR999 can be disputed.
+    If dispute is won, the transaction will go back to SETTLED status. We recommend subscribing to our webhooks(https://docs.synapsefi.com/api-references/subscriptions)} to be notified.
+    Args:
+      trans_id (string): Unique ID for transaction
+      body (JSON):  Array of supporting docs converted into base 64 encoded strings
+		Returns:
+			(Transaction): a transaction object with an updated transaction.extra.other.chargeback_disputed field.
+		'''
+		self.logger.debug("disputing chargeback")
+		
+		path = paths['trans'] + '/' + transaction_id + '/' + 'dispute-chargeback'
+		response = self.http.patch(path, body)
+		return response
+
+
+
