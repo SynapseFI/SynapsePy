@@ -342,6 +342,7 @@ class Client():
 
 	def dispute_chargeback(self, transaction_id, body):
 		'''Dispute a transaction chargeback
+    
        Only INTERCHANGE-US transactions that have been RETURNED within the last 14 days with return code of IR999 can be disputed.
        If dispute is won, the transaction will go back to SETTLED status. We recommend subscribing to our webhooks(https://docs.synapsefi.com/api-references/subscriptions)} to be notified.
     Args:
