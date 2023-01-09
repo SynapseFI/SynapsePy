@@ -30,6 +30,7 @@
 		* [Get Node](#get-node)
 		* [Get All User Nodes](#get-all-user-nodes-1)
 		* [Update Node](#update-node)
+    * [Generate Ecash Barcode](#generate-ecash-barcode)
 		* [Ship Card Node](#ship-card-node)
 		* [Reset Debit](#reset-card-node)
 		* [Verify Micro Deposit](#verify-micro-deposit)
@@ -52,6 +53,7 @@
 		* [Get Transaction](#get-transaction)
 		* [Comment on Status](#comment-on-status)
 		* [Dispute Transaction](#dispute-transaction)
+    * [Dispute Chargeback](#dispute-chargeback)
 		* [Cancel/Delete Transaction](#cancel-deletetransaction)
 		* [Trigger Dummy Transactions](#trigger-dummy-transactions)
 
@@ -362,6 +364,20 @@ body = {
 }
 nodes = user.update_node(node_id, body)
 ```
+##### Generate Ecash Barcode
+[Update Node](https://docs.synapsefi.com/api-references/nodes/generate-ecash-barcode)
+
+```python
+node_id = '5ba05ed620b3aa005882c52a'
+body = {
+  "amount": {
+      "amount": 100,
+      "currency": "USD"
+  },
+  "retailer_id": 2481
+}
+barcode = user.generate_ecash_barcode(node_id, body)
+```
 ##### Ship Card Node
 
 
@@ -574,6 +590,17 @@ dispute_attachments = [
 	"data:image/gif;base64,SUQs=="
 ]
 user.dispute_trans(node_id, trans_id, dispute_reason, dispute_meta, certification_date, dispute_attachments)
+```
+##### Dispute Chargeback
+[Dispute Transaction](https://docs.synapsefi.com/api-references/transactions/dispute-chargebacks)
+
+```python
+trans_id = '594e72124599e8002fe62e4f'
+#some base64 string representing an accepted file type
+body = {
+  "docs": ['application/pdf;base64,JVBERi0xLjMKJcTl8uXrp/Og0MTGCj....']
+}
+user.dispute_chargeback(trans_id, body)
 ```
 ##### Cancel/Delete Transaction
 [Cancel Transaction](https://docs.synapsefi.com/api-references/transactions/cancel-transaction)

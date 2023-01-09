@@ -15,7 +15,7 @@ import logging
 import requests
 
 class Client():
-	""" Client Record """
+	""" Client Record """-
 	def __init__(self, client_id, client_secret, fingerprint, ip_address, devmode=False, logging=False):
 		"""
 		Args:
@@ -339,4 +339,98 @@ class Client():
 		path = paths['inst']
 		response = self.http.get(path)
 		return response
+
+	def dispute_chargeback(self, transaction_id, body):
+		'''Dispute a transaction chargeback
+    https://docs.synapsefi.com/api-references/transactions/dispute-chargebacks
+    Only INTERCHANGE-US transactions that have been RETURNED within the last 14 days with return code of IR999 can be disputed.
+    If dispute is won, the transaction will go back to SETTLED status. We recommend subscribing to our webhooks(https://docs.synapsefi.com/api-references/subscriptions)} to be notified.
+    Args:
+      trans_id (string): Unique ID for transaction
+      body (JSON):  Array of supporting docs converted into base 64 encoded strings
+    Returns:
+      (Transaction): a transaction object with an updated transaction.extra.other.chargeback_disputed field.
+
+		Returns:
+			dict: dictionary containing institutions
+		'''
+		self.logger.debug("disputing chargeback")
+		
+		path = paths['trans'] + '/' + transaction_id + '/' + 'dispute-chargeback'
+		response = self.http.patch(path, body)
+		return Trans(response)
+
+	def verify_address(self, body):
+		'''Verify address of a document owner
+    https://docs.synapsefi.com/api-references/miscellaneous/verify-address
+
+
+		'''
+		self.logger.debug("getting all institutions")
+		
+		path = '/address-verification'
+		response = self.http.post(path, body)
+		return response
+
+	def verify_routing(self, body):
+		'''Verify routing numbers
+    https://docs.synapsefi.com/api-references/miscellaneous/verify-routing-number
+
+
+		'''
+		self.logger.debug("verify routing numbers")
+		
+		path = '/routing-number-verification'
+		response = self.http.post(path, body)
+		return response
+
+  def get_node_types(self):
+    '''Fetches allowed node types 
+    https://docs.synapsefi.com/api-references/nodes/allowed-node-types
+    returns: 
+      array: list of allowed node types
+    '''
+    path = paths['nodes'] + '/' + 'types'
+    response = self.http.patch(path)
+
+    return response
+
+
+  def get_user_document_types(self):
+    '''Fetches allowed user document types
+    https://docs.synapsefi.com/api-references/users/allowed-document-types
+
+    returns: 
+      array: list of allowed user document types
+    '''
+    path = paths['users'] + '/' + 'document-types'
+    response = self.http.patch(path)
+
+    return response
+
+
+  def get_user_entity_types(self):
+    '''Fetches allowed user entity types
+    https://docs.synapsefi.com/api-references/users/allowed-entity-types
+    returns: 
+      array: list of allowed user entity types
+    '''
+    path = paths['users'] + '/' + 'entity-types'
+    response = self.http.patch(path)
+
+    return response
+
+
+  def get_user_entity_scopes(self):
+    '''Fetches allowed user entity scopes
+    https://docs.synapsefi.com/api-references/users/allowed-entity-scopes
+    returns: 
+      array: list of allowed user entity scopes
+    '''
+    path = paths['users'] + '/' + 'entity-scopes'
+    response = self.http.patch(path)
+
+    return response
+
+
 
