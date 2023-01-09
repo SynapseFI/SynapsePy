@@ -30,7 +30,7 @@
 		* [Get Node](#get-node)
 		* [Get All User Nodes](#get-all-user-nodes-1)
 		* [Update Node](#update-node)
-          * [Generate Ecash Barcode](#generate-ecash-barcode)
+        * [Generate Ecash Barcode](#generate-ecash-barcode)
 		* [Ship Card Node](#ship-card-node)
 		* [Reset Debit](#reset-card-node)
 		* [Verify Micro Deposit](#verify-micro-deposit)
