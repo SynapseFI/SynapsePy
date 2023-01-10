@@ -255,24 +255,26 @@ class User():
 		)
 		response = self._do_request(self.http.patch, path, body)
 		return Node(response)
-
-  def generate_ecash_barcode(self, node_id, body):
-    '''Allows you to generate a barcode for Greendot's eCash feature
-    Args:
-      node_id (str): ID of the node used to create barcode
-      body (dict): dictionary containing updating info
-    Returns:
-      barcode (dict): a body describing a barcode
-      
-    https://docs.synapsefi.com/api-references/nodes/generate-ecash-barcode
-    '''
-    self.logger.debug("Generating ecash barcode")
-    path = paths['users'] + '/' + self.id + paths['nodes'] + '/' + node_id + '/' + 'barcode'
-    response = self._do_request(self.http.post, path, body)
-    return response
+	
 
 
-  
+	def generate_ecash_barcode(self, node_id, body):
+		'''Allows you to generate a barcode for Greendot's eCash feature
+		Args:
+			node_id (str): ID of the node used to create barcode
+			body (dict): dictionary containing updating info
+		Returns:
+			barcode (dict): a body describing a barcode
+			
+		https://docs.synapsefi.com/api-references/nodes/generate-ecash-barcode
+		'''
+		self.logger.debug("Generating ecash barcode")
+		path = paths['users'] + '/' + self.id + paths['nodes'] + '/' + node_id + paths['barcode']
+		response = self._do_request(self.http.post, path, body)
+		return response
+
+
+	
 	def ach_mfa(self, body):
 		'''MFA to add user to database through bank logins
 		Args:
@@ -470,13 +472,16 @@ class User():
 		)
 		return Trans(response)
 
-  def batch_trans(self, node, body):
-    '''allows you to create up-to 500 transactions (100 in sandbox) from one node at once.
-    https://docs.synapsefi.com/api-references/transactions/create-batch-transactions
-
-
-    '''
-    self.logger.debug("Creating batched transactions")
+	def batch_trans(self, node_id, body):
+		'''allows you to create up-to 500 transactions (100 in sandbox) from one node at once.
+		https://docs.synapsefi.com/api-references/transactions/create-batch-transactions
+		Args:
+			node_id (str): ID of the from Node
+			body (dict): dictionary containing relevant list of transactions
+		Returns:
+			Transactions: an array of Trans object containing transaction record
+		'''
+		self.logger.debug("Creating batched transactions")
 		path = (
 			paths['users']
 			+ '/'
@@ -725,9 +730,13 @@ class User():
 
 	def push_to_mobile_wallet(self, node_id, subnet_id, body):
 		'''generate a token to push card to digital wallet.
-    https://docs.synapsefi.com/api-references/subnets/push-to-wallet
-
-
+		https://docs.synapsefi.com/api-references/subnets/push-to-wallet
+		Args:
+			node_id (str): ID of the Node
+			subnet_id (str): ID of the Subnet
+			body (dict): relevant wallet data including nonce, certificates and type
+		Returns:
+			dict: dictionary of response with wallet tokens
 		'''
 		self.logger.debug("Generate a token to push card to digital wallet.")
 
@@ -741,10 +750,10 @@ class User():
 			+ paths['subn']
 			+ '/'
 			+ subnet_id
-			+ '/push'
+			+ paths['push']
 		)
 
-		response = self._do_request(self.http.patch, path, body)
+		response = self._do_request(self.http.post, path, body)
 		return response
 
 	def view_all_card_shipments(self, node_id, subnet_id, per_page = 10, page = 1):

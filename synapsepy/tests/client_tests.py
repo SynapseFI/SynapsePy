@@ -6,10 +6,12 @@ from .. import errors as api_errors
 from .fixtures.user_fixtures import simple_response, users_resp
 from .fixtures.subscription_fixtures import subs_resp, subss_resp
 from .fixtures.node_fixtures import get_nodes_response
+from .fixtures.client_fixtures import verified_routing_number, verified_address
 
 from ..client import Client
 from ..user import User, Users
 from ..node import Node, Nodes
+from ..transaction import Trans, Transactions
 from ..subscription import Subscription, Subscriptions
 
 class ClientTests(TestCase):
@@ -164,6 +166,85 @@ class ClientTests(TestCase):
 		# check if obj is JSON
 		inst = self.client.get_all_inst()
 		self.assertIsInstance(inst, dict)
+
+	@mock.patch(
+		'synapsepy.http_client.HttpClient.get',
+		return_value = {},
+		autospec = True
+	)
+	def test_get_node_types(self, mock_request):
+		# check if obj is JSON
+		node_types = self.client.get_node_types()
+		self.assertIsInstance(node_types, dict)
+
+	@mock.patch(
+		'synapsepy.http_client.HttpClient.get',
+		return_value = {},
+		autospec = True
+	)
+	def test_get_user_document_types(self, mock_request):
+		# check if obj is JSON
+		user_document_types = self.client.get_user_document_types()
+		self.assertIsInstance(user_document_types, dict)
+
+	@mock.patch(
+		'synapsepy.http_client.HttpClient.get',
+		return_value = {},
+		autospec = True
+	)
+	def test_get_user_entity_types(self, mock_request):
+		# check if obj is JSON
+		user_entity_types = self.client.get_user_entity_types()
+		self.assertIsInstance(user_entity_types, dict)
+
+	@mock.patch(
+		'synapsepy.http_client.HttpClient.get',
+		return_value = {},
+		autospec = True
+	)
+	def test_get_user_entity_scopes(self, mock_request):
+		# check if obj is JSON
+		user_entity_scopes = self.client.get_user_entity_scopes()
+		self.assertIsInstance(user_entity_scopes, dict)
+
+	@mock.patch(
+		'synapsepy.http_client.HttpClient.post',
+		return_value = verified_routing_number,
+		autospec = True
+	)
+	def test_verify_routing_number(self, mock_request):
+		# check if obj is dictionary
+		routing_num = self.client.verify_routing_number({ 
+			"type": 'ACH-US', 
+			"routing_num": "084008426"
+		})
+		self.assertIsInstance(routing_num, dict)
+
+	@mock.patch(
+		'synapsepy.http_client.HttpClient.post',
+		return_value = verified_address,
+		autospec = True
+	)
+	def test_verify_address(self, mock_request):
+		# check if obj is dictionary
+		address = self.client.verify_address({
+			"address_street": "1 Market St. STE 500",
+			"address_city": "San Francisco",
+			"address_subdivision": "CA",
+			"address_postal_code": "94105",
+			"address_country_code": "US"
+		})
+		self.assertIsInstance(address, dict)
+
+
+	@mock.patch(
+		'synapsepy.http_client.HttpClient.patch',
+		return_value = {},
+		autospec = True
+	)
+	def test_dispute_chargeback(self, mock_request):
+		chargeback = self.client.dispute_chargeback('', {})
+		self.assertIsInstance(chargeback, dict)
 
 if __name__ == '__main__':
 	unittest.main()

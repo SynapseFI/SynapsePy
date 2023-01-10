@@ -356,9 +356,9 @@ class Client():
 		'''
 		self.logger.debug("disputing chargeback")
 		
-		path = paths['trans'] + '/' + transaction_id + '/' + 'dispute-chargeback'
+		path = paths['trans'] + '/' + transaction_id + paths['chargeback']
 		response = self.http.patch(path, body)
-		return Trans(response)
+		return response
 
 	def verify_address(self, body):
 		'''Verify address of a document owner
@@ -366,13 +366,13 @@ class Client():
 
 
 		'''
-		self.logger.debug("getting all institutions")
+		self.logger.debug("verifying address")
 		
-		path = '/address-verification'
+		path = paths['verifyadd']
 		response = self.http.post(path, body)
 		return response
 
-	def verify_routing(self, body):
+	def verify_routing_number(self, body):
 		'''Verify routing numbers
 		https://docs.synapsefi.com/api-references/miscellaneous/verify-routing-number
 
@@ -380,7 +380,7 @@ class Client():
 		'''
 		self.logger.debug("verify routing numbers")
 		
-		path = '/routing-number-verification'
+		path = paths['routnumver']
 		response = self.http.post(path, body)
 		return response
 
@@ -390,8 +390,9 @@ class Client():
 		returns: 
 			array: list of allowed node types
 		'''
-		path = paths['nodes'] + '/' + 'types'
-		response = self.http.patch(path)
+		self.logger.debug("getting node types")
+		path = paths['nodes'] + paths['types']
+		response = self.http.get(path)
 
 		return response
 
@@ -403,8 +404,9 @@ class Client():
 		returns: 
 			array: list of allowed user document types
 		'''
-		path = paths['users'] + '/' + 'document-types'
-		response = self.http.patch(path)
+		self.logger.debug("getting user document types")
+		path = paths['users'] + paths['doctypes']
+		response = self.http.get(path)
 
 		return response
 
@@ -415,8 +417,9 @@ class Client():
 		returns: 
 			array: list of allowed user entity types
 		'''
-		path = paths['users'] + '/' + 'entity-types'
-		response = self.http.patch(path)
+		self.logger.debug("getting user entity types")
+		path = paths['users'] + paths['entypes']
+		response = self.http.get(path)
 
 		return response
 
@@ -427,8 +430,9 @@ class Client():
 		returns: 
 			array: list of allowed user entity scopes
 		'''
-		path = paths['users'] + '/' + 'entity-scopes'
-		response = self.http.patch(path)
+		self.logger.debug("getting user entity scopes")
+		path = paths['users'] + paths['enscopes']
+		response = self.http.get(path)
 
 		return response
 

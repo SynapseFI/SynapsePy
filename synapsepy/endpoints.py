@@ -18,5 +18,15 @@ paths = {
 	'logs': '/logs',
 	'ship': '/ship',
 	'statem': '/statements',
-	'trade': '/trade-market-watch'
+	'trade': '/trade-market-watch',
+  'barcode': '/barcode',
+  'chargeback': '/dispute-chargeback',
+  'types': '/types',
+  'doctypes': '/document-types',
+  'entypes': '/entity-types',
+  'enscopes': '/entity-scopes',
+  'verifyadd': '/address-verification',
+  'routnumver': '/routing-number-verification'
+
+
 }

@@ -30,7 +30,7 @@
 		* [Get Node](#get-node)
 		* [Get All User Nodes](#get-all-user-nodes-1)
 		* [Update Node](#update-node)
-        * [Generate Ecash Barcode](#generate-ecash-barcode)
+		* [Generate Ecash Barcode](#generate-ecash-barcode)
 		* [Ship Card Node](#ship-card-node)
 		* [Reset Debit](#reset-card-node)
 		* [Verify Micro Deposit](#verify-micro-deposit)
@@ -53,7 +53,7 @@
 		* [Get Transaction](#get-transaction)
 		* [Comment on Status](#comment-on-status)
 		* [Dispute Transaction](#dispute-transaction)
-    * [Dispute Chargeback](#dispute-chargeback)
+		* [Dispute Chargeback](#dispute-chargeback)
 		* [Cancel/Delete Transaction](#cancel-deletetransaction)
 		* [Trigger Dummy Transactions](#trigger-dummy-transactions)
 
@@ -370,11 +370,11 @@ nodes = user.update_node(node_id, body)
 ```python
 node_id = '5ba05ed620b3aa005882c52a'
 body = {
-  "amount": {
-      "amount": 100,
-      "currency": "USD"
-  },
-  "retailer_id": 2481
+	"amount": {
+			"amount": 100,
+			"currency": "USD"
+	},
+	"retailer_id": 2481
 }
 barcode = user.generate_ecash_barcode(node_id, body)
 ```
@@ -481,13 +481,13 @@ user.get_subnet(node_id, subn_id)
 node_id = '594e606212e17a002f2e3251'
 subn_id = '59c9f77cd412960028b99d2b'
 body = {
-    "status": "ACTIVE",
-    "card_pin": "1234",
-    "preferences": {
-      "allow_foreign_transactions": True,
-      "daily_atm_withdrawal_limit": 10,
-      "daily_transaction_limit": 1000
-    }
+		"status": "ACTIVE",
+		"card_pin": "1234",
+		"preferences": {
+			"allow_foreign_transactions": True,
+			"daily_atm_withdrawal_limit": 10,
+			"daily_transaction_limit": 1000
+		}
 }
 user.update(node_id, subn_id)
 ```
@@ -497,9 +497,9 @@ user.update(node_id, subn_id)
 node_id = '594e606212e17a002f2e3251'
 subn_id = '59c9f77cd412960028b99d2b'
 body = {
-  "fee_node_id":"5bba781485411800991b606b",
-  "expedite":False,
-  "card_style_id":"555"
+	"fee_node_id":"5bba781485411800991b606b",
+	"expedite":False,
+	"card_style_id":"555"
 }
 user.ship_card(node_id, subn_id, body)
 ```
@@ -598,7 +598,7 @@ user.dispute_trans(node_id, trans_id, dispute_reason, dispute_meta, certificatio
 trans_id = '594e72124599e8002fe62e4f'
 #some base64 string representing an accepted file type
 body = {
-  "docs": ['application/pdf;base64,JVBERi0xLjMKJcTl8uXrp/Og0MTGCj....']
+	"docs": ['application/pdf;base64,JVBERi0xLjMKJcTl8uXrp/Og0MTGCj....']
 }
 user.dispute_chargeback(trans_id, body)
 ```
