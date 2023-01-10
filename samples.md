@@ -52,7 +52,6 @@
 		* [Get Transaction](#get-transaction)
 		* [Comment on Status](#comment-on-status)
 		* [Dispute Transaction](#dispute-transaction)
-		* [Dispute Chargeback](#dispute-chargeback)
 		* [Cancel/Delete Transaction](#cancel-deletetransaction)
 		* [Trigger Dummy Transactions](#trigger-dummy-transactions)
 
@@ -363,7 +362,6 @@ body = {
 }
 nodes = user.update_node(node_id, body)
 ```
-
 ##### Ship Card Node
 
 
