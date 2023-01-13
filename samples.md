@@ -465,13 +465,13 @@ user.get_subnet(node_id, subn_id)
 node_id = '594e606212e17a002f2e3251'
 subn_id = '59c9f77cd412960028b99d2b'
 body = {
-    "status": "ACTIVE",
-    "card_pin": "1234",
-    "preferences": {
-      "allow_foreign_transactions": True,
-      "daily_atm_withdrawal_limit": 10,
-      "daily_transaction_limit": 1000
-    }
+		"status": "ACTIVE",
+		"card_pin": "1234",
+		"preferences": {
+			"allow_foreign_transactions": True,
+			"daily_atm_withdrawal_limit": 10,
+			"daily_transaction_limit": 1000
+		}
 }
 user.update(node_id, subn_id)
 ```
@@ -481,9 +481,9 @@ user.update(node_id, subn_id)
 node_id = '594e606212e17a002f2e3251'
 subn_id = '59c9f77cd412960028b99d2b'
 body = {
-  "fee_node_id":"5bba781485411800991b606b",
-  "expedite":False,
-  "card_style_id":"555"
+	"fee_node_id":"5bba781485411800991b606b",
+	"expedite":False,
+	"card_style_id":"555"
 }
 user.ship_card(node_id, subn_id, body)
 ```
